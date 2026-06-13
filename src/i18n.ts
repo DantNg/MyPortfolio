@@ -51,6 +51,16 @@ export const ui: Record<Lang, Dict> = {
     'skills.cat.linux': 'Linux & Software',
     'skills.cat.drone': 'Tools & Platforms',
 
+    // ---- LoRa Mesh / Drone ----
+    'mesh.eyebrow': 'Live Systems',
+    'mesh.heading': 'Explore My Work as a LoRa Mesh',
+    'mesh.subheading': 'Every node is a real project. Packets multi-hop from edge devices to the gateway — hover a node to inspect it, click to open the project.',
+    'mesh.legend.gateway': 'Gateway (hub)',
+    'mesh.legend.node': 'Wired Project',
+    'mesh.legend.drone': 'Wireless Project',
+    'mesh.legend.packet': 'Data Packet',
+    'mesh.hint': 'Hover a node to inspect a project',
+
     // ---- Featured Projects ----
     'projects.eyebrow': 'Work',
     'projects.heading': 'Featured Projects',
@@ -164,6 +174,16 @@ export const ui: Record<Lang, Dict> = {
     'skills.cat.connectivity': 'Kết nối',
     'skills.cat.linux': 'Linux & Phần mềm',
     'skills.cat.drone': 'Công cụ & Nền tảng',
+
+    // ---- LoRa Mesh / Drone ----
+    'mesh.eyebrow': 'Hệ thống trực tiếp',
+    'mesh.heading': 'Khám phá dự án dưới dạng LoRa Mesh',
+    'mesh.subheading': 'Mỗi node là một dự án thật. Gói tin nhảy đa chặng từ thiết bị biên về gateway — di chuột để xem, bấm để mở dự án.',
+    'mesh.legend.gateway': 'Gateway (hub)',
+    'mesh.legend.node': 'Dự án có dây',
+    'mesh.legend.drone': 'Dự án không dây',
+    'mesh.legend.packet': 'Gói dữ liệu',
+    'mesh.hint': 'Di chuột vào node để xem dự án',
 
     // ---- Featured Projects ----
     'projects.eyebrow': 'Công việc',

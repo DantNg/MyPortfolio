@@ -31,8 +31,39 @@ export default {
         'slide-in-right': 'slideInRight 0.6s ease-out forwards',
         'float': 'float 6s ease-in-out infinite',
         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'led-blink': 'ledBlink 1.4s steps(1) infinite',
+        'led-blink-fast': 'ledBlink 0.5s steps(1) infinite',
+        'scanline': 'scanline 6s linear infinite',
+        'flicker': 'flicker 3s linear infinite',
+        'trace-flow': 'traceFlow 2.4s linear infinite',
+        'spin-slow': 'spin 14s linear infinite',
+        'marquee': 'marquee 30s linear infinite',
       },
       keyframes: {
+        ledBlink: {
+          '0%, 49%': { opacity: '1', filter: 'drop-shadow(0 0 6px currentColor)' },
+          '50%, 100%': { opacity: '0.18', filter: 'none' },
+        },
+        scanline: {
+          '0%': { transform: 'translateY(-100%)' },
+          '100%': { transform: 'translateY(100%)' },
+        },
+        flicker: {
+          '0%, 100%': { opacity: '1' },
+          '92%': { opacity: '1' },
+          '93%': { opacity: '0.4' },
+          '94%': { opacity: '1' },
+          '96%': { opacity: '0.7' },
+          '97%': { opacity: '1' },
+        },
+        traceFlow: {
+          '0%': { strokeDashoffset: '24' },
+          '100%': { strokeDashoffset: '0' },
+        },
+        marquee: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },

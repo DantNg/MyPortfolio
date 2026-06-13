@@ -7,85 +7,337 @@ import { url } from '../utils/url';
 const parts = SITE.name.trim().split(' ');
 const firstName = parts.slice(0, -1).join(' ');
 const lastName = parts.length > 1 ? parts[parts.length - 1] : '';
+
+// Các chân của chip MCU (label hiển thị quanh die)
+const leftPins  = ['PA0/ADC', 'PA1/TIM', 'PB6/SCL', 'PB7/SDA', 'PA9/TX', 'PA10/RX'];
+const rightPins = ['PC13/LED', 'SWDIO', 'SWCLK', 'NRST', 'VDD', 'GND'];
 ---
 
-<section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
-  <!-- Background effects -->
-  <div class="absolute inset-0 bg-grid-pattern bg-grid opacity-40 pointer-events-none" aria-hidden="true"></div>
+<section class="relative min-h-screen flex items-center overflow-hidden pt-16">
+  <!-- ===== Animated PCB background ===== -->
+  <canvas id="pcb-canvas" class="absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true"></canvas>
+  <div class="absolute inset-0 bg-pcb opacity-60 pointer-events-none" aria-hidden="true"></div>
   <div class="absolute inset-0 bg-radial-glow pointer-events-none" aria-hidden="true"></div>
+  <!-- vignette -->
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse at center, transparent 40%, rgba(2,4,8,0.85) 100%)" aria-hidden="true"></div>
 
-  <!-- Animated blobs -->
-  <div class="absolute top-1/4 -left-32 w-96 h-96 bg-brand-600/10 rounded-full blur-3xl animate-float pointer-events-none" aria-hidden="true"></div>
-  <div class="absolute bottom-1/4 -right-32 w-80 h-80 bg-cyan-500/8 rounded-full blur-3xl animate-float animate-delay-300 pointer-events-none" aria-hidden="true"></div>
+  <div class="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 grid lg:grid-cols-2 gap-12 items-center">
 
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20">
-    <!-- Badge -->
-    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-brand-800/60 bg-brand-950/60 text-brand-400 text-xs font-medium mb-8 animate-fade-in">
-      <span class="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse"></span>
-      <span data-i18n="hero.badge">{t('hero.badge')}</span>
-    </div>
+    <!-- ========== LEFT: Identity ========== -->
+    <div class="text-center lg:text-left">
+      <!-- Badge -->
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-800/60 bg-cyan-950/40 text-cyan-300 text-xs font-mono mb-7 animate-fade-in backdrop-blur-sm">
+        <span class="led text-emerald-400 animate-led-blink"></span>
+        <span data-i18n="hero.badge">{t('hero.badge')}</span>
+      </div>
 
-    <!-- Name -->
-    <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white mb-4 animate-slide-up">
-      {firstName} <span class="gradient-text">{lastName}</span>
-    </h1>
+      <!-- Name -->
+      <h1 class="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white mb-4 animate-slide-up">
+        {firstName} <span class="gradient-text">{lastName}</span>
+      </h1>
 
-    <!-- Title -->
-    <div class="flex items-center justify-center gap-3 mb-6 animate-slide-up animate-delay-100">
-      <div class="h-px w-8 bg-zinc-700"></div>
-      <p class="text-xl md:text-2xl font-medium text-zinc-300 font-mono">
-        {SITE.title}
+      <!-- Title (typed) -->
+      <div class="flex items-center justify-center lg:justify-start gap-3 mb-6 animate-slide-up animate-delay-100">
+        <span class="text-cyan-500 font-mono text-lg">&gt;_</span>
+        <p class="text-xl md:text-2xl font-medium text-zinc-200 font-mono">
+          <span id="role-type"></span><span class="blink-cursor"></span>
+        </p>
+      </div>
+
+      <!-- Introduction -->
+      <p class="max-w-xl mx-auto lg:mx-0 text-base md:text-lg text-zinc-400 leading-relaxed mb-9 animate-slide-up animate-delay-200">
+        {SITE.intro}
       </p>
-      <div class="h-px w-8 bg-zinc-700"></div>
+
+      <!-- CTA buttons -->
+      <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-12 animate-slide-up animate-delay-300">
+        <a href={url('/projects')} class="btn-primary text-base px-6 py-3">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+          </svg>
+          <span data-i18n="hero.cta.projects">{t('hero.cta.projects')}</span>
+        </a>
+        <a href={url('/blog')} class="btn-secondary text-base px-6 py-3">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          </svg>
+          <span data-i18n="hero.cta.articles">{t('hero.cta.articles')}</span>
+        </a>
+        <a href={url('/contact')} class="btn-secondary text-base px-6 py-3">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          <span data-i18n="hero.cta.contact">{t('hero.cta.contact')}</span>
+        </a>
+      </div>
+
+      <!-- Stats with live "telemetry" feel -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-xl mx-auto lg:mx-0 animate-slide-up animate-delay-400">
+        {[
+          { value: '2+', key: 'hero.stat.experience' },
+          { value: '15+', key: 'hero.stat.projects' },
+          { value: '6+', key: 'hero.stat.platforms' },
+          { value: '3', key: 'hero.stat.oss' },
+        ].map(stat => (
+          <div class="rounded-lg border border-zinc-800/80 bg-zinc-900/30 backdrop-blur-sm px-3 py-3 text-center">
+            <div class="text-2xl md:text-3xl font-bold gradient-text font-mono">{stat.value}</div>
+            <div class="text-[10px] uppercase tracking-wider text-zinc-500 mt-1" data-i18n={stat.key}>{t(stat.key)}</div>
+          </div>
+        ))}
+      </div>
     </div>
 
-    <!-- Introduction -->
-    <p class="max-w-2xl mx-auto text-lg text-zinc-400 leading-relaxed mb-10 animate-slide-up animate-delay-200">
-      {SITE.intro}
-    </p>
+    <!-- ========== RIGHT: Dev-board console ========== -->
+    <div class="relative animate-fade-in animate-delay-200">
+      <!-- glow under board -->
+      <div class="absolute -inset-6 bg-cyan-500/10 blur-3xl rounded-full pointer-events-none" aria-hidden="true"></div>
 
-    <!-- CTA buttons -->
-    <div class="flex flex-wrap items-center justify-center gap-4 mb-16 animate-slide-up animate-delay-300">
-      <a href={url('/projects')} class="btn-primary text-base px-6 py-3">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m0 0l7-7m-7 7l7 7" />
-        </svg>
-        <span data-i18n="hero.cta.projects">{t('hero.cta.projects')}</span>
-      </a>
-      <a href={url('/blog')} class="btn-secondary text-base px-6 py-3">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-        </svg>
-        <span data-i18n="hero.cta.articles">{t('hero.cta.articles')}</span>
-      </a>
-      <a href={url('/contact')} class="btn-secondary text-base px-6 py-3">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-        </svg>
-        <span data-i18n="hero.cta.contact">{t('hero.cta.contact')}</span>
-      </a>
-    </div>
-
-    <!-- Stats -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-2xl mx-auto animate-slide-up animate-delay-400">
-      {[
-        { value: '2+', key: 'hero.stat.experience' },
-        { value: '15+', key: 'hero.stat.projects' },
-        { value: '6+', key: 'hero.stat.platforms' },
-        { value: '3', key: 'hero.stat.oss' },
-      ].map(stat => (
-        <div class="text-center">
-          <div class="text-3xl font-bold text-white">{stat.value}</div>
-          <div class="text-xs text-zinc-500 mt-1" data-i18n={stat.key}>{t(stat.key)}</div>
+      <!-- Boot terminal -->
+      <div class="terminal crt animate-flicker">
+        <div class="terminal-bar">
+          <span class="terminal-dot bg-red-500/80"></span>
+          <span class="terminal-dot bg-yellow-500/80"></span>
+          <span class="terminal-dot bg-green-500/80"></span>
+          <span class="ml-2 text-xs text-cyan-300/70">/dev/ttyUSB0 · 115200 8N1</span>
+          <span class="ml-auto flex items-center gap-1.5 text-[10px] text-emerald-400">
+            <span class="led text-emerald-400 animate-led-blink-fast"></span> RX/TX
+          </span>
         </div>
-      ))}
+        <div id="boot-log" class="p-4 h-[230px] overflow-hidden leading-relaxed text-[12.5px] text-emerald-300/90 whitespace-pre-wrap"></div>
+      </div>
+
+      <!-- MCU chip + oscilloscope -->
+      <div class="mt-5 grid grid-cols-5 gap-4">
+        <!-- MCU chip -->
+        <div class="col-span-2 chip-card flex flex-col items-center justify-center" data-tilt>
+          <div class="text-[9px] font-mono text-cyan-400/70 mb-2 self-start">U1 · MCU</div>
+          <div class="relative">
+            <!-- pins left -->
+            <div class="absolute right-full top-0 h-full flex flex-col justify-around pr-0.5">
+              {leftPins.map(() => <span class="block w-3 h-1 bg-zinc-500 rounded-l"></span>)}
+            </div>
+            <!-- pins right -->
+            <div class="absolute left-full top-0 h-full flex flex-col justify-around pl-0.5">
+              {rightPins.map(() => <span class="block w-3 h-1 bg-zinc-500 rounded-r"></span>)}
+            </div>
+            <!-- die -->
+            <div class="w-20 h-20 rounded-md bg-gradient-to-br from-zinc-800 to-black border border-zinc-700 flex items-center justify-center relative animate-spin-slow" style="animation:none">
+              <div class="absolute top-1 left-1 w-1.5 h-1.5 rounded-full bg-zinc-600"></div>
+              <span class="text-[8px] font-mono text-zinc-400 text-center leading-tight">ARM<br/>Cortex-M</span>
+            </div>
+          </div>
+          <div class="flex gap-2 mt-3">
+            <span class="led text-emerald-400 animate-led-blink"></span>
+            <span class="led text-cyan-400 animate-led-blink-fast"></span>
+            <span class="led text-amber-400 animate-led-blink" style="animation-delay:.3s"></span>
+          </div>
+        </div>
+
+        <!-- Oscilloscope -->
+        <div class="col-span-3 chip-card p-0 overflow-hidden">
+          <div class="flex items-center justify-between px-3 py-1.5 border-b border-cyan-900/40">
+            <span class="text-[9px] font-mono text-cyan-400/70">SCOPE · CH1</span>
+            <span class="text-[9px] font-mono text-emerald-400/70">PWM 50% · 1kHz</span>
+          </div>
+          <canvas id="scope-canvas" class="w-full" height="120"></canvas>
+        </div>
+      </div>
+
+      <!-- protocol marquee -->
+      <div class="mt-4 overflow-hidden rounded-lg border border-zinc-800/80 bg-zinc-900/30 py-2">
+        <div class="flex w-max animate-marquee gap-8 px-4 text-xs font-mono text-zinc-500 whitespace-nowrap">
+          {Array(2).fill(0).map(() => (
+            <>
+              <span>UART</span><span class="text-cyan-500">·</span>
+              <span>SPI</span><span class="text-cyan-500">·</span>
+              <span>I2C</span><span class="text-cyan-500">·</span>
+              <span>CAN</span><span class="text-cyan-500">·</span>
+              <span>RS485</span><span class="text-cyan-500">·</span>
+              <span>BLE 5.0</span><span class="text-cyan-500">·</span>
+              <span>LoRa</span><span class="text-cyan-500">·</span>
+              <span>FreeRTOS</span><span class="text-cyan-500">·</span>
+              <span>Zephyr</span><span class="text-cyan-500">·</span>
+              <span>Embedded Linux</span><span class="text-cyan-500">·</span>
+            </>
+          ))}
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- Scroll indicator -->
   <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-    <div class="w-6 h-10 rounded-full border-2 border-zinc-700 flex items-start justify-center p-1">
-      <div class="w-1 h-2 bg-zinc-500 rounded-full animate-slide-up"></div>
+    <div class="w-6 h-10 rounded-full border-2 border-cyan-800/60 flex items-start justify-center p-1">
+      <div class="w-1 h-2 bg-cyan-500 rounded-full animate-slide-up"></div>
     </div>
   </div>
 </section>
+
+<script>
+  // ============ 1. Typed role text ============
+  const roles = [
+    'Embedded Software Engineer',
+    'STM32 · ESP32 · Bare-metal',
+    'FreeRTOS / Zephyr RTOS',
+    'BLE · LoRa · WiFi stacks',
+    'Embedded Linux Middleware',
+  ];
+  const roleEl = document.getElementById('role-type');
+  if (roleEl) {
+    let ri = 0, ci = 0, deleting = false;
+    const tick = () => {
+      const word = roles[ri];
+      roleEl.textContent = word.slice(0, ci);
+      if (!deleting && ci < word.length) { ci++; setTimeout(tick, 55); }
+      else if (!deleting && ci === word.length) { deleting = true; setTimeout(tick, 1600); }
+      else if (deleting && ci > 0) { ci--; setTimeout(tick, 28); }
+      else { deleting = false; ri = (ri + 1) % roles.length; setTimeout(tick, 350); }
+    };
+    tick();
+  }
+
+  // ============ 2. Boot log ============
+  const bootEl = document.getElementById('boot-log');
+  const bootLines = [
+    '[    0.000000] Booting firmware v3.2.1 ...',
+    '[    0.000142] CPU: ARM Cortex-M4 @ 168 MHz',
+    '[    0.001331] SystemClock_Config: PLL locked OK',
+    '[    0.002874] HAL_Init: SysTick @ 1kHz',
+    '[    0.004012] GPIO: PC13 -> heartbeat LED',
+    '[    0.005233] UART2: 115200 8N1 ready',
+    '[    0.006901] I2C1: scanning bus ... 0x68 MPU6050 OK',
+    '[    0.009120] SPI1: W25Q128 flash 16MB detected',
+    '[    0.012004] FreeRTOS: scheduler started, 6 tasks',
+    '[    0.014551] BLE: nRF stack init, adv started',
+    '[    0.018330] sensors: sampling @ 100 Hz',
+    '[    0.021870] net: MQTT connected -> broker:8883',
+    '[ ok ] system online. welcome aboard.',
+  ];
+  if (bootEl) {
+    let li = 0;
+    const addLine = () => {
+      if (li >= bootLines.length) {
+        // keep last lines, loop subtly by appending a heartbeat
+        setTimeout(() => {
+          const hb = document.createElement('div');
+          const t = (20 + Math.random() * 5).toFixed(6);
+          hb.textContent = `[   ${t}] heartbeat: uptime ok, mem 71% free`;
+          bootEl.appendChild(hb);
+          while (bootEl.childNodes.length > 11) bootEl.removeChild(bootEl.firstChild);
+          addLine();
+        }, 2200);
+        return;
+      }
+      const line = bootLines[li++];
+      const div = document.createElement('div');
+      if (line.includes('[ ok ]')) div.className = 'neon-green';
+      else if (line.includes('OK') || line.includes('ready') || line.includes('locked')) div.className = 'text-cyan-300/90';
+      div.textContent = line;
+      bootEl.appendChild(div);
+      while (bootEl.childNodes.length > 11) bootEl.removeChild(bootEl.firstChild);
+      setTimeout(addLine, 240 + Math.random() * 260);
+    };
+    addLine();
+  }
+
+  // ============ 3. Oscilloscope ============
+  const scope = document.getElementById('scope-canvas');
+  if (scope && scope.getContext) {
+    const ctx = scope.getContext('2d');
+    const resize = () => { scope.width = scope.clientWidth * devicePixelRatio; scope.height = 120 * devicePixelRatio; ctx.scale(1,1); };
+    resize();
+    window.addEventListener('resize', resize);
+    let phase = 0;
+    const draw = () => {
+      const W = scope.width, H = scope.height, dpr = devicePixelRatio;
+      ctx.clearRect(0, 0, W, H);
+      // grid
+      ctx.strokeStyle = 'rgba(34,211,238,0.08)'; ctx.lineWidth = 1;
+      for (let x = 0; x < W; x += 24 * dpr) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+      for (let y = 0; y < H; y += 24 * dpr) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+      // waveform: PWM-ish square + sine overlay
+      ctx.strokeStyle = '#22d3ee'; ctx.lineWidth = 2 * dpr; ctx.shadowColor = '#22d3ee'; ctx.shadowBlur = 8 * dpr;
+      ctx.beginPath();
+      for (let x = 0; x <= W; x++) {
+        const tt = (x / W) * 6 + phase;
+        const square = Math.sign(Math.sin(tt * 2)) * 0.32;
+        const sine = Math.sin(tt) * 0.18;
+        const y = H/2 - (square + sine) * H/2;
+        x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+      phase += 0.05;
+      requestAnimationFrame(draw);
+    };
+    draw();
+  }
+
+  // ============ 4. PCB animated background ============
+  const pcb = document.getElementById('pcb-canvas');
+  if (pcb && pcb.getContext) {
+    const ctx = pcb.getContext('2d');
+    let W, H, nodes = [], packets = [];
+    const resize = () => {
+      W = pcb.width = pcb.clientWidth; H = pcb.height = pcb.clientHeight;
+      nodes = [];
+      const cols = Math.ceil(W / 120), rows = Math.ceil(H / 120);
+      for (let i = 0; i <= cols; i++)
+        for (let j = 0; j <= rows; j++)
+          nodes.push({ x: i*120 + (Math.random()*40-20), y: j*120 + (Math.random()*40-20) });
+    };
+    resize();
+    window.addEventListener('resize', resize);
+    // spawn data packets that travel along right-angle traces
+    const spawn = () => {
+      if (nodes.length < 2) return;
+      const a = nodes[(Math.random()*nodes.length)|0];
+      const b = nodes[(Math.random()*nodes.length)|0];
+      packets.push({ x:a.x, y:a.y, tx:b.x, ty:b.y, t:0, hMove: Math.random() > 0.5 });
+      if (packets.length > 40) packets.shift();
+    };
+    setInterval(spawn, 220);
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const draw = () => {
+      ctx.clearRect(0,0,W,H);
+      // faint trace lines between nearby nodes
+      ctx.strokeStyle = 'rgba(34,211,238,0.06)'; ctx.lineWidth = 1;
+      for (const n of nodes) {
+        ctx.fillStyle = 'rgba(34,211,238,0.18)';
+        ctx.fillRect(n.x-1, n.y-1, 2, 2);
+      }
+      // packets travel L-shaped
+      for (const p of packets) {
+        p.t += 0.012;
+        const t = Math.min(p.t, 1);
+        let cx, cy;
+        if (p.hMove) {
+          const midt = t < 0.5 ? t*2 : 1; const vt = t < 0.5 ? 0 : (t-0.5)*2;
+          cx = p.x + (p.tx - p.x) * midt;
+          cy = p.y + (p.ty - p.y) * vt;
+        } else {
+          const vt = t < 0.5 ? t*2 : 1; const midt = t < 0.5 ? 0 : (t-0.5)*2;
+          cx = p.x + (p.tx - p.x) * midt;
+          cy = p.y + (p.ty - p.y) * vt;
+        }
+        const alpha = (1 - Math.abs(t - 0.5) * 2) * 0.9;
+        ctx.fillStyle = `rgba(45,212,238,${alpha})`;
+        ctx.shadowColor = '#22d3ee'; ctx.shadowBlur = 8;
+        ctx.fillRect(cx-1.5, cy-1.5, 3, 3);
+        ctx.shadowBlur = 0;
+      }
+      packets = packets.filter(p => p.t < 1);
+      if (!reduced) requestAnimationFrame(draw);
+    };
+    draw();
+  }
+
+  // ============ 5. chip-card cursor glow ============
+  document.querySelectorAll('.chip-card').forEach((el) => {
+    el.addEventListener('mousemove', (e) => {
+      const r = el.getBoundingClientRect();
+      el.style.setProperty('--mx', `${e.clientX - r.left}px`);
+      el.style.setProperty('--my', `${e.clientY - r.top}px`);
+    });
+  });
+</script>

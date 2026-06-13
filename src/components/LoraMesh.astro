@@ -1,0 +1,351 @@
+---
+import { getCollection } from 'astro:content';
+import { t } from '../i18n';
+import { url } from '../utils/url';
+
+// Lấy các dự án thật, ưu tiên featured, sắp theo `order`
+const all = await getCollection('projects');
+const projects = all
+  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
+  .slice(0, 6)
+  .map((p) => ({
+    id: p.slug,
+    title: p.data.title.split('—')[0].trim(),
+    fullTitle: p.data.title,
+    description: p.data.description,
+    tags: p.data.tags,
+    href: url(`/projects/${p.slug}`),
+    // Dự án không dây (BLE/WiFi/LoRa) sẽ là node "bay" (drone/UAV)
+    wireless: p.data.tags.some((x) => /BLE|WiFi|LoRa|Wireless/i.test(x)),
+  }));
+
+const meshData = JSON.stringify(projects);
+---
+
+<section id="mesh" class="relative py-24 md:py-32 overflow-hidden">
+  <div class="absolute inset-0 bg-pcb opacity-20 pointer-events-none" aria-hidden="true"></div>
+  <div class="absolute inset-0 bg-radial-glow pointer-events-none" aria-hidden="true"></div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Heading -->
+    <div class="text-center mb-12" data-animate>
+      <p class="inline-flex items-center gap-2 text-cyan-400 font-mono text-sm mb-3 tracking-widest uppercase" data-i18n="mesh.eyebrow">
+        <span class="led text-emerald-400 animate-led-blink-fast"></span>{t('mesh.eyebrow')}
+      </p>
+      <h2 class="section-heading" data-i18n="mesh.heading">{t('mesh.heading')}</h2>
+      <p class="section-subheading max-w-2xl mx-auto" data-i18n="mesh.subheading">{t('mesh.subheading')}</p>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-6 items-stretch" data-animate>
+      <!-- ===== Mesh canvas (focal) ===== -->
+      <div class="lg:col-span-2 terminal crt relative">
+        <div class="terminal-bar">
+          <span class="terminal-dot bg-red-500/80"></span>
+          <span class="terminal-dot bg-yellow-500/80"></span>
+          <span class="terminal-dot bg-green-500/80"></span>
+          <span class="ml-2 text-xs text-cyan-300/70">project-mesh · 868 MHz · SF7</span>
+          <button id="mesh-toggle" type="button"
+            class="ml-auto inline-flex items-center gap-1.5 text-[11px] font-mono text-emerald-400/90 hover:text-emerald-300 transition-colors">
+            <span id="mesh-toggle-dot" class="led text-emerald-400 animate-led-blink"></span>
+            <span id="mesh-toggle-label">LIVE</span>
+          </button>
+        </div>
+        <div class="relative">
+          <canvas id="mesh-canvas" class="w-full block" style="height:440px" height="440"></canvas>
+          <div id="mesh-tip" class="absolute hidden pointer-events-none z-10 px-2.5 py-1.5 rounded-md text-[11px] font-mono bg-black/85 border border-cyan-700/60 text-cyan-200 whitespace-nowrap shadow-lg"></div>
+          <div class="absolute bottom-2 left-3 text-[10px] font-mono text-zinc-500" data-i18n="mesh.hint">{t('mesh.hint')}</div>
+        </div>
+      </div>
+
+      <!-- ===== Project detail card (updates on hover) ===== -->
+      <div class="terminal crt p-0 flex flex-col">
+        <div class="terminal-bar">
+          <span class="led text-cyan-400 animate-led-blink-fast"></span>
+          <span class="text-xs text-cyan-300/80 font-mono">NODE INSPECTOR</span>
+          <span id="card-rssi" class="ml-auto text-[10px] font-mono text-emerald-400/70"></span>
+        </div>
+
+        <!-- Empty state -->
+        <div id="card-empty" class="flex-1 flex flex-col items-center justify-center text-center p-6 gap-3">
+          <div class="relative">
+            <span class="led text-cyan-400 animate-led-blink absolute -top-1 -right-1"></span>
+            <svg class="w-12 h-12 text-cyan-700/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/>
+            </svg>
+          </div>
+          <p class="text-sm text-zinc-400 font-mono" data-i18n="mesh.hint">{t('mesh.hint')}</p>
+          <p class="text-[11px] text-zinc-600">{projects.length} project nodes online</p>
+        </div>
+
+        <!-- Filled state -->
+        <a id="card-link" href="#" class="hidden flex-1 flex-col p-5 group">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="led text-emerald-400 animate-led-blink"></span>
+            <span id="card-id" class="text-[10px] font-mono text-emerald-400/80"></span>
+          </div>
+          <h3 id="card-title" class="text-lg font-semibold text-white leading-snug group-hover:gradient-text transition-all"></h3>
+          <p id="card-desc" class="text-sm text-zinc-400 leading-relaxed mt-2 flex-1"></p>
+          <div id="card-tags" class="flex flex-wrap gap-1.5 mt-3"></div>
+          <span class="inline-flex items-center gap-1.5 text-sm text-cyan-400 font-medium mt-4 group-hover:gap-2.5 transition-all">
+            View project
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="flex flex-wrap items-center justify-center gap-6 mt-8 text-xs font-mono text-zinc-400" data-animate>
+      <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-amber-400" style="box-shadow:0 0 8px #fbbf24"></span><span data-i18n="mesh.legend.gateway">{t('mesh.legend.gateway')}</span></span>
+      <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-cyan-400" style="box-shadow:0 0 8px #22d3ee"></span><span data-i18n="mesh.legend.node">{t('mesh.legend.node')}</span></span>
+      <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-sm bg-emerald-400" style="box-shadow:0 0 8px #34d399"></span><span data-i18n="mesh.legend.drone">{t('mesh.legend.drone')}</span></span>
+      <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-white"></span><span data-i18n="mesh.legend.packet">{t('mesh.legend.packet')}</span></span>
+    </div>
+  </div>
+
+  <script define:vars={{ meshData }}>
+    // ============================================================
+    //  Project-mesh: mỗi node = một dự án thật. Hover xem chi tiết,
+    //  click mở trang dự án. Animation lazy-start, dịu, có thể tạm dừng.
+    // ============================================================
+    const PROJECTS = JSON.parse(meshData);
+    const canvas = document.getElementById('mesh-canvas');
+    const tip = document.getElementById('mesh-tip');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // card elements
+    const cardEmpty = document.getElementById('card-empty');
+    const cardLink = document.getElementById('card-link');
+    const cardId = document.getElementById('card-id');
+    const cardTitle = document.getElementById('card-title');
+    const cardDesc = document.getElementById('card-desc');
+    const cardTags = document.getElementById('card-tags');
+    const cardRssi = document.getElementById('card-rssi');
+
+    if (canvas && canvas.getContext && PROJECTS.length) {
+      const ctx = canvas.getContext('2d');
+      let W = 0, H = 440, dpr = Math.min(window.devicePixelRatio || 1, 2);
+      let nodes = [], edges = [], packets = [], hover = -1, running = false, started = false;
+      const rand = (a, b) => a + Math.random() * (b - a);
+
+      function build() {
+        W = canvas.clientWidth;
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = W * dpr; canvas.height = H * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        const keep = nodes.length === PROJECTS.length + 1;
+        if (!keep) {
+          nodes = [];
+          // gateway (hub = portfolio) ở giữa
+          nodes.push({ x: W * 0.5, y: H * 0.5, vx: 0, vy: 0, type: 'gateway', id: 'GW-00', proj: null, rssi: 0, phase: 0 });
+          const n = PROJECTS.length;
+          PROJECTS.forEach((p, i) => {
+            const a = (i / n) * Math.PI * 2 - Math.PI / 2 + rand(-0.18, 0.18);
+            const r = Math.min(W, H) * rand(0.30, 0.40);
+            nodes.push({
+              x: W * 0.5 + Math.cos(a) * r,
+              y: H * 0.5 + Math.sin(a) * r * 0.82,
+              vx: rand(-0.12, 0.12), vy: rand(-0.12, 0.12),
+              type: p.wireless ? 'drone' : 'node',
+              id: (p.wireless ? 'UAV-' : 'ND-') + String(i + 1).padStart(2, '0'),
+              proj: p, rssi: Math.round(rand(-104, -68)), phase: rand(0, 6.28),
+            });
+          });
+        } else {
+          // chỉ scale lại vị trí khi resize
+          nodes[0].x = W * 0.5; nodes[0].y = H * 0.5;
+        }
+        rebuildEdges();
+      }
+
+      const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+      function rebuildEdges() {
+        edges = [];
+        const linkR = Math.min(W, H) * 0.55;
+        for (let i = 0; i < nodes.length; i++)
+          for (let j = i + 1; j < nodes.length; j++)
+            if (dist(nodes[i], nodes[j]) < linkR) edges.push([i, j]);
+      }
+
+      function spawnPacket() {
+        const leaves = nodes.map((n, i) => i).filter(i => nodes[i].type !== 'gateway');
+        if (!leaves.length) return;
+        const start = leaves[(Math.random() * leaves.length) | 0];
+        const neighbors = edges.filter(e => e[0] === start || e[1] === start).map(e => e[0] === start ? e[1] : e[0]);
+        if (!neighbors.length) return;
+        const gw = nodes[0];
+        neighbors.sort((a, b) => dist(nodes[a], gw) - dist(nodes[b], gw));
+        packets.push({ from: start, to: neighbors[0], t: 0, speed: rand(0.010, 0.016) });
+      }
+
+      let tPrev = performance.now();
+      function frame(now) {
+        const dt = Math.min(now - tPrev, 50); tPrev = now;
+        ctx.clearRect(0, 0, W, H);
+        const gw = nodes[0];
+
+        for (const n of nodes) {
+          if (n.type === 'gateway') continue;
+          n.x += n.vx; n.y += n.vy; n.phase += 0.018;
+          // giữ trong khung, nảy mềm
+          if (n.x < 30 || n.x > W - 30) n.vx *= -1;
+          if (n.y < 30 || n.y > H - 30) n.vy *= -1;
+          if (Math.random() < 0.006) { n.vx = rand(-0.12, 0.12); n.vy = rand(-0.12, 0.12); }
+        }
+        rebuildEdges();
+
+        // links
+        for (const [i, j] of edges) {
+          const a = nodes[i], b = nodes[j];
+          const isHover = hover === i || hover === j;
+          const alpha = Math.max(0.05, 0.22 - dist(a, b) / (Math.min(W, H) * 3));
+          ctx.strokeStyle = isHover ? 'rgba(52,211,153,0.65)' : `rgba(34,211,238,${alpha})`;
+          ctx.lineWidth = isHover ? 1.6 : 1;
+          ctx.setLineDash(isHover ? [] : [3, 7]);
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+        }
+        ctx.setLineDash([]);
+
+        // gateway pulse
+        const pr = (now / 22) % 110;
+        ctx.strokeStyle = `rgba(251,191,36,${0.35 * (1 - pr / 110)})`;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.arc(gw.x, gw.y, 14 + pr, 0, Math.PI * 2); ctx.stroke();
+
+        // packets (multi-hop to gateway)
+        for (const p of packets) {
+          p.t += p.speed * (dt / 16);
+          const a = nodes[p.from], b = nodes[p.to];
+          if (!a || !b) { p.t = 2; continue; }
+          const x = a.x + (b.x - a.x) * p.t, y = a.y + (b.y - a.y) * p.t;
+          ctx.fillStyle = '#fff'; ctx.shadowColor = '#22d3ee'; ctx.shadowBlur = 10;
+          ctx.beginPath(); ctx.arc(x, y, 2.5, 0, Math.PI * 2); ctx.fill(); ctx.shadowBlur = 0;
+          if (p.t >= 1) {
+            if (nodes[p.to].type !== 'gateway') {
+              const cur = p.to;
+              const nb = edges.filter(e => e[0] === cur || e[1] === cur).map(e => e[0] === cur ? e[1] : e[0]);
+              if (nb.length) {
+                nb.sort((m, n) => dist(nodes[m], gw) - dist(nodes[n], gw));
+                if (dist(nodes[nb[0]], gw) < dist(nodes[cur], gw)) { p.from = cur; p.to = nb[0]; p.t = 0; }
+                else p.t = 2;
+              } else p.t = 2;
+            } else p.t = 2;
+          }
+        }
+        packets = packets.filter(p => p.t <= 1.0001);
+
+        // nodes
+        for (let i = 0; i < nodes.length; i++) {
+          const n = nodes[i];
+          const c = n.type === 'gateway' ? '#fbbf24' : n.type === 'drone' ? '#34d399' : '#22d3ee';
+          const pulse = n.type !== 'gateway' ? (0.6 + 0.4 * Math.sin(n.phase)) : 1;
+          ctx.fillStyle = c; ctx.shadowColor = c; ctx.shadowBlur = (hover === i ? 18 : 8) * pulse;
+          if (n.type === 'drone') {
+            ctx.save(); ctx.translate(n.x, n.y); ctx.rotate(Math.atan2(n.vy, n.vx));
+            ctx.fillRect(-5, -5, 10, 10);
+            ctx.strokeStyle = c; ctx.lineWidth = 1.2;
+            for (const [dx, dy] of [[-7,-7],[7,-7],[-7,7],[7,7]]) { ctx.beginPath(); ctx.arc(dx, dy, 3, 0, Math.PI * 2); ctx.stroke(); }
+            ctx.restore();
+          } else {
+            const r = n.type === 'gateway' ? 8 : (hover === i ? 7 : 5);
+            ctx.beginPath(); ctx.arc(n.x, n.y, r, 0, Math.PI * 2); ctx.fill();
+            if (n.type === 'gateway') { ctx.fillStyle = '#000'; ctx.font = '700 9px monospace'; ctx.textAlign = 'center'; ctx.fillText('GW', n.x, n.y + 3); }
+          }
+          ctx.shadowBlur = 0;
+          // label nhỏ tên project khi hover
+          if (hover === i && n.proj) {
+            ctx.fillStyle = 'rgba(255,255,255,0.9)'; ctx.font = '600 11px monospace'; ctx.textAlign = 'center';
+            ctx.fillText(n.proj.title, n.x, n.y - 14);
+          }
+        }
+
+        if (running) requestAnimationFrame(frame);
+      }
+
+      // ---- pause/resume ----
+      function start() { if (!running) { running = true; tPrev = performance.now(); requestAnimationFrame(frame); } }
+      function stop() { running = false; }
+
+      let spawnTimer = null;
+      function setLive(on) {
+        const label = document.getElementById('mesh-toggle-label');
+        const dot = document.getElementById('mesh-toggle-dot');
+        if (on) {
+          start();
+          if (!reduced && !spawnTimer) spawnTimer = setInterval(spawnPacket, 750);
+          if (label) label.textContent = 'LIVE';
+          if (dot) { dot.classList.add('animate-led-blink'); dot.style.color = '#34d399'; }
+        } else {
+          stop();
+          if (spawnTimer) { clearInterval(spawnTimer); spawnTimer = null; }
+          if (label) label.textContent = 'PAUSED';
+          if (dot) { dot.classList.remove('animate-led-blink'); dot.style.color = '#71717a'; }
+        }
+      }
+
+      document.getElementById('mesh-toggle')?.addEventListener('click', () => setLive(!running));
+
+      build();
+      // vẽ 1 frame tĩnh ngay (preview), chỉ chạy khi cuộn tới
+      tPrev = performance.now(); running = true; frame(performance.now()); running = false;
+      window.addEventListener('resize', () => { build(); if (!running) { running = true; frame(performance.now()); running = false; } });
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) { if (!started) { started = true; setLive(!reduced); } }
+          else setLive(false);
+        });
+      }, { threshold: 0.25 });
+      io.observe(canvas);
+
+      // ---- hover → cập nhật card + tooltip ----
+      function showCard(n) {
+        if (!n || !n.proj) {
+          cardEmpty?.classList.remove('hidden');
+          cardLink?.classList.add('hidden'); cardLink?.classList.remove('flex');
+          if (cardRssi) cardRssi.textContent = '';
+          return;
+        }
+        cardEmpty?.classList.add('hidden');
+        cardLink?.classList.remove('hidden'); cardLink?.classList.add('flex');
+        cardLink.setAttribute('href', n.proj.href);
+        cardId.textContent = `${n.id} · ${n.type === 'drone' ? 'wireless link' : 'wired relay'}`;
+        cardTitle.textContent = n.proj.title;
+        cardDesc.textContent = n.proj.description;
+        cardRssi.textContent = `RSSI ${n.rssi} dBm`;
+        cardTags.innerHTML = '';
+        n.proj.tags.slice(0, 5).forEach((tg) => {
+          const s = document.createElement('span'); s.className = 'tag'; s.textContent = tg; cardTags.appendChild(s);
+        });
+      }
+
+      let pinned = -1; // node được click/giữ
+      function setHover(idx, mx, my) {
+        hover = idx >= 0 ? idx : pinned;
+        const n = hover >= 0 ? nodes[hover] : null;
+        if (idx >= 0 && n && n.proj && tip) {
+          tip.innerHTML = `<span class="text-emerald-400">${n.id}</span> · ${n.rssi} dBm · SF7`;
+          tip.style.left = Math.min(mx + 12, W - 150) + 'px';
+          tip.style.top = (my + 12) + 'px';
+          tip.classList.remove('hidden');
+          canvas.style.cursor = 'pointer';
+        } else if (tip) { tip.classList.add('hidden'); canvas.style.cursor = 'default'; }
+        showCard(n);
+        if (!running) { running = true; frame(performance.now()); running = false; } // repaint khi pause
+      }
+
+      canvas.addEventListener('mousemove', (e) => {
+        const r = canvas.getBoundingClientRect();
+        const mx = e.clientX - r.left, my = e.clientY - r.top;
+        let found = -1;
+        for (let i = 0; i < nodes.length; i++) if (Math.hypot(nodes[i].x - mx, nodes[i].y - my) < 15) { found = i; break; }
+        setHover(found, mx, my);
+      });
+      canvas.addEventListener('mouseleave', () => { setHover(-1, 0, 0); });
+      canvas.addEventListener('click', () => {
+        if (hover >= 0 && nodes[hover]?.proj) window.location.href = nodes[hover].proj.href;
+      });
+    }
+  </script>
+</section>

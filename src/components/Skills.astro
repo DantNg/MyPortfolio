@@ -40,10 +40,11 @@ const colorMap: Record<string, { bg: string; border: string; text: string; iconB
 };
 ---
 
-<section id="skills" class="py-24 md:py-32">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<section id="skills" class="relative py-24 md:py-32 overflow-hidden">
+  <div class="absolute inset-0 bg-pcb opacity-30 pointer-events-none" aria-hidden="true"></div>
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16" data-animate>
-      <p class="text-brand-400 font-mono text-sm mb-3 tracking-widest uppercase" data-i18n="skills.eyebrow">{t('skills.eyebrow')}</p>
+      <p class="inline-flex items-center gap-2 text-cyan-400 font-mono text-sm mb-3 tracking-widest uppercase" data-i18n="skills.eyebrow"><span class="led text-cyan-400 animate-led-blink"></span>{t('skills.eyebrow')}</p>
       <h2 class="section-heading" data-i18n="skills.heading">{t('skills.heading')}</h2>
       <p class="section-subheading max-w-2xl mx-auto" data-i18n="skills.subheading">
         {t('skills.subheading')}
@@ -94,8 +95,8 @@ const colorMap: Record<string, { bg: string; border: string; text: string; iconB
           </div>
           <div class="h-1.5 bg-zinc-800 rounded-full overflow-hidden">
             <div
-              class="h-full bg-gradient-to-r from-brand-600 to-brand-400 rounded-full transition-all duration-1000"
-              style={`width: ${item.level}%`}
+              class="skill-bar h-full bg-gradient-to-r from-cyan-500 to-brand-400 rounded-full"
+              style="width:0%; box-shadow:0 0 10px rgba(34,211,238,0.5)"
               data-width={item.level}
             ></div>
           </div>
@@ -103,4 +104,19 @@ const colorMap: Record<string, { bg: string; border: string; text: string; iconB
       ))}
     </div>
   </div>
+
+  <script>
+    const bars = document.querySelectorAll('.skill-bar');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          const el = e.target as HTMLElement;
+          el.style.transition = 'width 1.4s cubic-bezier(0.16,1,0.3,1)';
+          el.style.width = (el.dataset.width || '0') + '%';
+          io.unobserve(el);
+        }
+      });
+    }, { threshold: 0.4 });
+    bars.forEach((b) => io.observe(b));
+  </script>
 </section>
