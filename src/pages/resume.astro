@@ -20,6 +20,7 @@ const githubLabel = SOCIALS.github.replace(/^https?:\/\//, '');
           <p class="text-xl text-brand-400 font-mono mb-3">{SITE.title}</p>
           <div class="flex flex-wrap gap-4 text-sm text-zinc-400">
             <span>📍 {SITE.location}</span>
+            <a href={`tel:${SITE.phone}`} class="hover:text-white transition-colors">{SITE.phone}</a>
             <a href={`mailto:${SITE.email}`} class="hover:text-white transition-colors">{SITE.email}</a>
             <a href={SOCIALS.github} target="_blank" class="hover:text-white transition-colors">{githubLabel}</a>
           </div>
@@ -46,42 +47,41 @@ const githubLabel = SOCIALS.github.replace(/^https?:\/\//, '');
         <div class="space-y-8">
           {[
             {
-              title: 'Senior Embedded Engineer',
-              company: 'TechCorp IoT Solutions',
-              period: '2024 – Present',
-              location: 'Remote',
+              title: 'Automotive Developer',
+              company: 'LG Electronics R&D Vietnam',
+              period: '01/2025 – Present',
+              location: 'Hanoi',
               bullets: [
-                'Led firmware architecture for a fleet of 50,000+ nRF52840-based industrial sensors, achieving 99.7% uptime over 6 months.',
-                'Designed a BLE Mesh provisioning pipeline handling 200+ nodes per gateway, reducing on-site commissioning time by 60%.',
-                'Implemented delta OTA update system reducing average update payload by 75% vs. full firmware flash.',
-                'Mentored 3 junior firmware engineers; introduced unit testing with Unity framework increasing branch coverage from 40% to 85%.',
+                'Developed middleware services for LG automotive platforms using C++.',
+                'Implemented IPC communication between system components using Android Binder.',
+                'Developed and maintained binary database services for persistent data storage.',
+                'Implemented backup and recovery mechanisms to ensure data integrity and prevent corruption.',
+                'Collaborated with platform and validation teams to integrate and troubleshoot software components.',
               ],
-              tags: ['Zephyr', 'nRF52840', 'BLE Mesh', 'C', 'OTA'],
+              tags: ['C++', 'Android Binder', 'IPC', 'Middleware', 'Automotive'],
             },
             {
-              title: 'Embedded Software Engineer',
-              company: 'DroneVentures Inc.',
-              period: '2022 – 2024',
-              location: 'San Francisco, CA',
+              title: 'OS and Middleware Developer',
+              company: 'FPT Software',
+              period: '08/2023 – 01/2025',
+              location: 'Hanoi',
               bullets: [
-                'Developed STM32H7-based flight controller firmware integrated with PX4 autopilot stack; achieved 1 kHz control loop with <5 µs jitter.',
-                'Implemented EKF-based sensor fusion (IMU + GPS + optical flow) enabling GPS-denied indoor navigation.',
-                'Optimized ESC communication protocol (DSHOT600 via DMA) improving motor response latency by 40%.',
-                'Built MAVLink v2 telemetry stack; integrated with QGroundControl for mission planning and live telemetry.',
+                'Developed middleware APIs to enable communication between applications and hardware components.',
+                'Created and maintained automated tests to verify software functionality, ensuring comprehensive test coverage and improving reliability.',
+                'Diagnosed and resolved memory-related issues in existing programs, enhancing stability and performance.',
               ],
-              tags: ['STM32H7', 'FreeRTOS', 'PX4', 'MAVLink', 'C++'],
+              tags: ['C++', 'Middleware', 'Automated Testing', 'Embedded Linux'],
             },
             {
-              title: 'Firmware Engineer',
-              company: 'ConnectedEdge Startup',
-              period: '2021 – 2022',
-              location: 'Austin, TX',
+              title: 'Intern Developer',
+              company: 'Viettel Aerospace Institute',
+              period: '01/2023 – 06/2023',
+              location: 'Hanoi',
               bullets: [
-                'Shipped LoRaWAN Class A environmental sensors (ESP32 + SX1276) achieving 12 km range and 8-month battery life.',
-                'Built ChirpStack-based backend with Python rules engine for automated irrigation triggers.',
-                'Reduced current consumption by 35% through peripheral power gating and optimized deep sleep wakeup sequences.',
+                'Programmed FPGA and integrated various sensors, ensuring efficient data communication between FPGA and IMU sensors.',
+                'Designed and developed a Qt desktop application to display data and control the FPGA circuit, enhancing the user interface and control capabilities.',
               ],
-              tags: ['ESP32', 'LoRaWAN', 'Python', 'Docker', 'MQTT'],
+              tags: ['FPGA', 'Qt', 'IMU', 'Sensors'],
             },
           ].map(job => (
             <div class="relative pl-4 border-l border-zinc-800">
@@ -111,17 +111,32 @@ const githubLabel = SOCIALS.github.replace(/^https?:\/\//, '');
       <!-- Education -->
       <section class="mb-10" data-animate>
         <h2 class="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-6" data-i18n="resume.education">{t('resume.education')}</h2>
-        <div class="pl-4 border-l border-zinc-800">
-          <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-2">
-            <div>
-              <h3 class="font-semibold text-white" data-i18n="resume.edu.degree">{t('resume.edu.degree')}</h3>
-              <p class="text-brand-400 text-sm" data-i18n="resume.edu.school">{t('resume.edu.school')}</p>
+        <div class="space-y-6">
+          {[
+            {
+              degree: 'Master of Mechatronics',
+              school: 'VNU – University of Engineering & Technology',
+              period: '11/2024 – Present',
+              desc: 'Advanced study in mechatronics, control systems, and embedded engineering.',
+            },
+            {
+              degree: 'B.Eng. Control & Automation Engineering',
+              school: 'VNU – University of Engineering & Technology',
+              period: '09/2019 – 12/2023',
+              desc: 'GPA 3.27. Foundation in embedded systems, control theory, and electronics.',
+            },
+          ].map(edu => (
+            <div class="pl-4 border-l border-zinc-800">
+              <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-2">
+                <div>
+                  <h3 class="font-semibold text-white">{edu.degree}</h3>
+                  <p class="text-brand-400 text-sm">{edu.school}</p>
+                </div>
+                <span class="text-xs text-zinc-500 font-mono whitespace-nowrap">{edu.period}</span>
+              </div>
+              <p class="text-sm text-zinc-400">{edu.desc}</p>
             </div>
-            <span class="text-xs text-zinc-500 font-mono">2015 – 2019</span>
-          </div>
-          <p class="text-sm text-zinc-400" data-i18n="resume.edu.desc">
-            {t('resume.edu.desc')}
-          </p>
+          ))}
         </div>
       </section>
 
@@ -130,13 +145,12 @@ const githubLabel = SOCIALS.github.replace(/^https?:\/\//, '');
         <h2 class="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-6" data-i18n="resume.skills">{t('resume.skills')}</h2>
         <div class="space-y-3">
           {[
-            { label: 'Languages', value: 'C (expert), C++ (proficient), Python (proficient), Bash' },
-            { label: 'RTOSes', value: 'FreeRTOS, Zephyr RTOS, ThreadX' },
-            { label: 'MCU Platforms', value: 'STM32 (F0-H7 families), Nordic nRF52/nRF91, ESP32/ESP8266, Raspberry Pi' },
-            { label: 'Wireless', value: 'BLE, BLE Mesh, LoRaWAN, WiFi (802.11), MQTT, CoAP' },
-            { label: 'Interfaces', value: 'SPI, I2C, UART, USB (CDC/HID), CAN, RS-485, Modbus' },
-            { label: 'Drone/Robotics', value: 'PX4, ArduPilot, MAVLink, QGroundControl, Sensor Fusion (EKF)' },
-            { label: 'DevOps & Tools', value: 'Docker, Git, GitHub Actions, GDB, OpenOCD, Segger J-Link, Logic analyzer' },
+            { label: 'Programming', value: 'C / C++, Python, Bash' },
+            { label: 'Embedded', value: 'STM32, ESP32, FreeRTOS, Embedded Linux' },
+            { label: 'Protocols', value: 'UART, SPI, I2C, CAN, RS485, TCP/IP' },
+            { label: 'Wireless', value: 'BLE 5.0, WiFi, LoRa' },
+            { label: 'Software', value: 'OOP, Multi-threading, IPC (Binder), Middleware, Data Management' },
+            { label: 'Tools', value: 'Git, Jenkins, Jira, Codebeamer, VS Code, Qt Creator' },
           ].map(row => (
             <div class="grid grid-cols-[120px_1fr] gap-4 text-sm py-2 border-b border-zinc-800/50 last:border-0">
               <span class="text-zinc-500 font-medium">{row.label}</span>
@@ -146,21 +160,17 @@ const githubLabel = SOCIALS.github.replace(/^https?:\/\//, '');
         </div>
       </section>
 
-      <!-- Certifications / Awards -->
+      <!-- Languages -->
       <section data-animate>
-        <h2 class="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-6" data-i18n="resume.certs">{t('resume.certs')}</h2>
+        <h2 class="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-6" data-i18n="resume.languages">{t('resume.languages')}</h2>
         <div class="space-y-3">
           {[
-            { name: 'Arm Cortex-M Microcontroller Design', issuer: 'Udemy / Kiran Nayak', year: '2023' },
-            { name: 'Bluetooth Low Energy Fundamentals', issuer: 'Nordic Semiconductor Academy', year: '2022' },
-            { name: 'Best Hardware Hack', issuer: 'HackDFW 2021', year: '2021' },
-          ].map(cert => (
+            { name: 'English', level: 'Intermediate' },
+            { name: 'Vietnamese', level: 'Native' },
+          ].map(lng => (
             <div class="flex items-center justify-between text-sm py-2 border-b border-zinc-800/50 last:border-0">
-              <div>
-                <span class="text-zinc-300 font-medium">{cert.name}</span>
-                <span class="text-zinc-500 ml-2">· {cert.issuer}</span>
-              </div>
-              <span class="text-xs text-zinc-600 font-mono">{cert.year}</span>
+              <span class="text-zinc-300 font-medium">{lng.name}</span>
+              <span class="text-xs text-zinc-500 font-mono">{lng.level}</span>
             </div>
           ))}
         </div>

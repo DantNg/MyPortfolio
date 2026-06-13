@@ -49,7 +49,7 @@ export const ui: Record<Lang, Dict> = {
     'skills.cat.embedded': 'Embedded Systems',
     'skills.cat.connectivity': 'Connectivity',
     'skills.cat.linux': 'Linux & Software',
-    'skills.cat.drone': 'Drone & Robotics',
+    'skills.cat.drone': 'Tools & Platforms',
 
     // ---- Featured Projects ----
     'projects.eyebrow': 'Work',
@@ -96,11 +96,11 @@ export const ui: Record<Lang, Dict> = {
     // ---- About page ----
     'about.eyebrow': 'About',
     'about.heading': 'Building at the boundary of hardware and software',
-    'about.lead': "I'm an Embedded Software Engineer with 5+ years of experience shipping firmware for connected devices, autonomous systems, and industrial IoT products.",
+    'about.lead': "I'm an Embedded Software Engineer working on automotive middleware at LG Electronics R&D Vietnam, with a background spanning STM32/ESP32 firmware, FreeRTOS, and Embedded Linux.",
     'about.story.title': 'My Story',
-    'about.story.p1': 'I fell in love with embedded systems during my third year of university when I stayed up for 48 hours debugging an I2C communication issue between an STM32 and an MPU-6050 IMU. When it finally worked — when the accelerometer data started streaming in cleanly and the LED blinked exactly on time — I knew this was what I wanted to do.',
-    'about.story.p2': "Since then I've worked across the full spectrum: bare-metal Cortex-M, RTOS-based IoT firmware, BLE and LoRaWAN stacks, and flight controller software for autonomous drones. I care about determinism, power efficiency, and code that will still be maintainable in five years.",
-    'about.story.p3': 'Outside of work, I contribute to open-source embedded projects, write about what I learn on this blog, and experiment with small drone builds.',
+    'about.story.p1': 'My journey started in Control & Automation Engineering at VNU – University of Engineering & Technology, where I discovered a passion for working close to the hardware — FPGA, sensors, and real-time systems. An internship at the Viettel Aerospace Institute, building FPGA + IMU systems with a Qt control application, set me firmly on the embedded path.',
+    'about.story.p2': 'At FPT Software I developed middleware APIs bridging applications and hardware, wrote automated tests, and hunted down memory issues. Today, at LG Electronics R&D Vietnam, I build C++ middleware for automotive platforms — IPC over Android Binder, binary database services, and backup/recovery mechanisms for reliable persistent storage.',
+    'about.story.p3': 'Outside of work I build personal embedded projects — STM32 Modbus sensors, a FreeRTOS coffee-machine controller, and a coin-size BLE IMU logger — and I am pursuing a Master of Mechatronics to deepen my control and robotics expertise.',
     'about.philosophy.title': 'Philosophy',
     'about.phil.1.t': 'Hardware-aware code',
     'about.phil.1.d': "Good firmware starts with understanding the silicon. I read datasheets, trace signal timings, and never trust a peripheral until I've verified it with a logic analyzer.",
@@ -119,20 +119,17 @@ export const ui: Record<Lang, Dict> = {
     'about.glance.location': 'Location',
     'about.glance.status': 'Status',
     'about.glance.statusValue': 'Open to work',
-    'about.glance.experienceValue': '5+ years',
+    'about.glance.experienceValue': '2+ years',
     'about.downloadCv': 'Download Resume',
 
     // ---- Resume page ----
     'resume.download': 'Download PDF',
     'resume.summary': 'Summary',
-    'resume.summaryBody': 'Embedded Software Engineer with 5+ years of experience designing, implementing, and shipping firmware for constrained devices. Deep expertise in RTOS-based concurrent systems (FreeRTOS, Zephyr), wireless connectivity stacks (BLE Mesh, LoRaWAN, WiFi), and safety-critical real-time applications.',
+    'resume.summaryBody': 'Embedded Software Engineer with hands-on experience in C/C++ development spanning STM32/ESP32 bare-metal firmware, FreeRTOS-based systems, and Embedded Linux middleware. Proficient in hardware protocols (UART, SPI, I2C, CAN, RS485), wireless stacks (BLE 5.0, WiFi, LoRa), and Linux IPC mechanisms (Binder, sockets, multi-threading).',
     'resume.experience': 'Experience',
     'resume.education': 'Education',
     'resume.skills': 'Technical Skills',
-    'resume.certs': 'Certifications & Achievements',
-    'resume.edu.degree': 'B.Sc. Electrical & Computer Engineering',
-    'resume.edu.school': 'University of Technology',
-    'resume.edu.desc': 'Graduated with honors. Thesis: "Real-Time Sensor Fusion for UAV Attitude Estimation Using Extended Kalman Filter."',
+    'resume.languages': 'Languages',
 
     // ---- Common ----
     'common.backProjects': 'Back to all projects',
@@ -166,7 +163,7 @@ export const ui: Record<Lang, Dict> = {
     'skills.cat.embedded': 'Hệ thống nhúng',
     'skills.cat.connectivity': 'Kết nối',
     'skills.cat.linux': 'Linux & Phần mềm',
-    'skills.cat.drone': 'Drone & Robotics',
+    'skills.cat.drone': 'Công cụ & Nền tảng',
 
     // ---- Featured Projects ----
     'projects.eyebrow': 'Công việc',
@@ -213,11 +210,11 @@ export const ui: Record<Lang, Dict> = {
     // ---- About page ----
     'about.eyebrow': 'Giới thiệu',
     'about.heading': 'Xây dựng ở ranh giới giữa phần cứng và phần mềm',
-    'about.lead': 'Tôi là Kỹ sư Phần mềm Nhúng với hơn 5 năm kinh nghiệm phát triển firmware cho thiết bị kết nối, hệ thống tự hành và sản phẩm IoT công nghiệp.',
+    'about.lead': 'Tôi là Kỹ sư Phần mềm Nhúng đang phát triển middleware ô tô tại LG Electronics R&D Việt Nam, với nền tảng trải dài từ firmware STM32/ESP32, FreeRTOS đến Embedded Linux.',
     'about.story.title': 'Câu chuyện của tôi',
-    'about.story.p1': 'Tôi đem lòng yêu hệ thống nhúng vào năm ba đại học khi thức trắng 48 giờ để gỡ lỗi giao tiếp I2C giữa STM32 và cảm biến IMU MPU-6050. Khi nó cuối cùng cũng chạy — dữ liệu gia tốc kế chảy về mượt mà và đèn LED nhấp nháy đúng nhịp — tôi biết đây chính là điều mình muốn làm.',
-    'about.story.p2': 'Từ đó tôi làm việc trên toàn bộ phổ rộng: bare-metal Cortex-M, firmware IoT dùng RTOS, ngăn xếp BLE và LoRaWAN, và phần mềm điều khiển bay cho drone tự hành. Tôi coi trọng tính tất định, hiệu quả năng lượng và mã nguồn vẫn dễ bảo trì sau năm năm.',
-    'about.story.p3': 'Ngoài công việc, tôi đóng góp cho các dự án nhúng mã nguồn mở, viết lại những gì học được trên blog này, và thử nghiệm chế tạo drone nhỏ.',
+    'about.story.p1': 'Hành trình của tôi bắt đầu từ ngành Kỹ thuật Điều khiển & Tự động hóa tại Trường Đại học Công nghệ – ĐHQGHN, nơi tôi tìm thấy đam mê làm việc sát phần cứng — FPGA, cảm biến và hệ thống thời gian thực. Kỳ thực tập tại Viện Hàng không Vũ trụ Viettel, xây dựng hệ FPGA + IMU cùng ứng dụng điều khiển Qt, đã đưa tôi đến với con đường nhúng.',
+    'about.story.p2': 'Tại FPT Software, tôi phát triển các API middleware kết nối ứng dụng với phần cứng, viết kiểm thử tự động và xử lý các lỗi bộ nhớ. Hiện tại, tại LG Electronics R&D Việt Nam, tôi xây dựng middleware C++ cho nền tảng ô tô — IPC qua Android Binder, dịch vụ cơ sở dữ liệu nhị phân, cùng cơ chế sao lưu/phục hồi để lưu trữ dữ liệu tin cậy.',
+    'about.story.p3': 'Ngoài công việc, tôi tự làm các dự án nhúng cá nhân — cảm biến Modbus STM32, bộ điều khiển máy pha cà phê dùng FreeRTOS, và thiết bị ghi IMU BLE cỡ đồng xu — đồng thời đang học Thạc sĩ Cơ điện tử để nâng cao chuyên môn điều khiển và robotics.',
     'about.philosophy.title': 'Triết lý làm việc',
     'about.phil.1.t': 'Code hiểu phần cứng',
     'about.phil.1.d': 'Firmware tốt bắt đầu từ việc hiểu con chip. Tôi đọc datasheet, soi timing tín hiệu, và không tin một ngoại vi nào cho đến khi đã kiểm chứng bằng máy phân tích logic.',
@@ -236,20 +233,17 @@ export const ui: Record<Lang, Dict> = {
     'about.glance.location': 'Vị trí',
     'about.glance.status': 'Trạng thái',
     'about.glance.statusValue': 'Đang tìm việc',
-    'about.glance.experienceValue': 'Hơn 5 năm',
+    'about.glance.experienceValue': 'Hơn 2 năm',
     'about.downloadCv': 'Tải hồ sơ',
 
     // ---- Resume page ----
     'resume.download': 'Tải PDF',
     'resume.summary': 'Tóm tắt',
-    'resume.summaryBody': 'Kỹ sư Phần mềm Nhúng với hơn 5 năm kinh nghiệm thiết kế, triển khai và phát hành firmware cho thiết bị tài nguyên hạn chế. Chuyên sâu về hệ thống đa luồng dùng RTOS (FreeRTOS, Zephyr), ngăn xếp kết nối không dây (BLE Mesh, LoRaWAN, WiFi) và ứng dụng thời gian thực an toàn quan trọng.',
+    'resume.summaryBody': 'Kỹ sư Phần mềm Nhúng với nhiều năm kinh nghiệm phát triển C/C++ trải dài từ firmware bare-metal STM32/ESP32, hệ thống dùng FreeRTOS, đến middleware trên Embedded Linux. Thành thạo các giao thức phần cứng (UART, SPI, I2C, CAN, RS485), ngăn xếp không dây (BLE 5.0, WiFi, LoRa) và cơ chế IPC trên Linux (Binder, socket, đa luồng).',
     'resume.experience': 'Kinh nghiệm làm việc',
     'resume.education': 'Học vấn',
     'resume.skills': 'Kỹ năng kỹ thuật',
-    'resume.certs': 'Chứng chỉ & Thành tích',
-    'resume.edu.degree': 'Cử nhân Kỹ thuật Điện & Máy tính',
-    'resume.edu.school': 'Đại học Bách Khoa',
-    'resume.edu.desc': 'Tốt nghiệp loại giỏi. Luận văn: "Hợp nhất cảm biến thời gian thực để ước lượng tư thế UAV bằng bộ lọc Kalman mở rộng."',
+    'resume.languages': 'Ngôn ngữ',
 
     // ---- Common ----
     'common.backProjects': 'Về tất cả dự án',

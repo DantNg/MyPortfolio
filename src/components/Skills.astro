@@ -7,28 +7,28 @@ const skillCategories = [
     name: 'Embedded Systems',
     icon: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>`,
     color: 'brand',
-    skills: ['STM32', 'ESP32', 'Nordic nRF', 'FreeRTOS', 'Zephyr'],
+    skills: ['STM32', 'ESP32', 'FreeRTOS', 'Embedded Linux', 'Bare-metal'],
   },
   {
     name: 'Connectivity',
     icon: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/></svg>`,
     color: 'cyan',
     nameKey: 'skills.cat.connectivity',
-    skills: ['BLE', 'BLE Mesh', 'LoRaWAN', 'WiFi', 'MQTT'],
+    skills: ['UART', 'SPI', 'I2C', 'CAN', 'RS485', 'BLE 5.0', 'WiFi', 'LoRa'],
   },
   {
     name: 'Linux & Software',
     nameKey: 'skills.cat.linux',
     icon: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>`,
     color: 'emerald',
-    skills: ['Linux', 'C', 'C++', 'Python', 'Docker'],
+    skills: ['C / C++', 'Python', 'OOP', 'Multi-threading', 'IPC (Binder)'],
   },
   {
-    name: 'Drone & Robotics',
+    name: 'Tools & Platforms',
     nameKey: 'skills.cat.drone',
-    icon: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>`,
+    icon: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>`,
     color: 'violet',
-    skills: ['MAVLink', 'PX4', 'ArduPilot', 'Sensor Fusion'],
+    skills: ['Git', 'Jenkins', 'Jira', 'Codebeamer', 'Qt Creator'],
   },
 ];
 
@@ -80,12 +80,12 @@ const colorMap: Record<string, { bg: string; border: string; text: string; iconB
     <!-- Tool proficiency bar section -->
     <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8" data-animate>
       {[
-        { name: 'C / C++', level: 95 },
-        { name: 'FreeRTOS / Zephyr', level: 90 },
-        { name: 'BLE & BLE Mesh', level: 85 },
-        { name: 'STM32 / HAL / LL', level: 92 },
+        { name: 'C / C++', level: 92 },
+        { name: 'STM32 / Bare-metal', level: 88 },
+        { name: 'FreeRTOS', level: 85 },
+        { name: 'Embedded Linux / Middleware', level: 82 },
+        { name: 'IPC (Binder) / Multi-threading', level: 80 },
         { name: 'Python', level: 75 },
-        { name: 'PX4 / MAVLink', level: 80 },
       ].map(item => (
         <div>
           <div class="flex justify-between items-center mb-1.5">

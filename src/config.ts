@@ -18,13 +18,16 @@ export const SITE = {
 
   /** Giới thiệu ngắn (hiển thị ở Hero trang chủ) */
   intro:
-    'I design and ship firmware for constrained devices — from bare-metal STM32 to Zephyr-powered BLE Mesh networks and autonomous drone platforms. I care deeply about real-time reliability, power efficiency, and clean embedded architecture.',
+    'Embedded Software Engineer with hands-on experience in C/C++ development spanning STM32/ESP32 bare-metal firmware, FreeRTOS-based systems, and Embedded Linux middleware. Proficient in hardware protocols (UART, SPI, I2C, CAN, RS485), wireless stacks (BLE 5.0, WiFi, LoRa), and Linux IPC mechanisms (Binder, sockets, multi-threading).',
 
   /** Vị trí địa lý */
   location: 'Hanoi, Vietnam',
 
   /** Email liên hệ */
   email: 'nguyendatmc581@gmail.com',
+
+  /** Số điện thoại */
+  phone: '0969539225',
 
   /** URL gốc của site (đổi thành GitHub Pages / domain của bạn) */
   url: 'https://dantng.github.io',
@@ -34,7 +37,7 @@ export const SITE = {
    * Trang /repos sẽ tự động lấy toàn bộ repo công khai
    * và đọc README của từng repo từ tài khoản này.
    */
-  githubUsername: 'dantng',
+  githubUsername: 'DantNg',
 } as const;
 
 /**
@@ -42,9 +45,9 @@ export const SITE = {
  * thì nó sẽ tự động bị ẩn khỏi giao diện.
  */
 export const SOCIALS = {
-  github: 'https://github.com/dantng',
+  github: 'https://github.com/DantNg',
   facebook: 'https://facebook.com/nguyen.tien.at.471119/',
-  linkedin: 'https://linkedin.com/in/dantnguyen581/',
+  linkedin: 'https://linkedin.com/in/dantanguyen581/',
   twitter: '', // ví dụ: 'https://twitter.com/yourhandle' — để trống nếu không dùng
 } as const;
 
