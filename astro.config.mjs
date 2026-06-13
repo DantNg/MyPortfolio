@@ -3,7 +3,7 @@ import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://yourusername.github.io',
+  site: 'https://dantng.github.io/myportfolio',
   base: '/',
   integrations: [
     tailwind(),
