@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
+import { url } from '../../utils/url';
 
 const allProjects = await getCollection('projects');
 const sorted = allProjects.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -52,14 +53,14 @@ const projects = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PA
         </div>
         <div class="flex items-center gap-2 flex-wrap">
           <a
-            href="/projects"
+            href={url('/projects')}
             class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${!tag ? 'bg-brand-600 text-white' : 'bg-zinc-800 text-zinc-400 hover:text-white'}`}
           >
             All
           </a>
           {allTags.map(t => (
             <a
-              href={`/projects?tag=${t}${search ? `&q=${search}` : ''}`}
+              href={url(`/projects?tag=${t}${search ? `&q=${search}` : ''}`)}
               class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${tag === t ? 'bg-brand-600 text-white' : 'bg-zinc-800 text-zinc-400 hover:text-white'}`}
             >
               {t}
@@ -98,7 +99,7 @@ const projects = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PA
       ) : (
         <div class="text-center py-20">
           <p class="text-zinc-500 text-lg">No projects found.</p>
-          <a href="/projects" class="btn-secondary mt-4 inline-flex">Clear filters</a>
+          <a href={url('/projects')} class="btn-secondary mt-4 inline-flex">Clear filters</a>
         </div>
       )}
 
@@ -106,7 +107,7 @@ const projects = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PA
       {totalPages > 1 && (
         <div class="flex items-center justify-center gap-2 mt-12">
           {page > 1 && (
-            <a href={`/projects?page=${page - 1}${tag ? `&tag=${tag}` : ''}${search ? `&q=${search}` : ''}`} class="btn-secondary">
+            <a href={url(`/projects?page=${page - 1}${tag ? `&tag=${tag}` : ''}${search ? `&q=${search}` : ''}`)} class="btn-secondary">
               Previous
             </a>
           )}
@@ -114,7 +115,7 @@ const projects = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PA
             Page {page} of {totalPages}
           </span>
           {page < totalPages && (
-            <a href={`/projects?page=${page + 1}${tag ? `&tag=${tag}` : ''}${search ? `&q=${search}` : ''}`} class="btn-secondary">
+            <a href={url(`/projects?page=${page + 1}${tag ? `&tag=${tag}` : ''}${search ? `&q=${search}` : ''}`)} class="btn-secondary">
               Next
             </a>
           )}

@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import LanguageProvider from '../components/LanguageProvider.astro';
 import { SITE, SOCIALS, TWITTER_HANDLE } from '../config';
+import { url } from '../utils/url';
 
 interface Props {
   title: string;
@@ -18,7 +19,7 @@ interface Props {
 const {
   title,
   description = `${SITE.title} specializing in STM32, Nordic nRF, BLE Mesh, FreeRTOS, Zephyr, and drone systems.`,
-  image = '/og-default.png',
+  image = url('/og-default.png'),
   type = 'website',
   publishedTime,
   tags = [],
@@ -71,8 +72,8 @@ const fullTitle = title === 'Home' ? `${SITE.name} — ${SITE.title}` : `${title
     })} />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
+    <link rel="apple-touch-icon" href={url('/apple-touch-icon.png')} />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

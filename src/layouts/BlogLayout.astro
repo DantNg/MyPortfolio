@@ -2,6 +2,7 @@
 import BaseLayout from './BaseLayout.astro';
 import { formatDate } from '../utils/formatDate';
 import { getReadingTime } from '../utils/readingTime';
+import { url } from '../utils/url';
 import TableOfContents from '../components/TableOfContents.astro';
 
 interface Props {
@@ -52,7 +53,7 @@ const hasToc = headings.filter(h => h.depth <= 3).length > 2;
 
         <div class="flex flex-wrap items-center justify-center gap-2 mt-6">
           {frontmatter.tags.map(tag => (
-            <a href={`/blog?tag=${tag}`} class="tag hover:bg-brand-900 transition-colors">
+            <a href={url(`/blog?tag=${tag}`)} class="tag hover:bg-brand-900 transition-colors">
               #{tag}
             </a>
           ))}
@@ -87,7 +88,7 @@ const hasToc = headings.filter(h => h.depth <= 3).length > 2;
 
       <!-- Footer nav -->
       <div class="max-w-3xl mx-auto mt-16 pt-8 border-t border-zinc-800">
-        <a href="/blog" class="btn-secondary inline-flex">
+        <a href={url('/blog')} class="btn-secondary inline-flex">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>

@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import BlogCard from '../../components/BlogCard.astro';
 import { getCollection } from 'astro:content';
+import { url } from '../../utils/url';
 
 const allPosts = await getCollection('blog', p => !p.data.draft);
 const sorted = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -52,12 +53,12 @@ const posts = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
           />
         </div>
         <div class="flex items-center gap-2 flex-wrap">
-          <a href="/blog" class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${!tag ? 'bg-brand-600 text-white' : 'bg-zinc-800 text-zinc-400 hover:text-white'}`}>
+          <a href={url('/blog')} class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${!tag ? 'bg-brand-600 text-white' : 'bg-zinc-800 text-zinc-400 hover:text-white'}`}>
             All
           </a>
           {allTags.map(t => (
             <a
-              href={`/blog?tag=${t}${search ? `&q=${search}` : ''}`}
+              href={url(`/blog?tag=${t}${search ? `&q=${search}` : ''}`)}
               class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${tag === t ? 'bg-brand-600 text-white' : 'bg-zinc-800 text-zinc-400 hover:text-white'}`}
             >
               {t}
@@ -93,7 +94,7 @@ const posts = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
       ) : (
         <div class="text-center py-20">
           <p class="text-zinc-500 text-lg">No articles found.</p>
-          <a href="/blog" class="btn-secondary mt-4 inline-flex">Clear filters</a>
+          <a href={url('/blog')} class="btn-secondary mt-4 inline-flex">Clear filters</a>
         </div>
       )}
 
@@ -101,13 +102,13 @@ const posts = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
       {totalPages > 1 && (
         <div class="flex items-center justify-center gap-2 mt-12">
           {page > 1 && (
-            <a href={`/blog?page=${page - 1}${tag ? `&tag=${tag}` : ''}${search ? `&q=${search}` : ''}`} class="btn-secondary">
+            <a href={url(`/blog?page=${page - 1}${tag ? `&tag=${tag}` : ''}${search ? `&q=${search}` : ''}`)} class="btn-secondary">
               Previous
             </a>
           )}
           <span class="text-sm text-zinc-500 px-4">Page {page} of {totalPages}</span>
           {page < totalPages && (
-            <a href={`/blog?page=${page + 1}${tag ? `&tag=${tag}` : ''}${search ? `&q=${search}` : ''}`} class="btn-secondary">
+            <a href={url(`/blog?page=${page + 1}${tag ? `&tag=${tag}` : ''}${search ? `&q=${search}` : ''}`)} class="btn-secondary">
               Next
             </a>
           )}

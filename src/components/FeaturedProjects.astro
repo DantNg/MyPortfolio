@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import ProjectCard from './ProjectCard.astro';
 import { t } from '../i18n';
+import { url } from '../utils/url';
 
 const allProjects = await getCollection('projects');
 const featured = allProjects
@@ -20,7 +21,7 @@ const featured = allProjects
           {t('projects.subheading')}
         </p>
       </div>
-      <a href="/projects" class="btn-secondary flex-shrink-0">
+      <a href={url('/projects')} class="btn-secondary flex-shrink-0">
         <span data-i18n="projects.viewAll">{t('projects.viewAll')}</span>
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>

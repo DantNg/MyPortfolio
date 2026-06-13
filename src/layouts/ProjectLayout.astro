@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import { formatDate } from '../utils/formatDate';
+import { url } from '../utils/url';
 
 interface Props {
   frontmatter: {
@@ -83,7 +84,7 @@ const statusColors: Record<string, string> = {
 
         <div class="flex flex-wrap gap-2 mt-6">
           {frontmatter.tags.map(tag => (
-            <a href={`/projects?tag=${tag}`} class="tag">
+            <a href={url(`/projects?tag=${tag}`)} class="tag">
               {tag}
             </a>
           ))}
@@ -106,7 +107,7 @@ const statusColors: Record<string, string> = {
       </div>
 
       <div class="mt-16 pt-8 border-t border-zinc-800">
-        <a href="/projects" class="btn-secondary inline-flex">
+        <a href={url('/projects')} class="btn-secondary inline-flex">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>

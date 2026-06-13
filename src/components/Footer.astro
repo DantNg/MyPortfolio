@@ -1,6 +1,7 @@
 ---
 import { SITE, SOCIALS } from '../config';
 import { t } from '../i18n';
+import { url } from '../utils/url';
 
 const year = new Date().getFullYear();
 
@@ -38,7 +39,7 @@ const socialLinks = [
         <ul class="space-y-2">
           {navItems.map(([key, href]) => (
             <li>
-              <a href={href} data-i18n={key} class="text-sm text-zinc-400 hover:text-white transition-colors">{t(key)}</a>
+              <a href={url(href)} data-i18n={key} class="text-sm text-zinc-400 hover:text-white transition-colors">{t(key)}</a>
             </li>
           ))}
         </ul>

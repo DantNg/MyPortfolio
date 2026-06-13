@@ -1,6 +1,7 @@
 ---
 import { SITE, SOCIALS } from '../config';
 import { t } from '../i18n';
+import { url } from '../utils/url';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 
 const navLinks = [
@@ -19,7 +20,7 @@ const pathname = Astro.url.pathname;
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <nav class="flex items-center justify-between h-16">
       <!-- Logo -->
-      <a href="/" class="group flex items-center gap-2 font-semibold text-white">
+      <a href={url('/')} class="group flex items-center gap-2 font-semibold text-white">
         <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center text-sm font-bold group-hover:bg-brand-500 transition-colors">
           {SITE.initials}
         </div>
@@ -29,11 +30,12 @@ const pathname = Astro.url.pathname;
       <!-- Desktop Nav -->
       <ul class="hidden md:flex items-center gap-1">
         {navLinks.map(link => {
-          const isActive = pathname === link.href || pathname.startsWith(link.href + '/');
+          const linkUrl = url(link.href);
+          const isActive = pathname === linkUrl || pathname.startsWith(linkUrl + '/');
           return (
             <li>
               <a
-                href={link.href}
+                href={linkUrl}
                 data-i18n={link.key}
                 class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${
                   isActive
@@ -89,10 +91,11 @@ const pathname = Astro.url.pathname;
   >
     <div class="max-w-7xl mx-auto px-4 py-3 space-y-1">
       {navLinks.map(link => {
-        const isActive = pathname === link.href || pathname.startsWith(link.href + '/');
+        const linkUrl = url(link.href);
+        const isActive = pathname === linkUrl || pathname.startsWith(linkUrl + '/');
         return (
           <a
-            href={link.href}
+            href={linkUrl}
             data-i18n={link.key}
             class={`block px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
               isActive
