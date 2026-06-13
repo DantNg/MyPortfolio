@@ -134,7 +134,7 @@ const meshData = JSON.stringify(projects);
         canvas.width = W * dpr; canvas.height = H * dpr;
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-        const keep = nodes.length === PROJECTS.length + 1;
+        const keep = nodes.length === PROJECTS.length + 2;
         if (!keep) {
           nodes = [];
           // gateway (hub = portfolio) ở giữa
@@ -152,6 +152,8 @@ const meshData = JSON.stringify(projects);
               proj: p, rssi: Math.round(rand(-104, -68)), phase: rand(0, 6.28),
             });
           });
+          // node "con trỏ" — bật khi chuột vào vùng mesh (luôn ở cuối mảng)
+          nodes.push({ x: W * 0.5, y: H * 0.5, vx: 0, vy: 0, type: 'cursor', id: 'YOU', proj: null, rssi: -50, phase: 0, active: false });
         } else {
           // chỉ scale lại vị trí khi resize
           nodes[0].x = W * 0.5; nodes[0].y = H * 0.5;
@@ -163,13 +165,17 @@ const meshData = JSON.stringify(projects);
       function rebuildEdges() {
         edges = [];
         const linkR = Math.min(W, H) * 0.55;
-        for (let i = 0; i < nodes.length; i++)
-          for (let j = i + 1; j < nodes.length; j++)
+        for (let i = 0; i < nodes.length; i++) {
+          if (nodes[i].active === false) continue;
+          for (let j = i + 1; j < nodes.length; j++) {
+            if (nodes[j].active === false) continue;
             if (dist(nodes[i], nodes[j]) < linkR) edges.push([i, j]);
+          }
+        }
       }
 
       function spawnPacket() {
-        const leaves = nodes.map((n, i) => i).filter(i => nodes[i].type !== 'gateway');
+        const leaves = nodes.map((n, i) => i).filter(i => nodes[i].type !== 'gateway' && nodes[i].type !== 'cursor' && nodes[i].active !== false);
         if (!leaves.length) return;
         const start = leaves[(Math.random() * leaves.length) | 0];
         const neighbors = edges.filter(e => e[0] === start || e[1] === start).map(e => e[0] === start ? e[1] : e[0]);
@@ -186,7 +192,7 @@ const meshData = JSON.stringify(projects);
         const gw = nodes[0];
 
         for (const n of nodes) {
-          if (n.type === 'gateway') continue;
+          if (n.type === 'gateway' || n.type === 'cursor') continue;
           n.x += n.vx; n.y += n.vy; n.phase += 0.018;
           // giữ trong khung, nảy mềm
           if (n.x < 30 || n.x > W - 30) n.vx *= -1;
@@ -217,7 +223,7 @@ const meshData = JSON.stringify(projects);
         for (const p of packets) {
           p.t += p.speed * (dt / 16);
           const a = nodes[p.from], b = nodes[p.to];
-          if (!a || !b) { p.t = 2; continue; }
+          if (!a || !b || a.active === false || b.active === false) { p.t = 2; continue; }
           const x = a.x + (b.x - a.x) * p.t, y = a.y + (b.y - a.y) * p.t;
           ctx.fillStyle = '#fff'; ctx.shadowColor = '#22d3ee'; ctx.shadowBlur = 10;
           ctx.beginPath(); ctx.arc(x, y, 2.5, 0, Math.PI * 2); ctx.fill(); ctx.shadowBlur = 0;
@@ -238,6 +244,22 @@ const meshData = JSON.stringify(projects);
         // nodes
         for (let i = 0; i < nodes.length; i++) {
           const n = nodes[i];
+          if (n.active === false) continue;
+          if (n.type === 'cursor') {
+            // node con trỏ — vòng tròn nhịp + nhãn YOU + đếm số liên kết
+            const linkCount = edges.filter(e => e[0] === i || e[1] === i).length;
+            ctx.strokeStyle = 'rgba(167,139,250,0.9)'; ctx.fillStyle = '#a78bfa';
+            ctx.shadowColor = '#a78bfa'; ctx.shadowBlur = 16;
+            ctx.beginPath(); ctx.arc(n.x, n.y, 7, 0, Math.PI * 2); ctx.fill();
+            ctx.shadowBlur = 0; ctx.lineWidth = 1.5;
+            const rr = 11 + ((now / 24) % 14);
+            ctx.globalAlpha = Math.max(0, 1 - ((now / 24) % 14) / 14);
+            ctx.beginPath(); ctx.arc(n.x, n.y, rr, 0, Math.PI * 2); ctx.stroke();
+            ctx.globalAlpha = 1;
+            ctx.fillStyle = 'rgba(196,181,253,0.95)'; ctx.font = '700 10px monospace'; ctx.textAlign = 'center';
+            ctx.fillText(`YOU · ${linkCount} links`, n.x, n.y - 16);
+            continue;
+          }
           const c = n.type === 'gateway' ? '#fbbf24' : n.type === 'drone' ? '#34d399' : '#22d3ee';
           const pulse = n.type !== 'gateway' ? (0.6 + 0.4 * Math.sin(n.phase)) : 1;
           ctx.fillStyle = c; ctx.shadowColor = c; ctx.shadowBlur = (hover === i ? 18 : 8) * pulse;
@@ -335,14 +357,62 @@ const meshData = JSON.stringify(projects);
         if (!running) { running = true; frame(performance.now()); running = false; } // repaint khi pause
       }
 
+      const cursorNode = () => nodes[nodes.length - 1];
+
+      // Card hiển thị khi con trỏ đang là một node mesh (chưa chạm project nào)
+      function showRoutingCard(cn) {
+        const links = edges.filter(e => {
+          const ci = nodes.length - 1; return e[0] === ci || e[1] === ci;
+        }).length;
+        const gw = nodes[0];
+        const near = links > 0;
+        cardEmpty?.classList.add('hidden');
+        cardLink?.classList.remove('hidden'); cardLink.classList.add('flex');
+        cardLink.removeAttribute('href'); cardLink.style.cursor = 'default';
+        cardId.textContent = 'YOU · live mesh node';
+        cardTitle.textContent = near ? `Connected · ${links} link${links > 1 ? 's' : ''}` : 'Out of range';
+        cardDesc.textContent = near
+          ? 'You are now a node in the mesh. Move closer to others to form links; move away and the network re-routes packets around you automatically — that is self-healing.'
+          : 'No neighbor within radio range. Move toward the cluster to rejoin the mesh and watch routes reform.';
+        cardRssi.textContent = `RSSI ${cn.rssi} dBm`;
+        cardTags.innerHTML = '';
+        ['SF7', '868 MHz', near ? 'ROUTING' : 'SEARCHING'].forEach((tg) => {
+          const s = document.createElement('span'); s.className = 'tag'; s.textContent = tg; cardTags.appendChild(s);
+        });
+      }
+
+      canvas.addEventListener('mouseenter', () => { cursorNode().active = true; });
       canvas.addEventListener('mousemove', (e) => {
         const r = canvas.getBoundingClientRect();
         const mx = e.clientX - r.left, my = e.clientY - r.top;
+        const cn = cursorNode();
+        cn.active = true; cn.x = mx; cn.y = my;
+        // RSSI mô phỏng theo khoảng cách tới gateway (gần = mạnh)
+        const dGW = Math.hypot(mx - nodes[0].x, my - nodes[0].y);
+        cn.rssi = Math.round(-40 - (dGW / Math.max(W, H)) * 75);
+
+        // tìm project-node gần nhất (bỏ qua chính node con trỏ)
         let found = -1;
-        for (let i = 0; i < nodes.length; i++) if (Math.hypot(nodes[i].x - mx, nodes[i].y - my) < 15) { found = i; break; }
-        setHover(found, mx, my);
+        for (let i = 0; i < nodes.length - 1; i++)
+          if (nodes[i].proj && Math.hypot(nodes[i].x - mx, nodes[i].y - my) < 16) { found = i; break; }
+
+        if (found >= 0) {
+          // chạm 1 dự án → tạm ẩn node con trỏ, inspect dự án
+          cn.active = false;
+          setHover(found, mx, my);
+        } else {
+          // con trỏ là node mesh → hiện card định tuyến
+          hover = -1;
+          if (tip) tip.classList.add('hidden');
+          canvas.style.cursor = 'crosshair';
+          if (!running) { running = true; frame(performance.now()); running = false; }
+          showRoutingCard(cn);
+        }
       });
-      canvas.addEventListener('mouseleave', () => { setHover(-1, 0, 0); });
+      canvas.addEventListener('mouseleave', () => {
+        cursorNode().active = false;
+        setHover(-1, 0, 0);
+      });
       canvas.addEventListener('click', () => {
         if (hover >= 0 && nodes[hover]?.proj) window.location.href = nodes[hover].proj.href;
       });

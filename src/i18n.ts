@@ -59,7 +59,7 @@ export const ui: Record<Lang, Dict> = {
     'mesh.legend.node': 'Wired Project',
     'mesh.legend.drone': 'Wireless Project',
     'mesh.legend.packet': 'Data Packet',
-    'mesh.hint': 'Hover a node to inspect a project',
+    'mesh.hint': 'Move your cursor in — you become a live node & the mesh re-routes',
 
     // ---- Featured Projects ----
     'projects.eyebrow': 'Work',
@@ -183,7 +183,7 @@ export const ui: Record<Lang, Dict> = {
     'mesh.legend.node': 'Dự án có dây',
     'mesh.legend.drone': 'Dự án không dây',
     'mesh.legend.packet': 'Gói dữ liệu',
-    'mesh.hint': 'Di chuột vào node để xem dự án',
+    'mesh.hint': 'Đưa con trỏ vào — bạn thành một node, mạng tự định tuyến lại',
 
     // ---- Featured Projects ----
     'projects.eyebrow': 'Công việc',
