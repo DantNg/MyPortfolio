@@ -1,0 +1,28 @@
+---
+/** Nút gạt EN / VI. Logic xử lý nằm trong LanguageProvider. */
+---
+<div
+  class="inline-flex items-center rounded-lg border border-zinc-700 bg-zinc-900/60 p-0.5 text-xs font-medium"
+  role="group"
+  aria-label="Language switcher"
+>
+  <button
+    type="button"
+    data-lang-btn="en"
+    aria-pressed="true"
+    class="lang-opt px-2 py-1 rounded-md text-zinc-400 transition-colors"
+  >EN</button>
+  <button
+    type="button"
+    data-lang-btn="vi"
+    aria-pressed="false"
+    class="lang-opt px-2 py-1 rounded-md text-zinc-400 transition-colors"
+  >VI</button>
+</div>
+
+<style is:global>
+  .lang-opt.lang-active {
+    background-color: #2563eb;
+    color: #fff;
+  }
+</style>

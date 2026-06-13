@@ -1,0 +1,70 @@
+---
+/**
+ * Bơm từ điển i18n xuống client + script đổi ngôn ngữ tức thì.
+ * Đặt 1 lần trong BaseLayout. Không tải lại trang khi chuyển.
+ */
+import { ui, defaultLang } from '../i18n';
+---
+
+<!-- Đặt sẵn ngôn ngữ trước khi vẽ để tránh nhấp nháy (FOUC) -->
+<script is:inline define:vars={{ defaultLang }}>
+  (function () {
+    try {
+      const saved = localStorage.getItem('lang');
+      if (saved && saved !== defaultLang) {
+        document.documentElement.lang = saved;
+      }
+    } catch (e) {}
+  })();
+</script>
+
+<script is:inline define:vars={{ ui, defaultLang }}>
+  (function () {
+    function applyLang(lang) {
+      const dict = ui[lang] || ui[defaultLang];
+      document.documentElement.lang = lang;
+
+      // Nội dung text/HTML
+      document.querySelectorAll('[data-i18n]').forEach(function (el) {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key] != null) el.innerHTML = dict[key];
+      });
+      // Placeholder của input/textarea
+      document.querySelectorAll('[data-i18n-ph]').forEach(function (el) {
+        const key = el.getAttribute('data-i18n-ph');
+        if (dict[key] != null) el.setAttribute('placeholder', dict[key]);
+      });
+      // Nhãn aria
+      document.querySelectorAll('[data-i18n-aria]').forEach(function (el) {
+        const key = el.getAttribute('data-i18n-aria');
+        if (dict[key] != null) el.setAttribute('aria-label', dict[key]);
+      });
+
+      // Cập nhật trạng thái các nút chuyển ngôn ngữ
+      document.querySelectorAll('[data-lang-btn]').forEach(function (btn) {
+        const active = btn.getAttribute('data-lang-btn') === lang;
+        btn.classList.toggle('lang-active', active);
+        btn.setAttribute('aria-pressed', String(active));
+      });
+
+      try { localStorage.setItem('lang', lang); } catch (e) {}
+    }
+
+    function getLang() {
+      try { return localStorage.getItem('lang') || defaultLang; } catch (e) { return defaultLang; }
+    }
+
+    // Áp dụng ngay khi tải
+    applyLang(getLang());
+
+    // Bắt sự kiện bấm nút (dùng delegation để hoạt động cả khi DOM thay đổi)
+    document.addEventListener('click', function (e) {
+      const btn = e.target.closest('[data-lang-btn]');
+      if (!btn) return;
+      applyLang(btn.getAttribute('data-lang-btn'));
+    });
+
+    // Cho phép gọi lại từ nơi khác nếu cần
+    window.__applyLang = applyLang;
+  })();
+</script>

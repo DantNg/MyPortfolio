@@ -1,0 +1,136 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE, SOCIALS } from '../config';
+import { t } from '../i18n';
+
+const philosophy = [
+  { tKey: 'about.phil.1.t', dKey: 'about.phil.1.d' },
+  { tKey: 'about.phil.2.t', dKey: 'about.phil.2.d' },
+  { tKey: 'about.phil.3.t', dKey: 'about.phil.3.d' },
+  { tKey: 'about.phil.4.t', dKey: 'about.phil.4.d' },
+];
+
+const tools = [
+  { label: 'Languages', items: ['C', 'C++', 'Python', 'Bash'] },
+  { label: 'RTOSes', items: ['FreeRTOS', 'Zephyr', 'ThreadX'] },
+  { label: 'Platforms', items: ['STM32', 'ESP32', 'Nordic nRF52/nRF91', 'Raspberry Pi', 'Linux (Yocto/Buildroot)'] },
+  { label: 'Protocols', items: ['BLE', 'BLE Mesh', 'LoRaWAN', 'MQTT', 'CAN', 'SPI', 'I2C', 'UART', 'USB'] },
+  { label: 'Tools', items: ['VS Code + clangd', 'GDB + OpenOCD', 'Segger J-Link', 'Logic analyzers', 'Oscilloscope', 'Docker'] },
+  { label: 'Drone Stack', items: ['PX4', 'ArduPilot', 'MAVLink', 'QGroundControl'] },
+];
+
+const glance = [
+  { key: 'about.glance.experience', valueKey: 'about.glance.experienceValue' },
+  { key: 'about.glance.projects', value: '20+' },
+  { key: 'about.glance.platforms', value: '10+' },
+  { key: 'about.glance.languages', value: 'C, C++, Python' },
+  { key: 'about.glance.location', value: SITE.location },
+  { key: 'about.glance.status', valueKey: 'about.glance.statusValue', highlight: true },
+];
+---
+
+<BaseLayout
+  title="About"
+  description="Learn more about my background, philosophy, and the embedded systems journey that brought me here."
+>
+  <div class="py-24 md:py-32">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- Header -->
+      <div class="max-w-3xl mb-16" data-animate>
+        <p class="text-brand-400 font-mono text-sm mb-3 tracking-widest uppercase" data-i18n="about.eyebrow">{t('about.eyebrow')}</p>
+        <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-white mb-6" data-i18n="about.heading">
+          {t('about.heading')}
+        </h1>
+        <p class="text-xl text-zinc-400 leading-relaxed" data-i18n="about.lead">
+          {t('about.lead')}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <!-- Main content -->
+        <div class="lg:col-span-2 space-y-10">
+          <section data-animate>
+            <h2 class="text-2xl font-bold text-white mb-4" data-i18n="about.story.title">{t('about.story.title')}</h2>
+            <div class="space-y-4 text-zinc-400 leading-relaxed">
+              <p data-i18n="about.story.p1">{t('about.story.p1')}</p>
+              <p data-i18n="about.story.p2">{t('about.story.p2')}</p>
+              <p data-i18n="about.story.p3">{t('about.story.p3')}</p>
+            </div>
+          </section>
+
+          <section data-animate>
+            <h2 class="text-2xl font-bold text-white mb-4" data-i18n="about.philosophy.title">{t('about.philosophy.title')}</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {philosophy.map(item => (
+                <div class="card">
+                  <h3 class="font-semibold text-white mb-2" data-i18n={item.tKey}>{t(item.tKey)}</h3>
+                  <p class="text-sm text-zinc-400 leading-relaxed" data-i18n={item.dKey}>{t(item.dKey)}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section data-animate>
+            <h2 class="text-2xl font-bold text-white mb-4" data-i18n="about.tools.title">{t('about.tools.title')}</h2>
+            <div class="space-y-3">
+              {tools.map(group => (
+                <div class="flex flex-wrap items-start gap-3 py-3 border-b border-zinc-800/60 last:border-0">
+                  <span class="text-sm font-medium text-zinc-300 w-24 flex-shrink-0">{group.label}</span>
+                  <div class="flex flex-wrap gap-1.5">
+                    {group.items.map(item => <span class="tag">{item}</span>)}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="space-y-6">
+          <!-- Avatar / profile card -->
+          <div class="card text-center" data-animate>
+            <div class="w-24 h-24 rounded-2xl bg-gradient-to-br from-brand-600 to-brand-800 mx-auto mb-4 flex items-center justify-center text-3xl font-bold text-white">
+              {SITE.initials}
+            </div>
+            <h2 class="font-semibold text-white text-lg">{SITE.name}</h2>
+            <p class="text-sm text-brand-400 mb-4">{SITE.title}</p>
+            <p class="text-xs text-zinc-500 mb-4">📍 {SITE.location}</p>
+            <div class="flex items-center justify-center gap-3">
+              <a href={SOCIALS.github} target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-700 transition-colors" aria-label="GitHub">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              </a>
+              <a href={SOCIALS.facebook} target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-700 transition-colors" aria-label="Facebook">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              </a>
+              <a href={`mailto:${SITE.email}`} class="w-9 h-9 rounded-lg bg-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-700 transition-colors" aria-label="Email">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Quick stats -->
+          <div class="card" data-animate>
+            <h3 class="text-sm font-semibold text-zinc-300 mb-4" data-i18n="about.glance.title">{t('about.glance.title')}</h3>
+            <div class="space-y-3">
+              {glance.map(item => (
+                <div class="flex justify-between items-center text-sm border-b border-zinc-800/50 last:border-0 pb-3 last:pb-0">
+                  <span class="text-zinc-500" data-i18n={item.key}>{t(item.key)}</span>
+                  <span class={item.highlight ? 'text-emerald-400 font-medium' : 'text-zinc-300'} data-i18n={item.valueKey}>{item.valueKey ? t(item.valueKey) : item.value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Download CV -->
+          <a href="/resume.pdf" download class="btn-primary w-full justify-center" data-animate>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            <span data-i18n="about.downloadCv">{t('about.downloadCv')}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

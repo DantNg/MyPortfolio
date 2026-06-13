@@ -1,0 +1,106 @@
+---
+import { t } from '../i18n';
+
+const skillCategories = [
+  {
+    nameKey: 'skills.cat.embedded',
+    name: 'Embedded Systems',
+    icon: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>`,
+    color: 'brand',
+    skills: ['STM32', 'ESP32', 'Nordic nRF', 'FreeRTOS', 'Zephyr'],
+  },
+  {
+    name: 'Connectivity',
+    icon: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/></svg>`,
+    color: 'cyan',
+    nameKey: 'skills.cat.connectivity',
+    skills: ['BLE', 'BLE Mesh', 'LoRaWAN', 'WiFi', 'MQTT'],
+  },
+  {
+    name: 'Linux & Software',
+    nameKey: 'skills.cat.linux',
+    icon: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>`,
+    color: 'emerald',
+    skills: ['Linux', 'C', 'C++', 'Python', 'Docker'],
+  },
+  {
+    name: 'Drone & Robotics',
+    nameKey: 'skills.cat.drone',
+    icon: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>`,
+    color: 'violet',
+    skills: ['MAVLink', 'PX4', 'ArduPilot', 'Sensor Fusion'],
+  },
+];
+
+const colorMap: Record<string, { bg: string; border: string; text: string; iconBg: string }> = {
+  brand: { bg: 'bg-brand-950/60', border: 'border-brand-900/60', text: 'text-brand-300', iconBg: 'bg-brand-600/20 text-brand-400 border-brand-800' },
+  cyan: { bg: 'bg-cyan-950/40', border: 'border-cyan-900/40', text: 'text-cyan-300', iconBg: 'bg-cyan-600/20 text-cyan-400 border-cyan-800' },
+  emerald: { bg: 'bg-emerald-950/40', border: 'border-emerald-900/40', text: 'text-emerald-300', iconBg: 'bg-emerald-600/20 text-emerald-400 border-emerald-800' },
+  violet: { bg: 'bg-violet-950/40', border: 'border-violet-900/40', text: 'text-violet-300', iconBg: 'bg-violet-600/20 text-violet-400 border-violet-800' },
+};
+---
+
+<section id="skills" class="py-24 md:py-32">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16" data-animate>
+      <p class="text-brand-400 font-mono text-sm mb-3 tracking-widest uppercase" data-i18n="skills.eyebrow">{t('skills.eyebrow')}</p>
+      <h2 class="section-heading" data-i18n="skills.heading">{t('skills.heading')}</h2>
+      <p class="section-subheading max-w-2xl mx-auto" data-i18n="skills.subheading">
+        {t('skills.subheading')}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {skillCategories.map((category, i) => {
+        const colors = colorMap[category.color];
+        return (
+          <div
+            class={`relative rounded-2xl border p-6 ${colors.bg} ${colors.border} transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group`}
+            data-animate
+            style={`animation-delay: ${i * 100}ms`}
+          >
+            <!-- Icon -->
+            <div class={`inline-flex items-center justify-center w-10 h-10 rounded-xl border ${colors.iconBg} mb-4`} set:html={category.icon} />
+
+            <h3 class="font-semibold text-white mb-4" data-i18n={category.nameKey}>{t(category.nameKey)}</h3>
+
+            <ul class="space-y-2">
+              {category.skills.map(skill => (
+                <li class="flex items-center gap-2.5">
+                  <span class={`w-1.5 h-1.5 rounded-full ${colors.text.replace('text', 'bg')}`}></span>
+                  <span class="text-sm text-zinc-300">{skill}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+      })}
+    </div>
+
+    <!-- Tool proficiency bar section -->
+    <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8" data-animate>
+      {[
+        { name: 'C / C++', level: 95 },
+        { name: 'FreeRTOS / Zephyr', level: 90 },
+        { name: 'BLE & BLE Mesh', level: 85 },
+        { name: 'STM32 / HAL / LL', level: 92 },
+        { name: 'Python', level: 75 },
+        { name: 'PX4 / MAVLink', level: 80 },
+      ].map(item => (
+        <div>
+          <div class="flex justify-between items-center mb-1.5">
+            <span class="text-sm font-medium text-zinc-300">{item.name}</span>
+            <span class="text-xs text-zinc-500 font-mono">{item.level}%</span>
+          </div>
+          <div class="h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+            <div
+              class="h-full bg-gradient-to-r from-brand-600 to-brand-400 rounded-full transition-all duration-1000"
+              style={`width: ${item.level}%`}
+              data-width={item.level}
+            ></div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,48 @@
+---
+import { getCollection } from 'astro:content';
+import ProjectCard from './ProjectCard.astro';
+import { t } from '../i18n';
+
+const allProjects = await getCollection('projects');
+const featured = allProjects
+  .filter(p => p.data.featured)
+  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
+  .slice(0, 3);
+---
+
+<section id="projects" class="py-24 md:py-32 bg-zinc-950/50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12" data-animate>
+      <div>
+        <p class="text-brand-400 font-mono text-sm mb-3 tracking-widest uppercase" data-i18n="projects.eyebrow">{t('projects.eyebrow')}</p>
+        <h2 class="section-heading" data-i18n="projects.heading">{t('projects.heading')}</h2>
+        <p class="section-subheading max-w-xl" data-i18n="projects.subheading">
+          {t('projects.subheading')}
+        </p>
+      </div>
+      <a href="/projects" class="btn-secondary flex-shrink-0">
+        <span data-i18n="projects.viewAll">{t('projects.viewAll')}</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {featured.map(project => (
+        <ProjectCard
+          title={project.data.title}
+          description={project.data.description}
+          date={project.data.date}
+          tags={project.data.tags}
+          slug={project.slug}
+          coverImage={project.data.coverImage}
+          status={project.data.status}
+          githubUrl={project.data.githubUrl}
+          demoUrl={project.data.demoUrl}
+          featured={project.data.featured}
+        />
+      ))}
+    </div>
+  </div>
+</section>

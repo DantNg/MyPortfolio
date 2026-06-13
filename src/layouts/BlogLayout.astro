@@ -1,0 +1,99 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { formatDate } from '../utils/formatDate';
+import { getReadingTime } from '../utils/readingTime';
+import TableOfContents from '../components/TableOfContents.astro';
+
+interface Props {
+  frontmatter: {
+    title: string;
+    description: string;
+    date: Date;
+    updatedDate?: Date;
+    tags: string[];
+    coverImage?: string;
+  };
+  headings: { depth: number; slug: string; text: string }[];
+  rawContent: string;
+}
+
+const { frontmatter, headings, rawContent } = Astro.props;
+const readingTime = getReadingTime(rawContent);
+const hasToc = headings.filter(h => h.depth <= 3).length > 2;
+---
+
+<BaseLayout
+  title={frontmatter.title}
+  description={frontmatter.description}
+  image={frontmatter.coverImage}
+  type="article"
+  publishedTime={frontmatter.date.toISOString()}
+  tags={frontmatter.tags}
+>
+  <article class="py-16 md:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Header -->
+      <header class="max-w-3xl mx-auto text-center mb-12">
+        <div class="flex items-center justify-center gap-3 text-sm text-zinc-500 mb-4">
+          <time datetime={frontmatter.date.toISOString()}>
+            {formatDate(frontmatter.date)}
+          </time>
+          <span>·</span>
+          <span>{readingTime}</span>
+        </div>
+
+        <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-white text-balance mb-6">
+          {frontmatter.title}
+        </h1>
+
+        <p class="text-xl text-zinc-400 leading-relaxed">
+          {frontmatter.description}
+        </p>
+
+        <div class="flex flex-wrap items-center justify-center gap-2 mt-6">
+          {frontmatter.tags.map(tag => (
+            <a href={`/blog?tag=${tag}`} class="tag hover:bg-brand-900 transition-colors">
+              #{tag}
+            </a>
+          ))}
+        </div>
+      </header>
+
+      {frontmatter.coverImage && (
+        <div class="max-w-4xl mx-auto mb-12 rounded-2xl overflow-hidden border border-zinc-800">
+          <img
+            src={frontmatter.coverImage}
+            alt={frontmatter.title}
+            class="w-full object-cover aspect-video"
+            loading="eager"
+          />
+        </div>
+      )}
+
+      <!-- Content with optional TOC -->
+      <div class={`${hasToc ? 'lg:grid lg:grid-cols-[1fr_280px] lg:gap-16' : 'max-w-3xl mx-auto'}`}>
+        <div class="prose prose-invert prose-zinc max-w-none prose-custom">
+          <slot />
+        </div>
+
+        {hasToc && (
+          <aside class="hidden lg:block">
+            <div class="sticky top-24">
+              <TableOfContents headings={headings} />
+            </div>
+          </aside>
+        )}
+      </div>
+
+      <!-- Footer nav -->
+      <div class="max-w-3xl mx-auto mt-16 pt-8 border-t border-zinc-800">
+        <a href="/blog" class="btn-secondary inline-flex">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          <span data-i18n="common.backArticles">Back to all articles</span>
+        </a>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

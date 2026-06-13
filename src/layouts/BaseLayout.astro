@@ -1,0 +1,111 @@
+---
+import '../styles/global.css';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import LanguageProvider from '../components/LanguageProvider.astro';
+import { SITE, SOCIALS, TWITTER_HANDLE } from '../config';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  publishedTime?: string;
+  tags?: string[];
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description = `${SITE.title} specializing in STM32, Nordic nRF, BLE Mesh, FreeRTOS, Zephyr, and drone systems.`,
+  image = '/og-default.png',
+  type = 'website',
+  publishedTime,
+  tags = [],
+  noindex = false,
+} = Astro.props;
+
+const siteUrl = import.meta.env.SITE ?? SITE.url;
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
+const ogImage = new URL(image, siteUrl).toString();
+const fullTitle = title === 'Home' ? `${SITE.name} — ${SITE.title}` : `${title} | ${SITE.name}`;
+---
+
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    {noindex && <meta name="robots" content="noindex,nofollow" />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:site_name" content={SITE.name} />
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    {tags.map(tag => <meta property="article:tag" content={tag} />)}
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content={TWITTER_HANDLE} />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: SITE.name,
+      url: siteUrl,
+      jobTitle: SITE.title,
+      sameAs: [SOCIALS.github, SOCIALS.facebook, SOCIALS.linkedin].filter(Boolean),
+    })} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <Navbar />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+    <LanguageProvider />
+
+    <script>
+      // Intersection Observer for scroll-triggered animations
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('animate-slide-up');
+              entry.target.classList.remove('opacity-0');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+      );
+
+      document.querySelectorAll('[data-animate]').forEach((el) => {
+        el.classList.add('opacity-0');
+        observer.observe(el);
+      });
+    </script>
+  </body>
+</html>

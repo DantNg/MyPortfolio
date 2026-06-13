@@ -1,0 +1,135 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', p => !p.data.draft);
+const sorted = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const allTags = [...new Set(allPosts.flatMap(p => p.data.tags))].sort();
+
+const ITEMS_PER_PAGE = 9;
+const page = parseInt(Astro.url.searchParams.get('page') ?? '1');
+const tag = Astro.url.searchParams.get('tag') ?? '';
+const search = Astro.url.searchParams.get('q') ?? '';
+
+const filtered = sorted.filter(p => {
+  const matchTag = !tag || p.data.tags.includes(tag);
+  const matchSearch = !search ||
+    p.data.title.toLowerCase().includes(search.toLowerCase()) ||
+    p.data.description.toLowerCase().includes(search.toLowerCase());
+  return matchTag && matchSearch;
+});
+
+const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+const posts = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
+---
+
+<BaseLayout title="Blog" description="Technical articles on embedded systems, RTOS, BLE, LoRaWAN, and firmware engineering.">
+  <div class="py-24 md:py-32">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Header -->
+      <div class="max-w-2xl mb-12" data-animate>
+        <p class="text-brand-400 font-mono text-sm mb-3 tracking-widest uppercase">Writing</p>
+        <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-white mb-4">Blog</h1>
+        <p class="text-xl text-zinc-400">
+          Deep dives into embedded systems, firmware patterns, and lessons from the field.
+        </p>
+      </div>
+
+      <!-- Search & Tags -->
+      <div class="flex flex-col sm:flex-row gap-4 mb-10" data-animate>
+        <div class="relative flex-1 max-w-md">
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0"/>
+          </svg>
+          <input
+            type="search"
+            id="search-input"
+            placeholder="Search articles..."
+            value={search}
+            class="input pl-10"
+          />
+        </div>
+        <div class="flex items-center gap-2 flex-wrap">
+          <a href="/blog" class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${!tag ? 'bg-brand-600 text-white' : 'bg-zinc-800 text-zinc-400 hover:text-white'}`}>
+            All
+          </a>
+          {allTags.map(t => (
+            <a
+              href={`/blog?tag=${t}${search ? `&q=${search}` : ''}`}
+              class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${tag === t ? 'bg-brand-600 text-white' : 'bg-zinc-800 text-zinc-400 hover:text-white'}`}
+            >
+              {t}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {(tag || search) && (
+        <p class="text-sm text-zinc-500 mb-6">
+          {filtered.length} article{filtered.length !== 1 ? 's' : ''}
+          {tag && <> tagged <span class="text-brand-400">#{tag}</span></>}
+          {search && <> matching <span class="text-zinc-300">"{search}"</span></>}
+        </p>
+      )}
+
+      <!-- Grid -->
+      {posts.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {posts.map(post => (
+            <BlogCard
+              title={post.data.title}
+              description={post.data.description}
+              date={post.data.date}
+              tags={post.data.tags}
+              slug={post.slug}
+              coverImage={post.data.coverImage}
+              body={post.body}
+              featured={post.data.featured}
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-20">
+          <p class="text-zinc-500 text-lg">No articles found.</p>
+          <a href="/blog" class="btn-secondary mt-4 inline-flex">Clear filters</a>
+        </div>
+      )}
+
+      <!-- Pagination -->
+      {totalPages > 1 && (
+        <div class="flex items-center justify-center gap-2 mt-12">
+          {page > 1 && (
+            <a href={`/blog?page=${page - 1}${tag ? `&tag=${tag}` : ''}${search ? `&q=${search}` : ''}`} class="btn-secondary">
+              Previous
+            </a>
+          )}
+          <span class="text-sm text-zinc-500 px-4">Page {page} of {totalPages}</span>
+          {page < totalPages && (
+            <a href={`/blog?page=${page + 1}${tag ? `&tag=${tag}` : ''}${search ? `&q=${search}` : ''}`} class="btn-secondary">
+              Next
+            </a>
+          )}
+        </div>
+      )}
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  const searchInput = document.getElementById('search-input') as HTMLInputElement;
+  let debounceTimer: ReturnType<typeof setTimeout>;
+
+  searchInput?.addEventListener('input', () => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      const q = searchInput.value.trim();
+      const url = new URL(window.location.href);
+      if (q) url.searchParams.set('q', q);
+      else url.searchParams.delete('q');
+      url.searchParams.delete('page');
+      window.location.href = url.toString();
+    }, 400);
+  });
+</script>

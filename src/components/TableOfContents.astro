@@ -1,0 +1,49 @@
+---
+interface Props {
+  headings: { depth: number; slug: string; text: string }[];
+}
+
+const { headings } = Astro.props;
+const filtered = headings.filter(h => h.depth <= 3);
+---
+
+<nav class="toc">
+  <p class="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-3">On this page</p>
+  <ul class="space-y-1">
+    {filtered.map(h => (
+      <li style={`padding-left: ${(h.depth - 2) * 12}px`}>
+        <a
+          href={`#${h.slug}`}
+          class="toc-link block text-sm text-zinc-500 hover:text-zinc-200 transition-colors py-0.5 border-l-2 border-transparent pl-3 hover:border-brand-500"
+          data-heading={h.slug}
+        >
+          {h.text}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<script>
+  const links = document.querySelectorAll<HTMLAnchorElement>('.toc-link');
+  const headingEls = Array.from(links).map(l => document.getElementById(l.dataset.heading!)).filter(Boolean) as HTMLElement[];
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          links.forEach(l => {
+            const active = l.dataset.heading === entry.target.id;
+            l.classList.toggle('text-brand-400', active);
+            l.classList.toggle('border-brand-500', active);
+            l.classList.toggle('text-zinc-500', !active);
+            l.classList.toggle('border-transparent', !active);
+          });
+        }
+      });
+    },
+    { rootMargin: '-80px 0px -70% 0px', threshold: 0 }
+  );
+
+  headingEls.forEach(el => observer.observe(el));
+</script>
