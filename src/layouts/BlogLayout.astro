@@ -63,7 +63,7 @@ const hasToc = headings.filter(h => h.depth <= 3).length > 2;
       {frontmatter.coverImage && (
         <div class="max-w-4xl mx-auto mb-12 rounded-2xl overflow-hidden border border-zinc-800">
           <img
-            src={frontmatter.coverImage}
+            src={url(frontmatter.coverImage)}
             alt={frontmatter.title}
             class="w-full object-cover aspect-video"
             loading="eager"

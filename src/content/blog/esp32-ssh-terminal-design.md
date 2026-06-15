@@ -8,9 +8,6 @@ draft: false
 featured: true
 ---
 
-![ESP32-S3 SSH Terminal Device](/images/esp32_ssh_terminal/20260615_204348.jpg)
-*The Guition JC8048W550 running the SSH terminal interface*
-
 ## Why SSH on a Microcontroller?
 
 SSH feels like a desktop tool — you open your laptop, spin up a terminal, and connect to a server. But embedded systems live everywhere: IoT gateways, edge computing nodes, industrial controllers, lab equipment. Giving those devices a **standalone terminal interface** eliminates the dependency on a PC for remote management. The Guition JC8048W550 — an ESP32-S3 with a 5" touchscreen — is just big enough to be practical and small enough to sit on a shelf.

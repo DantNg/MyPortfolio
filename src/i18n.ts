@@ -129,7 +129,7 @@ export const ui: Record<Lang, Dict> = {
     'about.glance.location': 'Location',
     'about.glance.status': 'Status',
     'about.glance.statusValue': 'Open to work',
-    'about.glance.experienceValue': '2+ years',
+    'about.glance.experienceValue': '3+ years',
     'about.downloadCv': 'Download Resume',
 
     // ---- Resume page ----

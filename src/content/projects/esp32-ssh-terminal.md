@@ -4,6 +4,7 @@ description: "A standalone SSH client for the Guition JC8048W550 5\" display boa
 date: 2026-06-15
 tags: ["ESP32", "SSH", "LVGL", "FreeRTOS", "Embedded UI", "Networking"]
 status: "completed"
+coverImage: "/images/esp32_ssh_terminal/20260615_204348.jpg"
 githubUrl: "https://github.com/DantNg/esp32-ssh-terminal"
 featured: true
 order: 1

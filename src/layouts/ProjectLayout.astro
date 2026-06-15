@@ -94,7 +94,7 @@ const statusColors: Record<string, string> = {
       {frontmatter.coverImage && (
         <div class="mb-12 rounded-2xl overflow-hidden border border-zinc-800">
           <img
-            src={frontmatter.coverImage}
+            src={url(frontmatter.coverImage)}
             alt={frontmatter.title}
             class="w-full object-cover aspect-video"
             loading="eager"
