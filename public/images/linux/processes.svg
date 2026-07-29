@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" width="760" height="400" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="400" fill="#ffffff"/>
+  <text x="380" y="32" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">Tiến trình — fork, exec và tín hiệu / Processes: fork, exec, signals</text>
+
+  <defs>
+    <marker id="pra" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#2563eb"/>
+    </marker>
+  </defs>
+
+  <!-- process tree -->
+  <rect x="34" y="56" width="330" height="176" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="199" y="80" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1d4ed8">Cây tiến trình / process tree</text>
+
+  <rect x="60" y="94" width="130" height="30" rx="7" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="125" y="114" text-anchor="middle" font-size="11" font-family="monospace" fill="#1d4ed8">systemd (PID 1)</text>
+
+  <rect x="100" y="136" width="130" height="30" rx="7" fill="#ffffff" stroke="#e4e4e7"/>
+  <text x="165" y="156" text-anchor="middle" font-size="11" font-family="monospace" fill="#27272a">sshd (812)</text>
+
+  <rect x="140" y="178" width="130" height="30" rx="7" fill="#ffffff" stroke="#e4e4e7"/>
+  <text x="205" y="198" text-anchor="middle" font-size="11" font-family="monospace" fill="#27272a">bash (2044)</text>
+
+  <path d="M90 124 L90 151 L98 151" fill="none" stroke="#a1a1aa" stroke-width="1.4"/>
+  <path d="M130 166 L130 193 L138 193" fill="none" stroke="#a1a1aa" stroke-width="1.4"/>
+  <text x="199" y="222" text-anchor="middle" font-size="10" fill="#71717a">giết cha thì con thành mồ côi, systemd nhận nuôi</text>
+
+  <!-- fork/exec -->
+  <rect x="396" y="56" width="330" height="176" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="561" y="80" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1d4ed8">Chạy một lệnh / running a command</text>
+
+  <rect x="418" y="96" width="110" height="34" rx="7" fill="#ffffff" stroke="#e4e4e7"/>
+  <text x="473" y="118" text-anchor="middle" font-size="11" font-family="monospace" fill="#27272a">bash</text>
+
+  <rect x="418" y="152" width="110" height="34" rx="7" fill="#dbeafe" stroke="#93c5fd"/>
+  <text x="473" y="174" text-anchor="middle" font-size="11" font-family="monospace" fill="#1d4ed8">bản sao / copy</text>
+
+  <rect x="576" y="152" width="130" height="34" rx="7" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="641" y="174" text-anchor="middle" font-size="11" font-family="monospace" fill="#15803d">./flash.sh</text>
+
+  <line x1="473" y1="130" x2="473" y2="148" stroke="#2563eb" stroke-width="2" marker-end="url(#pra)"/>
+  <text x="500" y="144" font-size="10.5" font-family="monospace" fill="#2563eb">fork()</text>
+  <line x1="528" y1="169" x2="572" y2="169" stroke="#2563eb" stroke-width="2" marker-end="url(#pra)"/>
+  <text x="550" y="160" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#2563eb">exec()</text>
+  <text x="561" y="212" text-anchor="middle" font-size="10" fill="#71717a">exit code quay về cha qua $?</text>
+
+  <!-- signals -->
+  <rect x="34" y="248" width="692" height="132" rx="10" fill="#eff6ff" stroke="#bfdbfe"/>
+  <text x="56" y="272" font-size="12.5" font-weight="700" fill="#1d4ed8">Tín hiệu / signals — cách nói chuyện với một tiến trình đang chạy</text>
+
+  <g font-family="monospace" font-size="11.5" fill="#27272a">
+    <text x="56" y="298">Ctrl+C</text>
+    <text x="56" y="320">Ctrl+Z</text>
+    <text x="56" y="342">Ctrl+D</text>
+    <text x="56" y="364">kill -9 PID</text>
+  </g>
+  <g font-family="monospace" font-size="11" fill="#2563eb">
+    <text x="170" y="298">SIGINT (2)</text>
+    <text x="170" y="320">SIGTSTP (20)</text>
+    <text x="170" y="342">EOF</text>
+    <text x="170" y="364">SIGKILL (9)</text>
+  </g>
+  <g font-family="Inter" font-size="11" fill="#52525b">
+    <text x="300" y="298">xin dừng lịch sự — chương trình có thể dọn dẹp</text>
+    <text x="300" y="320">tạm dừng; `fg` để tiếp tục, `bg` để chạy nền</text>
+    <text x="300" y="342">hết đầu vào — thoát shell, kết thúc `cat`</text>
+    <text x="300" y="364">búa tạ: kernel giết ngay, KHÔNG dọn dẹp gì</text>
+  </g>
+
+  <text x="56" y="382" font-size="9.5" fill="#71717a"></text>
+</svg>

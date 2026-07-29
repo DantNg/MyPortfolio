@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 350" width="760" height="350" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="350" fill="#ffffff"/>
+  <text x="380" y="30" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">Giải phẫu một script bash chạy được</text>
+
+  <rect x="34" y="52" width="440" height="278" rx="10" fill="#18181b"/>
+  <g font-family="monospace" font-size="11.5">
+    <text x="54" y="78" fill="#fbbf24">#!/usr/bin/env bash</text>
+    <text x="54" y="100" fill="#f87171">set -euo pipefail</text>
+    <text x="54" y="128" fill="#71717a"># lấy tham số, có giá trị mặc định</text>
+    <text x="54" y="148" fill="#e4e4e7">PORT=<tspan fill="#86efac">"${1:-/dev/ttyUSB0}"</tspan></text>
+    <text x="54" y="168" fill="#e4e4e7">LOG=<tspan fill="#86efac">"/var/log/flash.log"</tspan></text>
+    <text x="54" y="196" fill="#71717a"># kiểm tra điều kiện trước khi làm</text>
+    <text x="54" y="216" fill="#60a5fa">if<tspan fill="#e4e4e7"> [[ ! -e "$PORT" ]]; </tspan><tspan fill="#60a5fa">then</tspan></text>
+    <text x="70" y="236" fill="#e4e4e7">echo "khong thay $PORT" &gt;&amp;2</text>
+    <text x="70" y="256" fill="#e4e4e7">exit 1</text>
+    <text x="54" y="276" fill="#60a5fa">fi</text>
+    <text x="54" y="304" fill="#e4e4e7">esptool.py -p "$PORT" write_flash \</text>
+    <text x="70" y="322" fill="#e4e4e7">0x0 fw.bin | tee -a "$LOG"</text>
+  </g>
+
+  <!-- annotations -->
+  <g font-family="Inter" font-size="10.5">
+    <rect x="494" y="60" width="236" height="52" rx="8" fill="#eff6ff" stroke="#93c5fd"/>
+    <text x="510" y="80" font-size="11" font-weight="700" fill="#1d4ed8">shebang</text>
+    <text x="510" y="98" fill="#52525b">dòng đầu quyết định script chạy bằng gì</text>
+
+    <rect x="494" y="122" width="236" height="80" rx="8" fill="#fef2f2" stroke="#fecaca"/>
+    <text x="510" y="142" font-size="11" font-weight="700" fill="#b91c1c">set -euo pipefail</text>
+    <text x="510" y="160" fill="#52525b">-e dừng khi có lệnh lỗi</text>
+    <text x="510" y="176" fill="#52525b">-u lỗi khi dùng biến chưa đặt</text>
+    <text x="510" y="192" fill="#52525b">pipefail bắt lỗi giữa pipeline</text>
+
+    <rect x="494" y="212" width="236" height="56" rx="8" fill="#f0fdf4" stroke="#86efac"/>
+    <text x="510" y="232" font-size="11" font-weight="700" fill="#15803d">"$PORT" — luôn có nháy kép</text>
+    <text x="510" y="250" fill="#52525b">không có nháy, đường dẫn có dấu cách</text>
+    <text x="510" y="264" fill="#52525b">sẽ vỡ thành nhiều tham số</text>
+
+    <rect x="494" y="278" width="236" height="52" rx="8" fill="#fefce8" stroke="#fde047"/>
+    <text x="510" y="298" font-size="11" font-weight="700" fill="#a16207">&gt;&amp;2 và exit 1</text>
+    <text x="510" y="316" fill="#52525b">lỗi ra stderr, mã thoát khác 0 —</text>
+    <text x="510" y="330" fill="#52525b">để lệnh gọi nó biết mà dừng</text>
+  </g>
+</svg>

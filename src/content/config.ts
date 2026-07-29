@@ -31,11 +31,15 @@ const blog = defineCollection({
 });
 
 /**
- * Series học LVGL — mỗi bài có 2 file: `<slug>.en.md` và `<slug>.vi.md`.
- * Trang bài học render CẢ HAI, rồi LanguageProvider ẩn/hiện theo ngôn ngữ
- * đang chọn (data-lang-block) — chuyển ngữ tức thì, không tải lại trang.
+ * Các series học tập (nằm trong tab Blog).
+ * Cấu trúc thư mục: src/content/series/<series-id>/<lang>/<số>-<slug>.md
+ *   ví dụ: series/lvgl/vi/03-first-widgets.md
+ * Mỗi bài tồn tại ở CẢ HAI ngôn ngữ; trang bài học render cả hai rồi
+ * LanguageProvider ẩn/hiện theo ngôn ngữ đang chọn (data-lang-block)
+ * — chuyển ngữ tức thì, không tải lại trang.
+ * Metadata của từng series (tên, mô tả, màu) nằm ở src/series.ts.
  */
-const lvgl = defineCollection({
+const series = defineCollection({
   type: 'content',
   schema: z.object({
     lesson: z.number(),
@@ -48,4 +52,4 @@ const lvgl = defineCollection({
   }),
 });
 
-export const collections = { projects, blog, lvgl };
+export const collections = { projects, blog, series };

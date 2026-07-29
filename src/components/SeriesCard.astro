@@ -1,0 +1,72 @@
+---
+/** Thẻ giới thiệu một series. Dùng ở trang Blog và trang chủ. */
+import type { SeriesMeta } from '../series';
+import { getSeriesLessons } from '../utils/seriesData';
+import { t } from '../i18n';
+import { url } from '../utils/url';
+
+interface Props {
+  meta: SeriesMeta;
+}
+
+const { meta } = Astro.props;
+const lessons = await getSeriesLessons(meta.id);
+const firstSlug = lessons[0]?.slug;
+const seriesUrl = url(`/blog/series/${meta.id}`);
+---
+
+<a
+  href={seriesUrl}
+  class="group relative flex flex-col rounded-2xl border border-zinc-200 bg-white p-6 transition-all duration-300 hover:border-brand-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-zinc-900/5"
+>
+  <div class="flex items-start gap-4">
+    <span class="flex-shrink-0 inline-flex items-center justify-center w-11 h-11 rounded-xl bg-brand-50 border border-brand-200 text-brand-600 group-hover:bg-brand-600 group-hover:text-white group-hover:border-brand-600 transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d={meta.iconPath} />
+      </svg>
+    </span>
+
+    <div class="min-w-0 flex-1">
+      <div class="flex items-center gap-2 mb-1">
+        <span class="text-[11px] font-mono uppercase tracking-widest text-brand-600" data-i18n="series.label">{t('series.label')}</span>
+        <span class="text-[11px] font-mono text-zinc-400">·</span>
+        <span class="text-[11px] font-mono text-zinc-500">
+          {lessons.length} <span data-i18n="series.meta.lessons">{t('series.meta.lessons')}</span>
+        </span>
+      </div>
+
+      <h3 class="font-semibold text-lg text-zinc-900 leading-snug group-hover:text-brand-700 transition-colors">
+        <span data-lang-block="en">{meta.title.en}</span>
+        <span data-lang-block="vi" hidden>{meta.title.vi}</span>
+      </h3>
+    </div>
+  </div>
+
+  <p class="text-sm text-zinc-600 leading-relaxed mt-4 flex-1">
+    <span data-lang-block="en">{meta.tagline.en}</span>
+    <span data-lang-block="vi" hidden>{meta.tagline.vi}</span>
+  </p>
+
+  <!-- các bài đầu tiên, xem trước -->
+  <ul class="mt-4 space-y-1.5 text-sm text-zinc-500">
+    {lessons.slice(0, 3).map((l) => (
+      <li class="flex gap-2 min-w-0">
+        <span class="font-mono text-xs text-zinc-400 pt-0.5">{String(l.lesson).padStart(2, '0')}</span>
+        <span class="truncate">
+          <span data-lang-block="en">{l.en?.data.title}</span>
+          <span data-lang-block="vi" hidden>{l.vi?.data.title}</span>
+        </span>
+      </li>
+    ))}
+    {lessons.length > 3 && (
+      <li class="text-xs text-zinc-400 pl-7">+ {lessons.length - 3}</li>
+    )}
+  </ul>
+
+  <span class="inline-flex items-center gap-1.5 text-sm font-medium text-brand-600 mt-5 group-hover:gap-2.5 transition-all">
+    <span data-i18n="series.cta.open">{t('series.cta.open')}</span>
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+    </svg>
+  </span>
+</a>

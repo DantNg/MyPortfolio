@@ -1,0 +1,38 @@
+---
+/** Khối "Series học tập" trên trang chủ — trỏ vào các series trong tab Blog. */
+import SeriesCard from './SeriesCard.astro';
+import { SERIES } from '../series';
+import { t } from '../i18n';
+import { url } from '../utils/url';
+
+const seriesList = [...SERIES].sort((a, b) => a.order - b.order);
+---
+
+{seriesList.length > 0 && (
+  <section id="series" class="py-20 md:py-24 relative overflow-hidden">
+    <div class="absolute inset-0 bg-pcb opacity-25 pointer-events-none" aria-hidden="true"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12" data-animate>
+        <p class="inline-flex items-center gap-2 text-brand-600 font-mono text-sm mb-3 tracking-widest uppercase" data-i18n="series.eyebrow">
+          <span class="led text-emerald-500 animate-led-blink-fast"></span>{t('series.eyebrow')}
+        </p>
+        <h2 class="section-heading" data-i18n="series.sectionHeading">{t('series.sectionHeading')}</h2>
+        <p class="section-subheading max-w-2xl mx-auto" data-i18n="series.sectionSub">{t('series.sectionSub')}</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6" data-animate>
+        {seriesList.map(s => <SeriesCard meta={s} />)}
+      </div>
+
+      <div class="text-center mt-10" data-animate>
+        <a href={url('/blog#series')} class="btn-secondary inline-flex">
+          <span data-i18n="blog.viewAll">{t('blog.viewAll')}</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+)}

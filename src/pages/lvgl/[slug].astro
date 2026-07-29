@@ -1,151 +1,30 @@
 ---
 /**
- * Trang một bài học LVGL.
- * Render CẢ hai bản ngôn ngữ trong hai khối [data-lang-block]; khối không khớp
- * ngôn ngữ hiện tại bị ẩn bằng thuộc tính `hidden` (LanguageProvider xử lý).
- * Nhờ vậy chuyển ngữ là tức thì và không cần tải lại trang.
+ * Chuyển hướng: /lvgl/<slug> -> /blog/series/lvgl/<slug>
+ * Giữ cho các link đã publish trước khi dời series vào tab Blog vẫn hoạt động.
  */
-import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import TableOfContents from '../../components/TableOfContents.astro';
-import { t } from '../../i18n';
+import { getSeriesLessons } from '../../utils/seriesData';
 import { url } from '../../utils/url';
 
 export async function getStaticPaths() {
-  const all = await getCollection('lvgl', (e) => !e.data.draft);
-
-  const groups = new Map<string, { lesson: number; en?: any; vi?: any }>();
-  for (const entry of all) {
-    const slug = entry.slug.split('/').pop()!;
-    const g = groups.get(slug) ?? { lesson: entry.data.lesson };
-    g[entry.data.lang] = entry;
-    groups.set(slug, g);
-  }
-
-  const ordered = [...groups.entries()].sort((a, b) => a[1].lesson - b[1].lesson);
-
-  return ordered.map(([slug, g], i) => ({
-    params: { slug },
-    props: {
-      group: g,
-      prev: i > 0 ? { slug: ordered[i - 1][0], g: ordered[i - 1][1] } : null,
-      next: i < ordered.length - 1 ? { slug: ordered[i + 1][0], g: ordered[i + 1][1] } : null,
-      total: ordered.length,
-    },
-  }));
+  const lessons = await getSeriesLessons('lvgl');
+  return lessons.map((l) => ({ params: { slug: l.slug } }));
 }
 
-const { group, prev, next, total } = Astro.props;
-
-const en = group.en;
-const vi = group.vi;
-
-const rendered = {
-  en: en ? await en.render() : null,
-  vi: vi ? await vi.render() : null,
-};
-
-const headings = (rendered.en?.headings ?? []).filter((h: any) => h.depth <= 3);
-const hasToc = headings.length > 2;
-
-const ContentEn = rendered.en?.Content;
-const ContentVi = rendered.vi?.Content;
+const { slug } = Astro.params;
+const target = url(`/blog/series/lvgl/${slug}`);
 ---
 
-<BaseLayout
-  title={en?.data.title ?? vi?.data.title}
-  description={en?.data.description ?? vi?.data.description}
-  type="article"
-  tags={en?.data.tags ?? []}
->
-  <article class="pt-28 pb-16 md:pt-32 md:pb-24">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- Header -->
-      <header class="max-w-3xl mx-auto mb-12">
-        <a href={url('/lvgl')} class="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-brand-600 transition-colors mb-6">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
-          <span data-i18n="lvgl.back">{t('lvgl.back')}</span>
-        </a>
-
-        <div class="flex items-center gap-3 text-sm text-zinc-500 mb-4 font-mono">
-          <span class="inline-flex items-center px-2.5 py-0.5 rounded-md bg-brand-50 border border-brand-200 text-brand-700 font-medium">
-            <span data-i18n="lvgl.lesson">{t('lvgl.lesson')}</span>&nbsp;{group.lesson}&nbsp;/&nbsp;{total}
-          </span>
-          <span>·</span>
-          <span data-lang-block="en">{en?.data.duration}</span>
-          <span data-lang-block="vi" hidden>{vi?.data.duration}</span>
-        </div>
-
-        <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-zinc-900 text-balance mb-4">
-          <span data-lang-block="en">{en?.data.title}</span>
-          <span data-lang-block="vi" hidden>{vi?.data.title}</span>
-        </h1>
-
-        <p class="text-lg text-zinc-600 leading-relaxed">
-          <span data-lang-block="en">{en?.data.description}</span>
-          <span data-lang-block="vi" hidden>{vi?.data.description}</span>
-        </p>
-
-        <div class="flex flex-wrap gap-2 mt-5">
-          {(en?.data.tags ?? []).map((tag: string) => <span class="tag">#{tag}</span>)}
-        </div>
-
-        <p class="mt-6 flex items-start gap-2 text-sm text-brand-800 bg-brand-50 border border-brand-200 rounded-lg px-4 py-3">
-          <svg class="w-4 h-4 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
-          </svg>
-          <span data-i18n="lvgl.langHint">{t('lvgl.langHint')}</span>
-        </p>
-      </header>
-
-      <!-- Body -->
-      <div class={hasToc ? 'lg:grid lg:grid-cols-[1fr_260px] lg:gap-14' : 'max-w-3xl mx-auto'}>
-        <div class="min-w-0">
-          {ContentEn && (
-            <div data-lang-block="en" class="prose prose-zinc max-w-none prose-custom">
-              <ContentEn />
-            </div>
-          )}
-          {ContentVi && (
-            <div data-lang-block="vi" hidden class="prose prose-zinc max-w-none prose-custom">
-              <ContentVi />
-            </div>
-          )}
-        </div>
-
-        {hasToc && (
-          <aside class="hidden lg:block">
-            <div class="sticky top-24">
-              <TableOfContents headings={headings} />
-            </div>
-          </aside>
-        )}
-      </div>
-
-      <!-- Prev / Next -->
-      <nav class="max-w-3xl mx-auto mt-16 pt-8 border-t border-zinc-200 grid sm:grid-cols-2 gap-4">
-        {prev ? (
-          <a href={url(`/lvgl/${prev.slug}`)} class="group rounded-xl border border-zinc-200 bg-white p-4 hover:border-brand-300 transition-colors">
-            <span class="block text-xs text-zinc-500 mb-1" data-i18n="lvgl.prev">{t('lvgl.prev')}</span>
-            <span class="block font-medium text-zinc-900 group-hover:text-brand-700 transition-colors text-sm">
-              <span data-lang-block="en">{prev.g.en?.data.title}</span>
-              <span data-lang-block="vi" hidden>{prev.g.vi?.data.title}</span>
-            </span>
-          </a>
-        ) : <span />}
-
-        {next && (
-          <a href={url(`/lvgl/${next.slug}`)} class="group rounded-xl border border-zinc-200 bg-white p-4 hover:border-brand-300 transition-colors sm:text-right">
-            <span class="block text-xs text-zinc-500 mb-1" data-i18n="lvgl.next">{t('lvgl.next')}</span>
-            <span class="block font-medium text-zinc-900 group-hover:text-brand-700 transition-colors text-sm">
-              <span data-lang-block="en">{next.g.en?.data.title}</span>
-              <span data-lang-block="vi" hidden>{next.g.vi?.data.title}</span>
-            </span>
-          </a>
-        )}
-      </nav>
-    </div>
-  </article>
-</BaseLayout>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Redirecting…</title>
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <link rel="canonical" href={target} />
+    <meta name="robots" content="noindex" />
+  </head>
+  <body>
+    <p>Redirecting to <a href={target}>{target}</a>…</p>
+    <script is:inline define:vars={{ target }}>window.location.replace(target);</script>
+  </body>
+</html>

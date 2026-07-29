@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" width="760" height="420" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="420" fill="#ffffff"/>
+  <text x="380" y="32" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">Linux — user space, kernel space và ranh giới syscall</text>
+
+  <!-- user space -->
+  <rect x="40" y="56" width="680" height="150" rx="12" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="62" y="80" font-size="13" font-weight="700" fill="#1d4ed8">USER SPACE — mọi thứ bạn gõ và chạy</text>
+
+  <rect x="62" y="94" width="150" height="44" rx="8" fill="#ffffff" stroke="#bfdbfe"/>
+  <text x="137" y="114" text-anchor="middle" font-size="12" font-weight="600" fill="#27272a">shell (bash)</text>
+  <text x="137" y="130" text-anchor="middle" font-size="10" fill="#71717a">ls, grep, ssh…</text>
+
+  <rect x="224" y="94" width="150" height="44" rx="8" fill="#ffffff" stroke="#bfdbfe"/>
+  <text x="299" y="114" text-anchor="middle" font-size="12" font-weight="600" fill="#27272a">ứng dụng / apps</text>
+  <text x="299" y="130" text-anchor="middle" font-size="10" fill="#71717a">python, gcc, app C</text>
+
+  <rect x="386" y="94" width="150" height="44" rx="8" fill="#ffffff" stroke="#bfdbfe"/>
+  <text x="461" y="114" text-anchor="middle" font-size="12" font-weight="600" fill="#27272a">systemd</text>
+  <text x="461" y="130" text-anchor="middle" font-size="10" fill="#71717a">PID 1 · services</text>
+
+  <rect x="548" y="94" width="150" height="44" rx="8" fill="#ffffff" stroke="#bfdbfe"/>
+  <text x="623" y="114" text-anchor="middle" font-size="12" font-weight="600" fill="#27272a">daemon</text>
+  <text x="623" y="130" text-anchor="middle" font-size="10" fill="#71717a">sshd, nginx…</text>
+
+  <rect x="62" y="150" width="636" height="42" rx="8" fill="#dbeafe" stroke="#93c5fd"/>
+  <text x="380" y="167" text-anchor="middle" font-size="12" font-weight="600" fill="#1e40af">glibc / musl — thư viện C</text>
+  <text x="380" y="184" text-anchor="middle" font-size="10.5" fill="#3f3f46">printf() → write() · malloc() → mmap()/brk()</text>
+
+  <!-- syscall boundary -->
+  <rect x="40" y="216" width="680" height="34" rx="8" fill="#fef3c7" stroke="#fcd34d"/>
+  <text x="380" y="238" text-anchor="middle" font-size="12.5" font-weight="700" fill="#a16207">SYSCALL — open · read · write · ioctl · mmap · fork · execve</text>
+
+  <!-- kernel -->
+  <rect x="40" y="262" width="680" height="112" rx="12" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="62" y="286" font-size="13" font-weight="700" fill="#18181b">KERNEL SPACE</text>
+
+  <rect x="62" y="298" width="150" height="60" rx="8" fill="#ffffff" stroke="#e4e4e7"/>
+  <text x="137" y="320" text-anchor="middle" font-size="11.5" font-weight="600" fill="#27272a">VFS</text>
+  <text x="137" y="336" text-anchor="middle" font-size="10" fill="#71717a">ext4, vfat,</text>
+  <text x="137" y="350" text-anchor="middle" font-size="10" fill="#71717a">proc, sysfs</text>
+
+  <rect x="224" y="298" width="150" height="60" rx="8" fill="#ffffff" stroke="#e4e4e7"/>
+  <text x="299" y="320" text-anchor="middle" font-size="11.5" font-weight="600" fill="#27272a">Scheduler</text>
+  <text x="299" y="336" text-anchor="middle" font-size="10" fill="#71717a">tiến trình, luồng</text>
+  <text x="299" y="350" text-anchor="middle" font-size="10" fill="#71717a">CFS, priorities</text>
+
+  <rect x="386" y="298" width="150" height="60" rx="8" fill="#ffffff" stroke="#e4e4e7"/>
+  <text x="461" y="320" text-anchor="middle" font-size="11.5" font-weight="600" fill="#27272a">Memory (MMU)</text>
+  <text x="461" y="336" text-anchor="middle" font-size="10" fill="#71717a">bộ nhớ ảo</text>
+  <text x="461" y="350" text-anchor="middle" font-size="10" fill="#71717a">virtual memory</text>
+
+  <rect x="548" y="298" width="150" height="60" rx="8" fill="#ffffff" stroke="#e4e4e7"/>
+  <text x="623" y="320" text-anchor="middle" font-size="11.5" font-weight="600" fill="#27272a">Drivers</text>
+  <text x="623" y="336" text-anchor="middle" font-size="10" fill="#71717a">gpio, i2c, spi,</text>
+  <text x="623" y="350" text-anchor="middle" font-size="10" fill="#71717a">net, usb</text>
+
+  <!-- hardware -->
+  <rect x="40" y="386" width="680" height="24" rx="6" fill="#27272a"/>
+  <text x="380" y="403" text-anchor="middle" font-size="11.5" font-weight="600" fill="#e4e4e7">HARDWARE — CPU · RAM · eMMC/SD · GPIO · Ethernet</text>
+
+  <defs>
+    <marker id="la" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#2563eb"/>
+    </marker>
+  </defs>
+  <line x1="380" y1="206" x2="380" y2="214" stroke="#2563eb" stroke-width="2" marker-end="url(#la)"/>
+  <line x1="380" y1="250" x2="380" y2="260" stroke="#2563eb" stroke-width="2" marker-end="url(#la)"/>
+  <line x1="380" y1="374" x2="380" y2="384" stroke="#2563eb" stroke-width="2" marker-end="url(#la)"/>
+</svg>

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" width="760" height="380" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="380" fill="#ffffff"/>
+  <text x="380" y="30" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">Nó hỏng ở đâu? — chọn công cụ theo tầng</text>
+
+  <!-- layers -->
+  <rect x="40" y="56" width="440" height="54" rx="9" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="60" y="80" font-size="12.5" font-weight="700" fill="#1d4ed8">Ứng dụng của bạn</text>
+  <text x="60" y="99" font-size="10.5" fill="#52525b">chương trình chạy sai, treo, ăn CPU</text>
+
+  <rect x="40" y="120" width="440" height="54" rx="9" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="60" y="144" font-size="12.5" font-weight="700" fill="#18181b">Ranh giới syscall</text>
+  <text x="60" y="163" font-size="10.5" fill="#52525b">mở file nào? nối tới IP nào? thiếu quyền ở đâu?</text>
+
+  <rect x="40" y="184" width="440" height="54" rx="9" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="60" y="208" font-size="12.5" font-weight="700" fill="#15803d">Kernel &amp; driver</text>
+  <text x="60" y="227" font-size="10.5" fill="#52525b">USB rớt, i2c không ack, thẻ SD lỗi đọc</text>
+
+  <rect x="40" y="248" width="440" height="54" rx="9" fill="#fefce8" stroke="#fde047"/>
+  <text x="60" y="272" font-size="12.5" font-weight="700" fill="#a16207">Tài nguyên hệ thống</text>
+  <text x="60" y="291" font-size="10.5" fill="#52525b">hết RAM, đầy đĩa, quá tải CPU</text>
+
+  <rect x="40" y="312" width="440" height="52" rx="9" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="60" y="336" font-size="12.5" font-weight="700" fill="#b91c1c">Mạng</text>
+  <text x="60" y="354" font-size="10.5" fill="#52525b">không ping được, cổng đóng, DNS sai</text>
+
+  <!-- tools -->
+  <rect x="500" y="56" width="220" height="308" rx="10" fill="#18181b"/>
+  <text x="610" y="80" text-anchor="middle" font-size="12" font-weight="700" fill="#fbbf24">Công cụ tương ứng</text>
+
+  <g font-family="monospace" font-size="10.5" fill="#e4e4e7">
+    <text x="518" y="106" fill="#60a5fa">gdb ./app</text>
+    <text x="518" y="122">journalctl -u app -f</text>
+
+    <text x="518" y="154" fill="#60a5fa">strace -f ./app</text>
+    <text x="518" y="170">ls -l /proc/PID/fd</text>
+
+    <text x="518" y="202" fill="#60a5fa">dmesg -w</text>
+    <text x="518" y="218">lsusb · i2cdetect -y 1</text>
+
+    <text x="518" y="250" fill="#60a5fa">htop · free -h</text>
+    <text x="518" y="266">df -h · du -sh *</text>
+
+    <text x="518" y="298" fill="#60a5fa">ip a · ping</text>
+    <text x="518" y="314">ss -tulpn</text>
+    <text x="518" y="330">curl -v http://...</text>
+  </g>
+
+  <line x1="482" y1="83" x2="498" y2="110" stroke="#2563eb" stroke-width="1.5"/>
+  <line x1="482" y1="147" x2="498" y2="158" stroke="#2563eb" stroke-width="1.5"/>
+  <line x1="482" y1="211" x2="498" y2="206" stroke="#2563eb" stroke-width="1.5"/>
+  <line x1="482" y1="275" x2="498" y2="254" stroke="#2563eb" stroke-width="1.5"/>
+  <line x1="482" y1="338" x2="498" y2="302" stroke="#2563eb" stroke-width="1.5"/>
+</svg>

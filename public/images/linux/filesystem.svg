@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 430" width="760" height="430" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="430" fill="#ffffff"/>
+  <text x="380" y="32" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">Một cây duy nhất — Filesystem Hierarchy</text>
+  <text x="380" y="52" text-anchor="middle" font-size="11.5" fill="#71717a">Không có ổ C:. Mọi thiết bị đều được "gắn" (mount) vào một thư mục trong cùng một cây.</text>
+
+  <rect x="40" y="70" width="120" height="32" rx="8" fill="#2563eb"/>
+  <text x="100" y="91" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" font-family="monospace">/</text>
+
+  <g font-family="monospace" font-size="12.5">
+    <rect x="120" y="116" width="110" height="28" rx="6" fill="#eff6ff" stroke="#93c5fd"/>
+    <text x="134" y="135" fill="#1d4ed8">/bin</text>
+    <text x="248" y="135" font-family="Inter" font-size="11.5" fill="#52525b">lệnh cơ bản: ls, cp, bash</text>
+
+    <rect x="120" y="150" width="110" height="28" rx="6" fill="#eff6ff" stroke="#93c5fd"/>
+    <text x="134" y="169" fill="#1d4ed8">/etc</text>
+    <text x="248" y="169" font-family="Inter" font-size="11.5" fill="#52525b">file cấu hình dạng text — nơi bạn sửa hệ thống</text>
+
+    <rect x="120" y="184" width="110" height="28" rx="6" fill="#eff6ff" stroke="#93c5fd"/>
+    <text x="134" y="203" fill="#1d4ed8">/home</text>
+    <text x="248" y="203" font-family="Inter" font-size="11.5" fill="#52525b">thư mục người dùng — /home/dat, viết tắt ~</text>
+
+    <rect x="120" y="218" width="110" height="28" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+    <text x="134" y="237" fill="#15803d">/dev</text>
+    <text x="248" y="237" font-family="Inter" font-size="11.5" fill="#52525b">thiết bị là file: ttyUSB0, i2c-1, mmcblk0</text>
+
+    <rect x="120" y="252" width="110" height="28" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+    <text x="134" y="271" fill="#15803d">/proc</text>
+    <text x="248" y="271" font-family="Inter" font-size="11.5" fill="#52525b">kernel &amp; tiến trình dưới dạng file (ảo)</text>
+
+    <rect x="120" y="286" width="110" height="28" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+    <text x="134" y="305" fill="#15803d">/sys</text>
+    <text x="248" y="305" font-family="Inter" font-size="11.5" fill="#52525b">driver &amp; phần cứng: gpio, pwm, thermal</text>
+
+    <rect x="120" y="320" width="110" height="28" rx="6" fill="#fefce8" stroke="#fde047"/>
+    <text x="134" y="339" fill="#a16207">/var</text>
+    <text x="248" y="339" font-family="Inter" font-size="11.5" fill="#52525b">dữ liệu thay đổi: /var/log — nơi tìm lỗi</text>
+
+    <rect x="120" y="354" width="110" height="28" rx="6" fill="#fefce8" stroke="#fde047"/>
+    <text x="134" y="373" fill="#a16207">/tmp</text>
+    <text x="248" y="373" font-family="Inter" font-size="11.5" fill="#52525b">tạm, thường mất sau khi khởi động lại</text>
+
+    <rect x="120" y="388" width="110" height="28" rx="6" fill="#fafafa" stroke="#d4d4d8"/>
+    <text x="134" y="407" fill="#3f3f46">/mnt /media</text>
+    <text x="248" y="407" font-family="Inter" font-size="11.5" fill="#52525b">nơi gắn USB, thẻ SD, ổ mạng</text>
+  </g>
+
+  <path d="M100 102 L100 130 L118 130" fill="none" stroke="#a1a1aa" stroke-width="1.4"/>
+  <path d="M100 102 L100 164 L118 164" fill="none" stroke="#a1a1aa" stroke-width="1.4"/>
+  <path d="M100 102 L100 198 L118 198" fill="none" stroke="#a1a1aa" stroke-width="1.4"/>
+  <path d="M100 102 L100 232 L118 232" fill="none" stroke="#a1a1aa" stroke-width="1.4"/>
+  <path d="M100 102 L100 266 L118 266" fill="none" stroke="#a1a1aa" stroke-width="1.4"/>
+  <path d="M100 102 L100 300 L118 300" fill="none" stroke="#a1a1aa" stroke-width="1.4"/>
+  <path d="M100 102 L100 334 L118 334" fill="none" stroke="#a1a1aa" stroke-width="1.4"/>
+  <path d="M100 102 L100 368 L118 368" fill="none" stroke="#a1a1aa" stroke-width="1.4"/>
+  <path d="M100 102 L100 402 L118 402" fill="none" stroke="#a1a1aa" stroke-width="1.4"/>
+
+  <rect x="600" y="116" width="130" height="60" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="665" y="138" text-anchor="middle" font-size="11" font-weight="700" fill="#18181b">xanh lá / green</text>
+  <text x="665" y="155" text-anchor="middle" font-size="10" fill="#52525b">file ảo — kernel</text>
+  <text x="665" y="169" text-anchor="middle" font-size="10" fill="#52525b">sinh ra lúc chạy</text>
+</svg>

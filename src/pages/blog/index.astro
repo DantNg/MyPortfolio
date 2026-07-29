@@ -1,8 +1,13 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import BlogCard from '../../components/BlogCard.astro';
+import SeriesCard from '../../components/SeriesCard.astro';
 import { getCollection } from 'astro:content';
+import { SERIES } from '../../series';
+import { t } from '../../i18n';
 import { url } from '../../utils/url';
+
+const seriesList = [...SERIES].sort((a, b) => a.order - b.order);
 
 const allPosts = await getCollection('blog', p => !p.data.draft);
 const sorted = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -37,6 +42,31 @@ const posts = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
           Deep dives into embedded systems, firmware patterns, and lessons from the field.
         </p>
       </div>
+
+      <!-- ===== Learning series ===== -->
+      {seriesList.length > 0 && (
+        <section id="series" class="mb-16 scroll-mt-24" data-animate>
+          <div class="flex flex-wrap items-end justify-between gap-3 mb-6">
+            <div>
+              <h2 class="text-2xl font-bold tracking-tight text-zinc-900" data-i18n="series.sectionHeading">
+                {t('series.sectionHeading')}
+              </h2>
+              <p class="text-zinc-600 mt-2 max-w-2xl leading-relaxed" data-i18n="series.sectionSub">
+                {t('series.sectionSub')}
+              </p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {seriesList.map(s => <SeriesCard meta={s} />)}
+          </div>
+        </section>
+      )}
+
+      <!-- ===== Standalone articles ===== -->
+      <h2 class="text-2xl font-bold tracking-tight text-zinc-900 mb-6" data-i18n="series.articlesHeading" data-animate>
+        {t('series.articlesHeading')}
+      </h2>
 
       <!-- Search & Tags -->
       <div class="flex flex-col sm:flex-row gap-4 mb-10" data-animate>

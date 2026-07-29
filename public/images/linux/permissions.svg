@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" width="760" height="380" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="380" fill="#ffffff"/>
+  <text x="380" y="32" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">Đọc một dòng `ls -l` / Decoding one line of `ls -l`</text>
+
+  <!-- the line -->
+  <rect x="40" y="56" width="680" height="46" rx="8" fill="#18181b"/>
+  <text x="60" y="86" font-family="monospace" font-size="15" fill="#e4e4e7">
+    <tspan fill="#fbbf24">-rwxr-x---</tspan><tspan fill="#71717a">  1 </tspan><tspan fill="#60a5fa">dat</tspan><tspan fill="#71717a"> </tspan><tspan fill="#34d399">dialout</tspan><tspan fill="#71717a">  8.2K Jul 29 20:14 </tspan><tspan fill="#ffffff">flash.sh</tspan>
+  </text>
+
+  <!-- callouts -->
+  <path d="M92 106 L92 128" stroke="#a1a1aa" stroke-width="1.4"/>
+  <text x="92" y="144" text-anchor="middle" font-size="10.5" fill="#3f3f46">quyền / mode</text>
+  <path d="M200 106 L200 168" stroke="#a1a1aa" stroke-width="1.4"/>
+  <text x="200" y="184" text-anchor="middle" font-size="10.5" fill="#3f3f46">chủ sở hữu / owner</text>
+  <path d="M262 106 L262 208" stroke="#a1a1aa" stroke-width="1.4"/>
+  <text x="270" y="224" text-anchor="middle" font-size="10.5" fill="#3f3f46">nhóm / group</text>
+
+  <!-- mode breakdown -->
+  <rect x="330" y="120" width="390" height="150" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="525" y="144" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1d4ed8">10 ký tự = 1 + 3 + 3 + 3</text>
+
+  <g font-family="monospace" font-size="20" font-weight="700">
+    <text x="366" y="182" fill="#71717a">-</text>
+    <text x="400" y="182" fill="#2563eb">rwx</text>
+    <text x="470" y="182" fill="#0891b2">r-x</text>
+    <text x="540" y="182" fill="#dc2626">---</text>
+  </g>
+
+  <text x="368" y="202" text-anchor="middle" font-size="10" fill="#52525b">loại</text>
+  <text x="368" y="215" text-anchor="middle" font-size="9" fill="#71717a">- file</text>
+  <text x="368" y="227" text-anchor="middle" font-size="9" fill="#71717a">d thư mục</text>
+  <text x="368" y="239" text-anchor="middle" font-size="9" fill="#71717a">l link</text>
+  <text x="368" y="251" text-anchor="middle" font-size="9" fill="#71717a">c thiết bị</text>
+
+  <text x="424" y="202" text-anchor="middle" font-size="10" font-weight="600" fill="#2563eb">user (u)</text>
+  <text x="424" y="218" text-anchor="middle" font-size="9.5" fill="#52525b">đọc, ghi, chạy</text>
+  <text x="424" y="234" text-anchor="middle" font-size="11" font-family="monospace" fill="#27272a">7</text>
+
+  <text x="494" y="202" text-anchor="middle" font-size="10" font-weight="600" fill="#0891b2">group (g)</text>
+  <text x="494" y="218" text-anchor="middle" font-size="9.5" fill="#52525b">đọc, chạy</text>
+  <text x="494" y="234" text-anchor="middle" font-size="11" font-family="monospace" fill="#27272a">5</text>
+
+  <text x="562" y="202" text-anchor="middle" font-size="10" font-weight="600" fill="#dc2626">other (o)</text>
+  <text x="562" y="218" text-anchor="middle" font-size="9.5" fill="#52525b">không gì cả</text>
+  <text x="562" y="234" text-anchor="middle" font-size="11" font-family="monospace" fill="#27272a">0</text>
+
+  <text x="660" y="182" font-size="18" font-weight="700" font-family="monospace" fill="#16a34a">750</text>
+  <text x="660" y="202" text-anchor="middle" font-size="10" fill="#52525b">chmod 750</text>
+
+  <!-- weights -->
+  <rect x="40" y="248" width="270" height="112" rx="10" fill="#eff6ff" stroke="#bfdbfe"/>
+  <text x="62" y="272" font-size="12" font-weight="700" fill="#1d4ed8">Trọng số / weights</text>
+  <g font-family="monospace" font-size="11.5" fill="#27272a">
+    <text x="62" y="296">r = 4   w = 2   x = 1</text>
+    <text x="62" y="318">rwx = 4+2+1 = 7</text>
+    <text x="62" y="340">rw- = 4+2   = 6</text>
+  </g>
+
+  <!-- commands -->
+  <rect x="330" y="284" width="390" height="76" rx="10" fill="#f0fdf4" stroke="#86efac"/>
+  <g font-family="monospace" font-size="11" fill="#27272a">
+    <text x="352" y="306">chmod +x flash.sh</text>
+    <text x="352" y="326">chmod 644 config.txt</text>
+    <text x="352" y="346">sudo chown dat:dialout /dev/ttyUSB0</text>
+  </g>
+  <g font-family="Inter" font-size="10" fill="#52525b">
+    <text x="530" y="306">cho phép chạy</text>
+    <text x="545" y="326">chủ ghi, còn lại chỉ đọc</text>
+    <text x="620" y="346">đổi chủ/nhóm</text>
+  </g>
+</svg>
