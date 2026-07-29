@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" width="760" height="400" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="400" fill="#ffffff"/>
+  <text x="380" y="30" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">Interface trong C thuần — đảo ngược phụ thuộc để test được</text>
+
+  <defs>
+    <marker id="ic" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#2563eb"/>
+    </marker>
+  </defs>
+
+  <!-- before -->
+  <rect x="24" y="52" width="330" height="150" rx="10" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="189" y="74" text-anchor="middle" font-size="12.5" font-weight="700" fill="#b91c1c">✘ Gọi thẳng phần cứng</text>
+
+  <rect x="112" y="86" width="154" height="30" rx="6" fill="#ffffff" stroke="#fca5a5"/>
+  <text x="189" y="106" text-anchor="middle" font-size="10.5" fill="#27272a">sensor_logic.c</text>
+
+  <line x1="189" y1="116" x2="189" y2="140" stroke="#dc2626" stroke-width="2" marker-end="url(#ic)"/>
+
+  <rect x="112" y="144" width="154" height="30" rx="6" fill="#ffffff" stroke="#fca5a5"/>
+  <text x="189" y="164" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#27272a">HAL_I2C_Read()</text>
+
+  <text x="189" y="192" text-anchor="middle" font-size="10" fill="#b91c1c">unit test cần cả con STM32 thật</text>
+
+  <!-- after -->
+  <rect x="376" y="52" width="360" height="150" rx="10" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="556" y="74" text-anchor="middle" font-size="12.5" font-weight="700" fill="#15803d">✔ Qua một interface</text>
+
+  <rect x="478" y="86" width="156" height="28" rx="6" fill="#ffffff" stroke="#bbf7d0"/>
+  <text x="556" y="105" text-anchor="middle" font-size="10.5" fill="#27272a">sensor_logic.c</text>
+
+  <line x1="556" y1="114" x2="556" y2="132" stroke="#16a34a" stroke-width="2" marker-end="url(#ic)"/>
+
+  <rect x="478" y="136" width="156" height="28" rx="6" fill="#dcfce7" stroke="#4ade80"/>
+  <text x="556" y="155" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#15803d">const i2c_if_t *</text>
+
+  <rect x="392" y="176" width="130" height="24" rx="5" fill="#ffffff" stroke="#bbf7d0"/>
+  <text x="457" y="193" text-anchor="middle" font-size="9.5" fill="#27272a">i2c_stm32.c</text>
+  <rect x="596" y="176" width="130" height="24" rx="5" fill="#ffffff" stroke="#bbf7d0"/>
+  <text x="661" y="193" text-anchor="middle" font-size="9.5" fill="#27272a">i2c_fake.c (test)</text>
+
+  <path d="M500 164 L470 174" stroke="#16a34a" stroke-width="1.6"/>
+  <path d="M612 164 L648 174" stroke="#16a34a" stroke-width="1.6"/>
+
+  <!-- code -->
+  <rect x="24" y="220" width="352" height="164" rx="9" fill="#18181b"/>
+  <text x="42" y="242" font-size="10" font-family="monospace" fill="#fbbf24">/* i2c_if.h — chỉ là hợp đồng */</text>
+  <g font-family="monospace" font-size="10" fill="#e4e4e7">
+    <text x="42" y="260">typedef struct {</text>
+    <text x="42" y="276">    int (*read) (void *ctx, uint8_t a,</text>
+    <text x="42" y="290">                 uint8_t *b, size_t n);</text>
+    <text x="42" y="306">    int (*write)(void *ctx, uint8_t a,</text>
+    <text x="42" y="320">                 const uint8_t *b, size_t n);</text>
+    <text x="42" y="336">    void *ctx;</text>
+    <text x="42" y="352">} i2c_if_t;</text>
+    <text x="42" y="374" fill="#86efac">/* không hề #include stm32.h */</text>
+  </g>
+
+  <rect x="392" y="220" width="344" height="164" rx="9" fill="#18181b"/>
+  <text x="410" y="242" font-size="10" font-family="monospace" fill="#fbbf24">/* logic nhận interface từ ngoài vào */</text>
+  <g font-family="monospace" font-size="10" fill="#e4e4e7">
+    <text x="410" y="260">int temp_read(const i2c_if_t *bus,</text>
+    <text x="410" y="274">              float *out) {</text>
+    <text x="410" y="292">    uint8_t raw[2];</text>
+    <text x="410" y="308">    if (bus-&gt;read(bus-&gt;ctx, 0x48,</text>
+    <text x="410" y="322">                  raw, 2) != 0)</text>
+    <text x="410" y="336">        return -1;</text>
+    <text x="410" y="352">    *out = decode(raw);</text>
+    <text x="410" y="368">    return 0; }</text>
+  </g>
+</svg>

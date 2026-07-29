@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" width="760" height="380" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="380" fill="#ffffff"/>
+  <text x="380" y="30" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">ISO 26262 — ASIL đến từ đâu</text>
+
+  <!-- formula -->
+  <rect x="34" y="50" width="692" height="52" rx="9" fill="#eff6ff" stroke="#bfdbfe"/>
+  <text x="380" y="72" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1d4ed8">ASIL = Severity (S) × Exposure (E) × Controllability (C)</text>
+  <text x="380" y="91" text-anchor="middle" font-size="10.5" fill="#3f3f46">Hỏng thì hậu quả nặng đến đâu · tình huống đó xảy ra thường xuyên không · tài xế có cứu vãn được không</text>
+
+  <!-- levels -->
+  <g>
+    <rect x="34" y="120" width="130" height="86" rx="9" fill="#f4f4f5" stroke="#d4d4d8"/>
+    <text x="99" y="146" text-anchor="middle" font-size="14" font-weight="700" fill="#52525b">QM</text>
+    <text x="99" y="166" text-anchor="middle" font-size="9.5" fill="#3f3f46">quy trình chất lượng</text>
+    <text x="99" y="180" text-anchor="middle" font-size="9.5" fill="#3f3f46">thông thường</text>
+    <text x="99" y="198" text-anchor="middle" font-size="9" fill="#71717a">radio, đèn nội thất</text>
+
+    <rect x="172" y="120" width="130" height="86" rx="9" fill="#ecfdf5" stroke="#86efac"/>
+    <text x="237" y="146" text-anchor="middle" font-size="14" font-weight="700" fill="#15803d">ASIL A</text>
+    <text x="237" y="166" text-anchor="middle" font-size="9.5" fill="#3f3f46">rủi ro thấp</text>
+    <text x="237" y="198" text-anchor="middle" font-size="9" fill="#71717a">đèn hậu</text>
+
+    <rect x="310" y="120" width="130" height="86" rx="9" fill="#fefce8" stroke="#fde047"/>
+    <text x="375" y="146" text-anchor="middle" font-size="14" font-weight="700" fill="#a16207">ASIL B</text>
+    <text x="375" y="166" text-anchor="middle" font-size="9.5" fill="#3f3f46">rủi ro vừa</text>
+    <text x="375" y="198" text-anchor="middle" font-size="9" fill="#71717a">cụm đồng hồ, đèn pha</text>
+
+    <rect x="448" y="120" width="130" height="86" rx="9" fill="#fff7ed" stroke="#fdba74"/>
+    <text x="513" y="146" text-anchor="middle" font-size="14" font-weight="700" fill="#c2410c">ASIL C</text>
+    <text x="513" y="166" text-anchor="middle" font-size="9.5" fill="#3f3f46">rủi ro cao</text>
+    <text x="513" y="198" text-anchor="middle" font-size="9" fill="#71717a">ESP, túi khí phụ</text>
+
+    <rect x="586" y="120" width="140" height="86" rx="9" fill="#fef2f2" stroke="#fca5a5"/>
+    <text x="656" y="146" text-anchor="middle" font-size="14" font-weight="700" fill="#b91c1c">ASIL D</text>
+    <text x="656" y="166" text-anchor="middle" font-size="9.5" fill="#3f3f46">rủi ro cao nhất</text>
+    <text x="656" y="198" text-anchor="middle" font-size="9" fill="#71717a">phanh, lái, túi khí</text>
+  </g>
+
+  <path d="M40 220 L720 220" stroke="#a1a1aa" stroke-width="1.5"/>
+  <path d="M714 216 L722 220 L714 224 z" fill="#a1a1aa"/>
+  <text x="380" y="238" text-anchor="middle" font-size="10.5" fill="#71717a">càng sang phải, yêu cầu về quy trình và bằng chứng càng ngặt</text>
+
+  <!-- what it means for code -->
+  <rect x="34" y="256" width="692" height="110" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="56" y="278" font-size="12.5" font-weight="700" fill="#18181b">Điều đó đòi hỏi gì ở code của bạn</text>
+
+  <g font-size="10.5" fill="#3f3f46">
+    <text x="56" y="302">• Mọi dòng code truy ngược được về một yêu cầu, và ngược lại (traceability hai chiều)</text>
+    <text x="56" y="322">• Tuân thủ MISRA C, có công cụ kiểm tra và mọi ngoại lệ phải được ghi lý do</text>
+    <text x="56" y="342">• Độ phủ kiểm thử: nhánh với ASIL B, MC/DC với ASIL D</text>
+    <text x="400" y="302">• Freedom from interference: phân vùng bộ nhớ và thời gian</text>
+    <text x="400" y="322">• Cơ chế an toàn: watchdog, checksum, tính hai lần rồi so</text>
+    <text x="400" y="342">• Toolchain phải được qualify — không dùng gcc tuỳ tiện</text>
+  </g>
+</svg>

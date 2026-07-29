@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" width="760" height="400" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="400" fill="#ffffff"/>
+  <text x="380" y="30" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">UDS — một phiên chẩn đoán / one diagnostic session</text>
+
+  <defs>
+    <marker id="ua" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#2563eb"/>
+    </marker>
+    <marker id="ub" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#16a34a"/>
+    </marker>
+  </defs>
+
+  <rect x="34" y="52" width="150" height="44" rx="8" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="109" y="72" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1d4ed8">Máy chẩn đoán</text>
+  <text x="109" y="88" text-anchor="middle" font-size="9.5" fill="#3f3f46">tester / client</text>
+
+  <rect x="576" y="52" width="150" height="44" rx="8" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="651" y="72" text-anchor="middle" font-size="11.5" font-weight="700" fill="#15803d">ECU</text>
+  <text x="651" y="88" text-anchor="middle" font-size="9.5" fill="#3f3f46">server</text>
+
+  <line x1="109" y1="100" x2="109" y2="340" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <line x1="651" y1="100" x2="651" y2="340" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <g font-family="monospace" font-size="10.5">
+    <line x1="115" y1="126" x2="645" y2="126" stroke="#2563eb" stroke-width="1.8" marker-end="url(#ua)"/>
+    <text x="380" y="120" text-anchor="middle" fill="#2563eb">10 03      DiagnosticSessionControl → extended</text>
+    <line x1="645" y1="152" x2="115" y2="152" stroke="#16a34a" stroke-width="1.8" marker-end="url(#ub)"/>
+    <text x="380" y="146" text-anchor="middle" fill="#16a34a">50 03 00 32 01 F4      phản hồi dương (SID + 0x40)</text>
+
+    <line x1="115" y1="186" x2="645" y2="186" stroke="#2563eb" stroke-width="1.8" marker-end="url(#ua)"/>
+    <text x="380" y="180" text-anchor="middle" fill="#2563eb">27 01      SecurityAccess — xin seed</text>
+    <line x1="645" y1="212" x2="115" y2="212" stroke="#16a34a" stroke-width="1.8" marker-end="url(#ub)"/>
+    <text x="380" y="206" text-anchor="middle" fill="#16a34a">67 01 A3 5F 21 0C      seed</text>
+    <line x1="115" y1="238" x2="645" y2="238" stroke="#2563eb" stroke-width="1.8" marker-end="url(#ua)"/>
+    <text x="380" y="232" text-anchor="middle" fill="#2563eb">27 02 &lt;key&gt;      gửi key đã tính</text>
+
+    <line x1="115" y1="272" x2="645" y2="272" stroke="#2563eb" stroke-width="1.8" marker-end="url(#ua)"/>
+    <text x="380" y="266" text-anchor="middle" fill="#2563eb">22 F1 90      ReadDataByIdentifier — VIN</text>
+    <line x1="645" y1="298" x2="115" y2="298" stroke="#16a34a" stroke-width="1.8" marker-end="url(#ub)"/>
+    <text x="380" y="292" text-anchor="middle" fill="#16a34a">62 F1 90 "WVWZZZ..."</text>
+
+    <line x1="115" y1="332" x2="645" y2="332" stroke="#2563eb" stroke-width="1.8" marker-end="url(#ua)"/>
+    <text x="380" y="326" text-anchor="middle" fill="#2563eb">19 02 08      ReadDTCInformation — DTC đang xác nhận</text>
+  </g>
+
+  <!-- services table -->
+  <rect x="34" y="352" width="340" height="42" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="52" y="370" font-size="10.5" font-weight="700" fill="#18181b">SID hay gặp</text>
+  <text x="52" y="386" font-size="10" font-family="monospace" fill="#3f3f46">10 11 14 19 22 27 2E 31 34-37 3E</text>
+
+  <rect x="386" y="352" width="340" height="42" rx="8" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="404" y="370" font-size="10.5" font-weight="700" fill="#b91c1c">Phản hồi âm: 7F &lt;SID&gt; &lt;NRC&gt;</text>
+  <text x="404" y="386" font-size="10" font-family="monospace" fill="#3f3f46">33 = từ chối bảo mật · 78 = chờ · 31 = ngoài dải</text>
+</svg>

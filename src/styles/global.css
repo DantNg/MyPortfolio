@@ -120,15 +120,40 @@
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
   }
 
+  /* ===== Nội dung bài viết / bài học ===== */
+  .prose-custom {
+    /* chữ dài (đường dẫn, tên hàm) không được đẩy tràn cột */
+    overflow-wrap: break-word;
+  }
+
   .prose-custom h1, .prose-custom h2, .prose-custom h3,
   .prose-custom h4, .prose-custom h5, .prose-custom h6 {
     @apply font-semibold tracking-tight text-zinc-900;
+    /* navbar cố định cao 64px — chừa chỗ khi nhảy tới anchor */
+    scroll-margin-top: 6rem;
   }
+  /* Nhịp đọc thoáng hơn: tách rõ các phần */
+  .prose-custom h2 {
+    @apply mt-14 mb-4 pb-2 border-b border-zinc-200;
+  }
+  .prose-custom h3 {
+    @apply mt-10 mb-3;
+  }
+  .prose-custom > p,
+  .prose-custom > ul,
+  .prose-custom > ol {
+    @apply my-5 leading-[1.75];
+  }
+  .prose-custom li + li {
+    @apply mt-1.5;
+  }
+
   .prose-custom a {
     color: #2563eb;
     text-decoration: none;
   }
   .prose-custom a:hover { text-decoration: underline; }
+
   .prose-custom code {
     color: #1d4ed8;
     background: #eff6ff;
@@ -138,28 +163,55 @@
     border: 1px solid #dbeafe;
   }
   .prose-custom code::before, .prose-custom code::after { content: none; }
+
   .prose-custom pre {
-    @apply bg-zinc-900 border border-zinc-800 text-zinc-100;
+    @apply bg-zinc-900 border border-zinc-800 text-zinc-100 rounded-xl my-6;
+    padding: 1.1rem 1.25rem;
+    line-height: 1.65;
+    font-size: 0.855rem;
+    overflow-x: auto;
   }
   .prose-custom pre code {
     background: transparent;
     border: 0;
     color: inherit;
     padding: 0;
+    font-size: inherit;
   }
+
   .prose-custom blockquote {
     border-left-color: #2563eb;
     background: #f8fafc;
-    @apply text-zinc-600 rounded-r-lg py-1;
+    @apply text-zinc-600 rounded-r-lg my-6;
+    padding: 0.75rem 1.25rem;
   }
-  .prose-custom table {
-    @apply text-sm;
+  .prose-custom blockquote p:first-of-type { @apply mt-0; }
+  .prose-custom blockquote p:last-of-type  { @apply mb-0; }
+
+  /* Bảng: chỉ bảng cuộn ngang, không đẩy tràn cả trang */
+  .table-scroll {
+    @apply my-6 overflow-x-auto rounded-xl border border-zinc-200;
+    -webkit-overflow-scrolling: touch;
   }
-  .prose-custom th {
-    @apply bg-zinc-50;
+  .table-scroll > table {
+    @apply my-0 text-sm w-full;
+    border-collapse: collapse;
+    min-width: 30rem;
   }
+  .table-scroll th,
+  .table-scroll td {
+    @apply px-4 py-2.5 align-top border-b border-zinc-200;
+  }
+  .table-scroll th {
+    @apply bg-zinc-50 text-left font-semibold text-zinc-800 whitespace-nowrap;
+  }
+  .table-scroll tr:last-child td { @apply border-b-0; }
+
   .prose-custom img {
-    @apply rounded-xl border border-zinc-200 bg-white;
+    @apply rounded-xl border border-zinc-200 bg-white my-8 w-full;
+  }
+  .prose-custom hr {
+    @apply my-12 border-zinc-200;
   }
   /* Khối đáp án gập/mở trong bài học series */
   .prose-custom details {

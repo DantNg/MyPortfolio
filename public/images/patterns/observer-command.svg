@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" width="760" height="380" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="380" fill="#ffffff"/>
+  <text x="380" y="30" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">Hai pattern hành vi giữ cho ISR không dính vào logic</text>
+
+  <defs>
+    <marker id="oa" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#2563eb"/>
+    </marker>
+  </defs>
+
+  <!-- observer -->
+  <rect x="24" y="54" width="344" height="300" rx="10" fill="#eff6ff" stroke="#bfdbfe"/>
+  <text x="196" y="78" text-anchor="middle" font-size="13" font-weight="700" fill="#1d4ed8">Observer / publish–subscribe</text>
+  <text x="196" y="96" text-anchor="middle" font-size="10" fill="#3f3f46">nguồn dữ liệu không cần biết ai đang nghe</text>
+
+  <rect x="122" y="112" width="148" height="38" rx="8" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="196" y="130" text-anchor="middle" font-size="10.5" font-weight="600" fill="#27272a">temp_sensor</text>
+  <text x="196" y="144" text-anchor="middle" font-size="9" fill="#71717a">publish(25.3)</text>
+
+  <rect x="122" y="168" width="148" height="34" rx="8" fill="#2563eb"/>
+  <text x="196" y="189" text-anchor="middle" font-size="10.5" font-weight="600" fill="#ffffff">danh sách subscriber</text>
+
+  <line x1="196" y1="150" x2="196" y2="164" stroke="#2563eb" stroke-width="2" marker-end="url(#oa)"/>
+
+  <rect x="44" y="228" width="96" height="34" rx="7" fill="#ffffff" stroke="#bfdbfe"/>
+  <text x="92" y="249" text-anchor="middle" font-size="9.5" fill="#27272a">display</text>
+  <rect x="148" y="228" width="96" height="34" rx="7" fill="#ffffff" stroke="#bfdbfe"/>
+  <text x="196" y="249" text-anchor="middle" font-size="9.5" fill="#27272a">logger</text>
+  <rect x="252" y="228" width="96" height="34" rx="7" fill="#ffffff" stroke="#bfdbfe"/>
+  <text x="300" y="249" text-anchor="middle" font-size="9.5" fill="#27272a">alarm</text>
+
+  <path d="M170 202 L92 224" stroke="#2563eb" stroke-width="1.6" marker-end="url(#oa)"/>
+  <path d="M196 202 L196 224" stroke="#2563eb" stroke-width="1.6" marker-end="url(#oa)"/>
+  <path d="M222 202 L300 224" stroke="#2563eb" stroke-width="1.6" marker-end="url(#oa)"/>
+
+  <rect x="44" y="278" width="304" height="62" rx="8" fill="#18181b"/>
+  <g font-family="monospace" font-size="9.5" fill="#e4e4e7">
+    <text x="56" y="296">typedef void (*obs_fn)(float, void *ctx);</text>
+    <text x="56" y="312">void temp_subscribe(obs_fn cb, void *ctx);</text>
+    <text x="56" y="330" fill="#86efac">/* thêm bớt người nghe: 0 dòng sửa ở sensor */</text>
+  </g>
+
+  <!-- command -->
+  <rect x="392" y="54" width="344" height="300" rx="10" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="564" y="78" text-anchor="middle" font-size="13" font-weight="700" fill="#15803d">Command queue</text>
+  <text x="564" y="96" text-anchor="middle" font-size="10" fill="#3f3f46">đóng gói "việc cần làm" thành dữ liệu, xử lý sau</text>
+
+  <rect x="412" y="116" width="120" height="34" rx="7" fill="#fee2e2" stroke="#fca5a5"/>
+  <text x="472" y="137" text-anchor="middle" font-size="10" fill="#b91c1c">ISR nút bấm</text>
+  <rect x="412" y="158" width="120" height="34" rx="7" fill="#fee2e2" stroke="#fca5a5"/>
+  <text x="472" y="179" text-anchor="middle" font-size="10" fill="#b91c1c">ISR UART</text>
+  <rect x="412" y="200" width="120" height="34" rx="7" fill="#fef3c7" stroke="#fcd34d"/>
+  <text x="472" y="221" text-anchor="middle" font-size="10" fill="#a16207">timer</text>
+
+  <rect x="560" y="140" width="60" height="94" rx="7" fill="#2563eb"/>
+  <text x="590" y="176" text-anchor="middle" font-size="10" font-weight="600" fill="#ffffff">cmd</text>
+  <text x="590" y="192" text-anchor="middle" font-size="10" font-weight="600" fill="#ffffff">queue</text>
+
+  <line x1="532" y1="133" x2="556" y2="155" stroke="#16a34a" stroke-width="1.6" marker-end="url(#oa)"/>
+  <line x1="532" y1="175" x2="556" y2="180" stroke="#16a34a" stroke-width="1.6" marker-end="url(#oa)"/>
+  <line x1="532" y1="217" x2="556" y2="204" stroke="#16a34a" stroke-width="1.6" marker-end="url(#oa)"/>
+
+  <rect x="648" y="158" width="72" height="58" rx="7" fill="#ffffff" stroke="#86efac"/>
+  <text x="684" y="180" text-anchor="middle" font-size="9.5" fill="#27272a">một task</text>
+  <text x="684" y="196" text-anchor="middle" font-size="9.5" fill="#27272a">xử lý tất</text>
+  <line x1="620" y1="187" x2="644" y2="187" stroke="#16a34a" stroke-width="1.6" marker-end="url(#oa)"/>
+
+  <rect x="412" y="252" width="308" height="88" rx="8" fill="#18181b"/>
+  <g font-family="monospace" font-size="9.5" fill="#e4e4e7">
+    <text x="424" y="270">typedef struct {</text>
+    <text x="424" y="286">    cmd_id_t id;   <tspan fill="#86efac">/* SET_TEMP, STOP… */</tspan></text>
+    <text x="424" y="302">    int32_t  arg;</text>
+    <text x="424" y="318">} cmd_t;   <tspan fill="#86efac">/* POD — copy qua queue */</tspan></text>
+    <text x="424" y="334" fill="#fbbf24">một luồng duy nhất → hết cần mutex</text>
+  </g>
+</svg>

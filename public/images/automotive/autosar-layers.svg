@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" width="760" height="420" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="420" fill="#ffffff"/>
+  <text x="380" y="30" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">AUTOSAR Classic — xếp tầng để code không phụ thuộc phần cứng</text>
+
+  <!-- app -->
+  <rect x="34" y="54" width="692" height="70" rx="10" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="56" y="76" font-size="12.5" font-weight="700" fill="#1d4ed8">Application Layer</text>
+  <rect x="56" y="84" width="200" height="30" rx="6" fill="#ffffff" stroke="#bfdbfe"/>
+  <text x="156" y="104" text-anchor="middle" font-size="10.5" fill="#27272a">SWC: DoorControl</text>
+  <rect x="268" y="84" width="200" height="30" rx="6" fill="#ffffff" stroke="#bfdbfe"/>
+  <text x="368" y="104" text-anchor="middle" font-size="10.5" fill="#27272a">SWC: WindowLift</text>
+  <rect x="480" y="84" width="224" height="30" rx="6" fill="#ffffff" stroke="#bfdbfe"/>
+  <text x="592" y="104" text-anchor="middle" font-size="10.5" fill="#27272a">SWC: LightingManager</text>
+
+  <!-- RTE -->
+  <rect x="34" y="134" width="692" height="46" rx="10" fill="#2563eb"/>
+  <text x="380" y="155" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">RTE — Runtime Environment</text>
+  <text x="380" y="172" text-anchor="middle" font-size="10" fill="#dbeafe">code sinh tự động; SWC chỉ gọi Rte_Write/Rte_Read, không biết ai ở đầu kia</text>
+
+  <!-- BSW -->
+  <rect x="34" y="190" width="692" height="182" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="56" y="212" font-size="12.5" font-weight="700" fill="#18181b">BSW — Basic Software</text>
+
+  <rect x="56" y="222" width="648" height="42" rx="7" fill="#ffffff" stroke="#e4e4e7"/>
+  <text x="72" y="240" font-size="10.5" font-weight="600" fill="#27272a">Services</text>
+  <text x="72" y="256" font-size="9.5" fill="#71717a">COM · Dem (DTC) · Dcm (UDS) · NvM · Os · EcuM · WdgM · Crypto</text>
+
+  <rect x="56" y="272" width="648" height="42" rx="7" fill="#ffffff" stroke="#e4e4e7"/>
+  <text x="72" y="290" font-size="10.5" font-weight="600" fill="#27272a">ECU Abstraction</text>
+  <text x="72" y="306" font-size="9.5" fill="#71717a">CanIf · EthIf · MemIf · IoHwAb — che đi chuyện ngoại vi nằm trong hay ngoài chip</text>
+
+  <rect x="56" y="322" width="648" height="40" rx="7" fill="#ffffff" stroke="#e4e4e7"/>
+  <text x="72" y="340" font-size="10.5" font-weight="600" fill="#27272a">MCAL — Microcontroller Abstraction</text>
+  <text x="72" y="355" font-size="9.5" fill="#71717a">Can · Spi · Adc · Pwm · Gpt · Fls — do nhà sản xuất chip cung cấp, chỉ tầng này chạm thanh ghi</text>
+
+  <!-- hw -->
+  <rect x="34" y="382" width="692" height="26" rx="6" fill="#27272a"/>
+  <text x="380" y="400" text-anchor="middle" font-size="11.5" font-weight="600" fill="#e4e4e7">Microcontroller — Infineon AURIX · NXP S32 · Renesas RH850</text>
+
+  <!-- side note -->
+  <rect x="480" y="222" width="0" height="0"/>
+</svg>

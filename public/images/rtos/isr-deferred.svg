@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" width="760" height="360" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="360" fill="#ffffff"/>
+  <text x="380" y="30" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">Xử lý ngắt hoãn lại / Deferred interrupt handling</text>
+
+  <defs>
+    <marker id="ia" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#2563eb"/>
+    </marker>
+  </defs>
+
+  <!-- wrong -->
+  <rect x="24" y="54" width="344" height="120" rx="10" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="196" y="76" text-anchor="middle" font-size="12.5" font-weight="700" fill="#b91c1c">✘ Làm hết trong ISR</text>
+  <rect x="44" y="88" width="304" height="70" rx="7" fill="#18181b"/>
+  <g font-family="monospace" font-size="10" fill="#e4e4e7">
+    <text x="56" y="106">void UART_IRQHandler(void) {</text>
+    <text x="56" y="122">    parse_protocol();   <tspan fill="#f87171">// 300 us</tspan></text>
+    <text x="56" y="138">    write_flash();      <tspan fill="#f87171">// 5 ms !!</tspan></text>
+    <text x="56" y="152">}</text>
+  </g>
+
+  <!-- right -->
+  <rect x="392" y="54" width="344" height="120" rx="10" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="564" y="76" text-anchor="middle" font-size="12.5" font-weight="700" fill="#15803d">✔ ISR chỉ chuyển tiếp</text>
+  <rect x="412" y="88" width="304" height="70" rx="7" fill="#18181b"/>
+  <g font-family="monospace" font-size="10" fill="#e4e4e7">
+    <text x="424" y="106">void UART_IRQHandler(void) {</text>
+    <text x="424" y="122">    BaseType_t hp = pdFALSE;</text>
+    <text x="424" y="138">    xQueueSendFromISR(q,&amp;b,&amp;hp);</text>
+    <text x="424" y="152">    portYIELD_FROM_ISR(hp); }</text>
+  </g>
+
+  <!-- flow -->
+  <rect x="34" y="202" width="130" height="58" rx="9" fill="#fefce8" stroke="#fde047"/>
+  <text x="99" y="226" text-anchor="middle" font-size="11.5" font-weight="600" fill="#a16207">Phần cứng</text>
+  <text x="99" y="244" text-anchor="middle" font-size="10" fill="#3f3f46">byte UART tới</text>
+
+  <rect x="196" y="202" width="150" height="58" rx="9" fill="#fee2e2" stroke="#fca5a5"/>
+  <text x="271" y="222" text-anchor="middle" font-size="11.5" font-weight="600" fill="#b91c1c">ISR — vài µs</text>
+  <text x="271" y="240" text-anchor="middle" font-size="10" fill="#3f3f46">đọc thanh ghi, đẩy</text>
+  <text x="271" y="254" text-anchor="middle" font-size="10" fill="#3f3f46">vào queue, thoát</text>
+
+  <rect x="378" y="202" width="130" height="58" rx="9" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="443" y="226" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1d4ed8">Queue</text>
+  <text x="443" y="244" text-anchor="middle" font-size="10" fill="#3f3f46">vùng đệm an toàn</text>
+
+  <rect x="540" y="202" width="190" height="58" rx="9" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="635" y="222" text-anchor="middle" font-size="11.5" font-weight="600" fill="#15803d">Task ưu tiên cao</text>
+  <text x="635" y="240" text-anchor="middle" font-size="10" fill="#3f3f46">parse, ghi flash, log —</text>
+  <text x="635" y="254" text-anchor="middle" font-size="10" fill="#3f3f46">bao lâu cũng được</text>
+
+  <line x1="164" y1="231" x2="192" y2="231" stroke="#2563eb" stroke-width="2" marker-end="url(#ia)"/>
+  <line x1="346" y1="231" x2="374" y2="231" stroke="#2563eb" stroke-width="2" marker-end="url(#ia)"/>
+  <line x1="508" y1="231" x2="536" y2="231" stroke="#2563eb" stroke-width="2" marker-end="url(#ia)"/>
+
+  <!-- rules -->
+  <rect x="34" y="284" width="696" height="62" rx="10" fill="#eff6ff" stroke="#bfdbfe"/>
+  <text x="54" y="306" font-size="12" font-weight="700" fill="#1d4ed8">Ba quy tắc trong ISR</text>
+  <text x="54" y="326" font-size="11" fill="#3f3f46">1. Chỉ gọi API có hậu tố <tspan font-family="monospace">FromISR</tspan>.   2. Không bao giờ chặn — không delay, không lấy mutex.</text>
+  <text x="54" y="342" font-size="11" fill="#3f3f46">3. <tspan font-family="monospace">portYIELD_FROM_ISR()</tspan> để task vừa đánh thức được chạy ngay khi ISR thoát, thay vì đợi tick sau.</text>
+</svg>
