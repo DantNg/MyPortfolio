@@ -29,6 +29,7 @@ export const ui: Record<Lang, Dict> = {
     'nav.projects': 'Projects',
     'nav.repos': 'Repos',
     'nav.blog': 'Blog',
+    'nav.lvgl': 'LVGL',
     'nav.resume': 'Resume',
     'nav.contact': 'Contact',
 
@@ -141,6 +142,27 @@ export const ui: Record<Lang, Dict> = {
     'resume.skills': 'Technical Skills',
     'resume.languages': 'Languages',
 
+
+    // ---- LVGL series ----
+    'lvgl.eyebrow': 'Learning Series',
+    'lvgl.heading': 'LVGL for Beginners',
+    'lvgl.subheading': 'Eight lessons that take you from "what is a retained-mode GUI" to a working sensor dashboard on real hardware. Every lesson has runnable code and diagrams — and reads in English or Vietnamese with one click.',
+    'lvgl.cta.start': 'Start with lesson 1',
+    'lvgl.cta.continue': 'Read this lesson',
+    'lvgl.meta.lessons': 'lessons',
+    'lvgl.meta.bilingual': 'English + Tiếng Việt',
+    'lvgl.meta.code': 'copy-paste ready code',
+    'lvgl.toc': 'Lessons in this series',
+    'lvgl.lesson': 'Lesson',
+    'lvgl.prev': 'Previous lesson',
+    'lvgl.next': 'Next lesson',
+    'lvgl.back': 'Back to the series',
+    'lvgl.langHint': 'This lesson is available in both languages — use the EN / VI switch in the header.',
+    'lvgl.who.title': 'Who this is for',
+    'lvgl.who.body': 'Embedded developers comfortable with C who have never built a GUI, and anyone who has copied an LVGL example and wants to understand what it actually does.',
+    'lvgl.need.title': 'What you need',
+    'lvgl.need.body': 'A C compiler and about an hour. Hardware is optional — lessons 3 to 8 run in the PC simulator set up in lesson 2.',
+
     // ---- Common ----
     'common.backProjects': 'Back to all projects',
     'common.backArticles': 'Back to all articles',
@@ -153,6 +175,7 @@ export const ui: Record<Lang, Dict> = {
     'nav.projects': 'Dự án',
     'nav.repos': 'Mã nguồn',
     'nav.blog': 'Bài viết',
+    'nav.lvgl': 'LVGL',
     'nav.resume': 'Hồ sơ',
     'nav.contact': 'Liên hệ',
 
@@ -264,6 +287,27 @@ export const ui: Record<Lang, Dict> = {
     'resume.education': 'Học vấn',
     'resume.skills': 'Kỹ năng kỹ thuật',
     'resume.languages': 'Ngôn ngữ',
+
+
+    // ---- LVGL series ----
+    'lvgl.eyebrow': 'Series học tập',
+    'lvgl.heading': 'LVGL cho người mới bắt đầu',
+    'lvgl.subheading': 'Tám bài đưa bạn từ câu hỏi "GUI retained-mode là gì" tới một dashboard cảm biến chạy trên phần cứng thật. Mỗi bài đều có code chạy được và hình minh hoạ — đọc bằng tiếng Việt hay tiếng Anh chỉ với một cú bấm.',
+    'lvgl.cta.start': 'Bắt đầu từ bài 1',
+    'lvgl.cta.continue': 'Đọc bài này',
+    'lvgl.meta.lessons': 'bài học',
+    'lvgl.meta.bilingual': 'Tiếng Việt + English',
+    'lvgl.meta.code': 'code dán vào là chạy',
+    'lvgl.toc': 'Các bài trong series',
+    'lvgl.lesson': 'Bài',
+    'lvgl.prev': 'Bài trước',
+    'lvgl.next': 'Bài tiếp theo',
+    'lvgl.back': 'Về trang series',
+    'lvgl.langHint': 'Bài này có cả hai ngôn ngữ — dùng nút EN / VI trên thanh điều hướng.',
+    'lvgl.who.title': 'Dành cho ai',
+    'lvgl.who.body': 'Lập trình viên nhúng đã quen C nhưng chưa từng làm giao diện, và bất kỳ ai từng copy một ví dụ LVGL rồi muốn hiểu nó thực sự làm gì.',
+    'lvgl.need.title': 'Cần chuẩn bị gì',
+    'lvgl.need.body': 'Một trình biên dịch C và khoảng một giờ. Phần cứng là tuỳ chọn — bài 3 đến 8 chạy được trên simulator PC dựng ở bài 2.',
 
     // ---- Common ----
     'common.backProjects': 'Về tất cả dự án',

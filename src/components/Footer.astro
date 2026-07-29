@@ -21,43 +21,43 @@ const socialLinks = [
 ].filter(s => s.href);
 ---
 
-<footer class="border-t border-zinc-800/60 bg-zinc-950">
+<footer class="border-t border-zinc-200/60 bg-white">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
       <div>
         <div class="flex items-center gap-2 mb-3">
           <div class="w-7 h-7 rounded-md bg-brand-600 flex items-center justify-center text-xs font-bold text-white">{SITE.initials}</div>
-          <span class="font-semibold text-white">{SITE.name}</span>
+          <span class="font-semibold text-zinc-900">{SITE.name}</span>
         </div>
-        <p class="text-sm text-zinc-400 leading-relaxed">
-          <span class="font-medium text-zinc-300">{SITE.title}</span> <span data-i18n="footer.tagline">{t('footer.tagline')}</span>
+        <p class="text-sm text-zinc-600 leading-relaxed">
+          <span class="font-medium text-zinc-700">{SITE.title}</span> <span data-i18n="footer.tagline">{t('footer.tagline')}</span>
         </p>
       </div>
 
       <div>
-        <h3 class="text-sm font-semibold text-white mb-3" data-i18n="footer.nav">{t('footer.nav')}</h3>
+        <h3 class="text-sm font-semibold text-zinc-900 mb-3" data-i18n="footer.nav">{t('footer.nav')}</h3>
         <ul class="space-y-2">
           {navItems.map(([key, href]) => (
             <li>
-              <a href={url(href)} data-i18n={key} class="text-sm text-zinc-400 hover:text-white transition-colors">{t(key)}</a>
+              <a href={url(href)} data-i18n={key} class="text-sm text-zinc-600 hover:text-zinc-900 transition-colors">{t(key)}</a>
             </li>
           ))}
         </ul>
       </div>
 
       <div>
-        <h3 class="text-sm font-semibold text-white mb-3" data-i18n="footer.connect">{t('footer.connect')}</h3>
+        <h3 class="text-sm font-semibold text-zinc-900 mb-3" data-i18n="footer.connect">{t('footer.connect')}</h3>
         <ul class="space-y-2">
           {socialLinks.map(s => (
             <li>
-              <a href={s.href} target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors">
+              <a href={s.href} target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-sm text-zinc-600 hover:text-zinc-900 transition-colors">
                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" set:html={s.icon} />
                 {s.label}
               </a>
             </li>
           ))}
           <li>
-            <a href={`mailto:${SITE.email}`} class="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors">
+            <a href={`mailto:${SITE.email}`} class="flex items-center gap-2 text-sm text-zinc-600 hover:text-zinc-900 transition-colors">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
               {SITE.email}
             </a>
@@ -66,11 +66,11 @@ const socialLinks = [
       </div>
     </div>
 
-    <div class="border-t border-zinc-800/60 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+    <div class="border-t border-zinc-200/60 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
       <p class="text-sm text-zinc-500">
-        &copy; {year} {SITE.name}. <span data-i18n="footer.built">{t('footer.built')}</span> <a href="https://astro.build" target="_blank" class="text-zinc-400 hover:text-white transition-colors">Astro</a> &amp; <a href="https://tailwindcss.com" target="_blank" class="text-zinc-400 hover:text-white transition-colors">Tailwind</a>.
+        &copy; {year} {SITE.name}. <span data-i18n="footer.built">{t('footer.built')}</span> <a href="https://astro.build" target="_blank" class="text-zinc-600 hover:text-zinc-900 transition-colors">Astro</a> &amp; <a href="https://tailwindcss.com" target="_blank" class="text-zinc-600 hover:text-zinc-900 transition-colors">Tailwind</a>.
       </p>
-      <p class="text-xs text-zinc-600 font-mono" data-i18n="footer.motto">
+      <p class="text-xs text-zinc-400 font-mono" data-i18n="footer.motto">
         {t('footer.motto')}
       </p>
     </div>

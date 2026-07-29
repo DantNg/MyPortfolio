@@ -43,17 +43,17 @@ const hasToc = headings.filter(h => h.depth <= 3).length > 2;
           <span>{readingTime}</span>
         </div>
 
-        <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-white text-balance mb-6">
+        <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-zinc-900 text-balance mb-6">
           {frontmatter.title}
         </h1>
 
-        <p class="text-xl text-zinc-400 leading-relaxed">
+        <p class="text-xl text-zinc-600 leading-relaxed">
           {frontmatter.description}
         </p>
 
         <div class="flex flex-wrap items-center justify-center gap-2 mt-6">
           {frontmatter.tags.map(tag => (
-            <a href={url(`/blog?tag=${tag}`)} class="tag hover:bg-brand-900 transition-colors">
+            <a href={url(`/blog?tag=${tag}`)} class="tag hover:bg-brand-100 transition-colors">
               #{tag}
             </a>
           ))}
@@ -61,7 +61,7 @@ const hasToc = headings.filter(h => h.depth <= 3).length > 2;
       </header>
 
       {frontmatter.coverImage && (
-        <div class="max-w-4xl mx-auto mb-12 rounded-2xl overflow-hidden border border-zinc-800">
+        <div class="max-w-4xl mx-auto mb-12 rounded-2xl overflow-hidden border border-zinc-200">
           <img
             src={url(frontmatter.coverImage)}
             alt={frontmatter.title}
@@ -73,7 +73,7 @@ const hasToc = headings.filter(h => h.depth <= 3).length > 2;
 
       <!-- Content with optional TOC -->
       <div class={`${hasToc ? 'lg:grid lg:grid-cols-[1fr_280px] lg:gap-16' : 'max-w-3xl mx-auto'}`}>
-        <div class="prose prose-invert prose-zinc max-w-none prose-custom">
+        <div class="prose prose-zinc max-w-none prose-custom">
           <slot />
         </div>
 
@@ -87,7 +87,7 @@ const hasToc = headings.filter(h => h.depth <= 3).length > 2;
       </div>
 
       <!-- Footer nav -->
-      <div class="max-w-3xl mx-auto mt-16 pt-8 border-t border-zinc-800">
+      <div class="max-w-3xl mx-auto mt-16 pt-8 border-t border-zinc-200">
         <a href={url('/blog')} class="btn-secondary inline-flex">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />

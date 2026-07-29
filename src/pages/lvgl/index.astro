@@ -1,0 +1,135 @@
+---
+/**
+ * Trang chủ của series học LVGL.
+ * Tiêu đề/mô tả từng bài lấy từ CẢ hai bản ngôn ngữ và render song song trong
+ * hai khối [data-lang-block]; LanguageProvider ẩn/hiện khối theo ngôn ngữ.
+ */
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { t } from '../../i18n';
+import { url } from '../../utils/url';
+
+const all = await getCollection('lvgl', (e) => !e.data.draft);
+
+// gộp bản en/vi của cùng một bài theo số thứ tự
+const byLesson = new Map<number, { slug: string; en: any; vi: any }>();
+for (const entry of all) {
+  const slug = entry.slug.split('/').pop()!;
+  const cur = byLesson.get(entry.data.lesson) ?? { slug, en: null, vi: null };
+  cur.slug = slug;
+  cur[entry.data.lang] = entry.data;
+  byLesson.set(entry.data.lesson, cur);
+}
+const lessons = [...byLesson.entries()]
+  .sort((a, b) => a[0] - b[0])
+  .map(([lesson, v]) => ({ lesson, ...v }));
+
+const allTags = [...new Set(all.flatMap((e) => e.data.tags))];
+---
+
+<BaseLayout
+  title="LVGL for Beginners"
+  description="A bilingual (English / Tiếng Việt) eight-lesson series on LVGL for embedded developers: architecture, porting, widgets, layouts, styles, events, animations and performance."
+  tags={allTags}
+>
+  <section class="pt-28 pb-16 md:pt-32 md:pb-20 relative overflow-hidden">
+    <div class="absolute inset-0 bg-pcb opacity-30 pointer-events-none" aria-hidden="true"></div>
+    <div class="absolute inset-0 bg-radial-glow pointer-events-none" aria-hidden="true"></div>
+
+    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p class="inline-flex items-center gap-2 text-brand-600 font-mono text-sm mb-4 tracking-widest uppercase" data-i18n="lvgl.eyebrow">
+        <span class="led text-emerald-500 animate-led-blink-fast"></span>{t('lvgl.eyebrow')}
+      </p>
+
+      <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-zinc-900 text-balance mb-5" data-i18n="lvgl.heading">
+        {t('lvgl.heading')}
+      </h1>
+
+      <p class="text-lg text-zinc-600 leading-relaxed max-w-2xl mx-auto" data-i18n="lvgl.subheading">
+        {t('lvgl.subheading')}
+      </p>
+
+      <div class="flex flex-wrap items-center justify-center gap-3 mt-8 text-sm">
+        <span class="tag">{lessons.length} <span data-i18n="lvgl.meta.lessons">{t('lvgl.meta.lessons')}</span></span>
+        <span class="tag" data-i18n="lvgl.meta.bilingual">{t('lvgl.meta.bilingual')}</span>
+        <span class="tag" data-i18n="lvgl.meta.code">{t('lvgl.meta.code')}</span>
+      </div>
+
+      {lessons.length > 0 && (
+        <div class="mt-8">
+          <a href={url(`/lvgl/${lessons[0].slug}`)} class="btn-primary text-base px-6 py-3">
+            <span data-i18n="lvgl.cta.start">{t('lvgl.cta.start')}</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Who / What -->
+  <section class="pb-4">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 grid sm:grid-cols-2 gap-4">
+      <div class="card">
+        <h2 class="font-semibold text-zinc-900 mb-2" data-i18n="lvgl.who.title">{t('lvgl.who.title')}</h2>
+        <p class="text-sm text-zinc-600 leading-relaxed" data-i18n="lvgl.who.body">{t('lvgl.who.body')}</p>
+      </div>
+      <div class="card">
+        <h2 class="font-semibold text-zinc-900 mb-2" data-i18n="lvgl.need.title">{t('lvgl.need.title')}</h2>
+        <p class="text-sm text-zinc-600 leading-relaxed" data-i18n="lvgl.need.body">{t('lvgl.need.body')}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lesson list -->
+  <section class="py-14 md:py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl font-bold text-zinc-900 mb-8" data-i18n="lvgl.toc">{t('lvgl.toc')}</h2>
+
+      <ol class="space-y-4">
+        {lessons.map((l) => (
+          <li>
+            <a
+              href={url(`/lvgl/${l.slug}`)}
+              class="group flex gap-5 rounded-2xl border border-zinc-200 bg-white p-5 transition-all duration-300 hover:border-brand-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-zinc-900/5"
+            >
+              <span class="flex-shrink-0 w-11 h-11 rounded-xl bg-brand-50 border border-brand-200 text-brand-700 font-mono font-bold flex items-center justify-center group-hover:bg-brand-600 group-hover:text-white group-hover:border-brand-600 transition-colors">
+                {String(l.lesson).padStart(2, '0')}
+              </span>
+
+              <span class="min-w-0 flex-1">
+                <span class="block font-semibold text-zinc-900 leading-snug group-hover:text-brand-700 transition-colors">
+                  <span data-lang-block="en">{l.en?.title}</span>
+                  <span data-lang-block="vi" hidden>{l.vi?.title}</span>
+                </span>
+
+                <span class="block text-sm text-zinc-600 leading-relaxed mt-1.5">
+                  <span data-lang-block="en">{l.en?.description}</span>
+                  <span data-lang-block="vi" hidden>{l.vi?.description}</span>
+                </span>
+
+                <span class="flex flex-wrap items-center gap-2 mt-3 text-xs text-zinc-500 font-mono">
+                  <span class="inline-flex items-center gap-1">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span data-lang-block="en">{l.en?.duration}</span>
+                    <span data-lang-block="vi" hidden>{l.vi?.duration}</span>
+                  </span>
+                  {(l.en?.tags ?? []).slice(0, 3).map((tag: string) => (
+                    <span class="px-2 py-0.5 rounded bg-zinc-100 text-zinc-600">{tag}</span>
+                  ))}
+                </span>
+              </span>
+
+              <svg class="hidden sm:block flex-shrink-0 w-5 h-5 text-zinc-300 self-center group-hover:text-brand-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+</BaseLayout>

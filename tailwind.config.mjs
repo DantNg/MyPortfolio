@@ -82,20 +82,27 @@ export default {
         },
       },
       backgroundImage: {
-        'grid-pattern': "linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px)",
-        'radial-glow': 'radial-gradient(ellipse at top, rgba(59,130,246,0.15) 0%, transparent 70%)',
+        'grid-pattern': "linear-gradient(rgba(37,99,235,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,0.06) 1px, transparent 1px)",
+        'radial-glow': 'radial-gradient(ellipse at top, rgba(37,99,235,0.10) 0%, transparent 70%)',
       },
       backgroundSize: {
         'grid': '40px 40px',
       },
       typography: (theme) => ({
-        invert: {
+        DEFAULT: {
           css: {
-            '--tw-prose-body': theme('colors.zinc[300]'),
-            '--tw-prose-headings': theme('colors.white'),
-            '--tw-prose-links': theme('colors.brand[400]'),
-            '--tw-prose-code': theme('colors.brand[300]'),
+            '--tw-prose-body': theme('colors.zinc[700]'),
+            '--tw-prose-headings': theme('colors.zinc[900]'),
+            '--tw-prose-links': theme('colors.brand[600]'),
+            '--tw-prose-bold': theme('colors.zinc[900]'),
+            '--tw-prose-code': theme('colors.brand[700]'),
+            '--tw-prose-quotes': theme('colors.zinc[600]'),
+            '--tw-prose-bullets': theme('colors.zinc[400]'),
+            '--tw-prose-hr': theme('colors.zinc[200]'),
+            '--tw-prose-th-borders': theme('colors.zinc[300]'),
+            '--tw-prose-td-borders': theme('colors.zinc[200]'),
             '--tw-prose-pre-bg': theme('colors.zinc[900]'),
+            '--tw-prose-pre-code': theme('colors.zinc[100]'),
           },
         },
       }),

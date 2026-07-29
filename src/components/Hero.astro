@@ -19,33 +19,33 @@ const rightPins = ['PC13/LED', 'SWDIO', 'SWCLK', 'NRST', 'VDD', 'GND'];
   <div class="absolute inset-0 bg-pcb opacity-60 pointer-events-none" aria-hidden="true"></div>
   <div class="absolute inset-0 bg-radial-glow pointer-events-none" aria-hidden="true"></div>
   <!-- vignette -->
-  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse at center, transparent 40%, rgba(2,4,8,0.85) 100%)" aria-hidden="true"></div>
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse at center, transparent 35%, rgba(255,255,255,0.92) 100%)" aria-hidden="true"></div>
 
   <div class="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 grid lg:grid-cols-2 gap-12 items-center">
 
     <!-- ========== LEFT: Identity ========== -->
     <div class="text-center lg:text-left">
       <!-- Badge -->
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-800/60 bg-cyan-950/40 text-cyan-300 text-xs font-mono mb-7 animate-fade-in backdrop-blur-sm">
-        <span class="led text-emerald-400 animate-led-blink"></span>
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-brand-200/60 bg-brand-50/40 text-cyan-700 text-xs font-mono mb-7 animate-fade-in backdrop-blur-sm">
+        <span class="led text-emerald-500 animate-led-blink"></span>
         <span data-i18n="hero.badge">{t('hero.badge')}</span>
       </div>
 
       <!-- Name -->
-      <h1 class="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white mb-4 animate-slide-up">
+      <h1 class="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-zinc-900 mb-4 animate-slide-up">
         {firstName} <span class="gradient-text">{lastName}</span>
       </h1>
 
       <!-- Title (typed) -->
       <div class="flex items-center justify-center lg:justify-start gap-3 mb-6 animate-slide-up animate-delay-100">
-        <span class="text-cyan-500 font-mono text-lg">&gt;_</span>
-        <p class="text-xl md:text-2xl font-medium text-zinc-200 font-mono">
+        <span class="text-brand-500 font-mono text-lg">&gt;_</span>
+        <p class="text-xl md:text-2xl font-medium text-zinc-800 font-mono">
           <span id="role-type"></span><span class="blink-cursor"></span>
         </p>
       </div>
 
       <!-- Introduction -->
-      <p class="max-w-xl mx-auto lg:mx-0 text-base md:text-lg text-zinc-400 leading-relaxed mb-9 animate-slide-up animate-delay-200">
+      <p class="max-w-xl mx-auto lg:mx-0 text-base md:text-lg text-zinc-600 leading-relaxed mb-9 animate-slide-up animate-delay-200">
         {SITE.intro}
       </p>
 
@@ -79,7 +79,7 @@ const rightPins = ['PC13/LED', 'SWDIO', 'SWCLK', 'NRST', 'VDD', 'GND'];
           { value: '6+', key: 'hero.stat.platforms' },
           { value: '3', key: 'hero.stat.oss' },
         ].map(stat => (
-          <div class="rounded-lg border border-zinc-800/80 bg-zinc-900/30 backdrop-blur-sm px-3 py-3 text-center">
+          <div class="rounded-lg border border-zinc-200/80 bg-zinc-50/30 backdrop-blur-sm px-3 py-3 text-center">
             <div class="text-2xl md:text-3xl font-bold gradient-text font-mono">{stat.value}</div>
             <div class="text-[10px] uppercase tracking-wider text-zinc-500 mt-1" data-i18n={stat.key}>{t(stat.key)}</div>
           </div>
@@ -90,15 +90,15 @@ const rightPins = ['PC13/LED', 'SWDIO', 'SWCLK', 'NRST', 'VDD', 'GND'];
     <!-- ========== RIGHT: Dev-board console ========== -->
     <div class="relative animate-fade-in animate-delay-200">
       <!-- glow under board -->
-      <div class="absolute -inset-6 bg-cyan-500/10 blur-3xl rounded-full pointer-events-none" aria-hidden="true"></div>
+      <div class="absolute -inset-6 bg-brand-500/10 blur-3xl rounded-full pointer-events-none" aria-hidden="true"></div>
 
-      <!-- Boot terminal -->
-      <div class="terminal crt animate-flicker">
+      <!-- Boot terminal (màn hình thiết bị — cố ý giữ nền tối) -->
+      <div class="terminal crt">
         <div class="terminal-bar">
           <span class="terminal-dot bg-red-500/80"></span>
           <span class="terminal-dot bg-yellow-500/80"></span>
           <span class="terminal-dot bg-green-500/80"></span>
-          <span class="ml-2 text-xs text-cyan-300/70">/dev/ttyUSB0 · 115200 8N1</span>
+          <span class="ml-2 text-xs text-cyan-300/80">/dev/ttyUSB0 · 115200 8N1</span>
           <span class="ml-auto flex items-center gap-1.5 text-[10px] text-emerald-400">
             <span class="led text-emerald-400 animate-led-blink-fast"></span> RX/TX
           </span>
@@ -110,7 +110,7 @@ const rightPins = ['PC13/LED', 'SWDIO', 'SWCLK', 'NRST', 'VDD', 'GND'];
       <div class="mt-5 grid grid-cols-5 gap-4">
         <!-- MCU chip -->
         <div class="col-span-2 chip-card flex flex-col items-center justify-center" data-tilt>
-          <div class="text-[9px] font-mono text-cyan-400/70 mb-2 self-start">U1 · MCU</div>
+          <div class="text-[9px] font-mono text-cyan-600/70 mb-2 self-start">U1 · MCU</div>
           <div class="relative">
             <!-- pins left -->
             <div class="absolute right-full top-0 h-full flex flex-col justify-around pr-0.5">
@@ -121,43 +121,43 @@ const rightPins = ['PC13/LED', 'SWDIO', 'SWCLK', 'NRST', 'VDD', 'GND'];
               {rightPins.map(() => <span class="block w-3 h-1 bg-zinc-500 rounded-r"></span>)}
             </div>
             <!-- die -->
-            <div class="w-20 h-20 rounded-md bg-gradient-to-br from-zinc-800 to-black border border-zinc-700 flex items-center justify-center relative animate-spin-slow" style="animation:none">
-              <div class="absolute top-1 left-1 w-1.5 h-1.5 rounded-full bg-zinc-600"></div>
-              <span class="text-[8px] font-mono text-zinc-400 text-center leading-tight">ARM<br/>Cortex-M</span>
+            <div class="w-20 h-20 rounded-md bg-gradient-to-br from-zinc-700 to-zinc-900 border border-zinc-600 flex items-center justify-center relative">
+              <div class="absolute top-1 left-1 w-1.5 h-1.5 rounded-full bg-zinc-500"></div>
+              <span class="text-[8px] font-mono text-zinc-300 text-center leading-tight">ARM<br/>Cortex-M</span>
             </div>
           </div>
           <div class="flex gap-2 mt-3">
-            <span class="led text-emerald-400 animate-led-blink"></span>
-            <span class="led text-cyan-400 animate-led-blink-fast"></span>
+            <span class="led text-emerald-500 animate-led-blink"></span>
+            <span class="led text-cyan-600 animate-led-blink-fast"></span>
             <span class="led text-amber-400 animate-led-blink" style="animation-delay:.3s"></span>
           </div>
         </div>
 
         <!-- Oscilloscope -->
         <div class="col-span-3 chip-card p-0 overflow-hidden">
-          <div class="flex items-center justify-between px-3 py-1.5 border-b border-cyan-900/40">
-            <span class="text-[9px] font-mono text-cyan-400/70">SCOPE · CH1</span>
-            <span class="text-[9px] font-mono text-emerald-400/70">PWM 50% · 1kHz</span>
+          <div class="flex items-center justify-between px-3 py-1.5 border-b border-brand-200/40">
+            <span class="text-[9px] font-mono text-cyan-600/70">SCOPE · CH1</span>
+            <span class="text-[9px] font-mono text-emerald-500/70">PWM 50% · 1kHz</span>
           </div>
           <canvas id="scope-canvas" class="w-full" height="120"></canvas>
         </div>
       </div>
 
       <!-- protocol marquee -->
-      <div class="mt-4 overflow-hidden rounded-lg border border-zinc-800/80 bg-zinc-900/30 py-2">
+      <div class="mt-4 overflow-hidden rounded-lg border border-zinc-200/80 bg-zinc-50/30 py-2">
         <div class="flex w-max animate-marquee gap-8 px-4 text-xs font-mono text-zinc-500 whitespace-nowrap">
           {Array(2).fill(0).map(() => (
             <>
-              <span>UART</span><span class="text-cyan-500">·</span>
-              <span>SPI</span><span class="text-cyan-500">·</span>
-              <span>I2C</span><span class="text-cyan-500">·</span>
-              <span>CAN</span><span class="text-cyan-500">·</span>
-              <span>RS485</span><span class="text-cyan-500">·</span>
-              <span>BLE 5.0</span><span class="text-cyan-500">·</span>
-              <span>LoRa</span><span class="text-cyan-500">·</span>
-              <span>FreeRTOS</span><span class="text-cyan-500">·</span>
-              <span>Zephyr</span><span class="text-cyan-500">·</span>
-              <span>Embedded Linux</span><span class="text-cyan-500">·</span>
+              <span>UART</span><span class="text-brand-500">·</span>
+              <span>SPI</span><span class="text-brand-500">·</span>
+              <span>I2C</span><span class="text-brand-500">·</span>
+              <span>CAN</span><span class="text-brand-500">·</span>
+              <span>RS485</span><span class="text-brand-500">·</span>
+              <span>BLE 5.0</span><span class="text-brand-500">·</span>
+              <span>LoRa</span><span class="text-brand-500">·</span>
+              <span>FreeRTOS</span><span class="text-brand-500">·</span>
+              <span>Zephyr</span><span class="text-brand-500">·</span>
+              <span>Embedded Linux</span><span class="text-brand-500">·</span>
             </>
           ))}
         </div>
@@ -167,8 +167,8 @@ const rightPins = ['PC13/LED', 'SWDIO', 'SWCLK', 'NRST', 'VDD', 'GND'];
 
   <!-- Scroll indicator -->
   <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-    <div class="w-6 h-10 rounded-full border-2 border-cyan-800/60 flex items-start justify-center p-1">
-      <div class="w-1 h-2 bg-cyan-500 rounded-full animate-slide-up"></div>
+    <div class="w-6 h-10 rounded-full border-2 border-brand-200/60 flex items-start justify-center p-1">
+      <div class="w-1 h-2 bg-brand-500 rounded-full animate-slide-up"></div>
     </div>
   </div>
 </section>
@@ -252,11 +252,11 @@ const rightPins = ['PC13/LED', 'SWDIO', 'SWCLK', 'NRST', 'VDD', 'GND'];
       const W = scope.width, H = scope.height, dpr = devicePixelRatio;
       ctx.clearRect(0, 0, W, H);
       // grid
-      ctx.strokeStyle = 'rgba(34,211,238,0.08)'; ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(37,99,235,0.12)'; ctx.lineWidth = 1;
       for (let x = 0; x < W; x += 24 * dpr) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
       for (let y = 0; y < H; y += 24 * dpr) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
       // waveform: PWM-ish square + sine overlay
-      ctx.strokeStyle = '#22d3ee'; ctx.lineWidth = 2 * dpr; ctx.shadowColor = '#22d3ee'; ctx.shadowBlur = 8 * dpr;
+      ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2 * dpr; ctx.shadowColor = 'rgba(37,99,235,0.45)'; ctx.shadowBlur = 6 * dpr;
       ctx.beginPath();
       for (let x = 0; x <= W; x++) {
         const tt = (x / W) * 6 + phase;
@@ -301,9 +301,9 @@ const rightPins = ['PC13/LED', 'SWDIO', 'SWCLK', 'NRST', 'VDD', 'GND'];
     const draw = () => {
       ctx.clearRect(0,0,W,H);
       // faint trace lines between nearby nodes
-      ctx.strokeStyle = 'rgba(34,211,238,0.06)'; ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(37,99,235,0.10)'; ctx.lineWidth = 1;
       for (const n of nodes) {
-        ctx.fillStyle = 'rgba(34,211,238,0.18)';
+        ctx.fillStyle = 'rgba(37,99,235,0.28)';
         ctx.fillRect(n.x-1, n.y-1, 2, 2);
       }
       // packets travel L-shaped
@@ -321,8 +321,8 @@ const rightPins = ['PC13/LED', 'SWDIO', 'SWCLK', 'NRST', 'VDD', 'GND'];
           cy = p.y + (p.ty - p.y) * vt;
         }
         const alpha = (1 - Math.abs(t - 0.5) * 2) * 0.9;
-        ctx.fillStyle = `rgba(45,212,238,${alpha})`;
-        ctx.shadowColor = '#22d3ee'; ctx.shadowBlur = 8;
+        ctx.fillStyle = `rgba(37,99,235,${alpha})`;
+        ctx.shadowColor = 'rgba(37,99,235,0.6)'; ctx.shadowBlur = 6;
         ctx.fillRect(cx-1.5, cy-1.5, 3, 3);
         ctx.shadowBlur = 0;
       }

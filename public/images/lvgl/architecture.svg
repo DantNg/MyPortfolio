@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" width="760" height="420" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="420" fill="#ffffff"/>
+  <text x="380" y="34" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">LVGL — Kiến trúc / Architecture</text>
+
+  <!-- App layer -->
+  <rect x="60" y="60" width="640" height="62" rx="10" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="380" y="86" text-anchor="middle" font-size="14" font-weight="600" fill="#1d4ed8">Your Application</text>
+  <text x="380" y="106" text-anchor="middle" font-size="12" fill="#3f3f46">lv_label_create() · lv_obj_add_event_cb() · lv_anim_start()</text>
+
+  <!-- LVGL core -->
+  <rect x="60" y="140" width="640" height="150" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="80" y="164" font-size="13" font-weight="700" fill="#18181b">LVGL Core</text>
+
+  <rect x="82" y="178" width="140" height="46" rx="8" fill="#ffffff" stroke="#e4e4e7"/>
+  <text x="152" y="200" text-anchor="middle" font-size="12" font-weight="600" fill="#27272a">Widgets</text>
+  <text x="152" y="215" text-anchor="middle" font-size="10.5" fill="#71717a">label, btn, chart…</text>
+
+  <rect x="234" y="178" width="140" height="46" rx="8" fill="#ffffff" stroke="#e4e4e7"/>
+  <text x="304" y="200" text-anchor="middle" font-size="12" font-weight="600" fill="#27272a">Style / Layout</text>
+  <text x="304" y="215" text-anchor="middle" font-size="10.5" fill="#71717a">flex, grid, theme</text>
+
+  <rect x="386" y="178" width="140" height="46" rx="8" fill="#ffffff" stroke="#e4e4e7"/>
+  <text x="456" y="200" text-anchor="middle" font-size="12" font-weight="600" fill="#27272a">Event / Timer</text>
+  <text x="456" y="215" text-anchor="middle" font-size="10.5" fill="#71717a">anim, lv_timer</text>
+
+  <rect x="538" y="178" width="140" height="46" rx="8" fill="#ffffff" stroke="#e4e4e7"/>
+  <text x="608" y="200" text-anchor="middle" font-size="12" font-weight="600" fill="#27272a">Renderer</text>
+  <text x="608" y="215" text-anchor="middle" font-size="10.5" fill="#71717a">draw + refresh</text>
+
+  <rect x="82" y="236" width="596" height="40" rx="8" fill="#ecfeff" stroke="#a5f3fc"/>
+  <text x="380" y="261" text-anchor="middle" font-size="12" font-weight="600" fill="#0e7490">Draw buffer (lv_disp_draw_buf_t) — vùng RAM LVGL vẽ vào / where LVGL renders</text>
+
+  <!-- HAL -->
+  <rect x="60" y="308" width="310" height="62" rx="10" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="215" y="332" text-anchor="middle" font-size="13" font-weight="600" fill="#15803d">Display driver — flush_cb()</text>
+  <text x="215" y="352" text-anchor="middle" font-size="11" fill="#3f3f46">đẩy pixel ra màn hình / push pixels to LCD</text>
+
+  <rect x="390" y="308" width="310" height="62" rx="10" fill="#fefce8" stroke="#fde047"/>
+  <text x="545" y="332" text-anchor="middle" font-size="13" font-weight="600" fill="#a16207">Input driver — read_cb()</text>
+  <text x="545" y="352" text-anchor="middle" font-size="11" fill="#3f3f46">touch / encoder / keypad</text>
+
+  <!-- Hardware -->
+  <rect x="60" y="386" width="640" height="24" rx="6" fill="#27272a"/>
+  <text x="380" y="403" text-anchor="middle" font-size="11.5" font-weight="600" fill="#e4e4e7">HARDWARE — MCU · SPI/RGB LCD · Touch controller</text>
+
+  <!-- arrows -->
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#2563eb"/>
+    </marker>
+  </defs>
+  <line x1="380" y1="122" x2="380" y2="138" stroke="#2563eb" stroke-width="2" marker-end="url(#a)"/>
+  <line x1="215" y1="290" x2="215" y2="306" stroke="#2563eb" stroke-width="2" marker-end="url(#a)"/>
+  <line x1="545" y1="306" x2="545" y2="292" stroke="#2563eb" stroke-width="2" marker-end="url(#a)"/>
+  <line x1="215" y1="370" x2="215" y2="384" stroke="#2563eb" stroke-width="2" marker-end="url(#a)"/>
+  <line x1="545" y1="384" x2="545" y2="372" stroke="#2563eb" stroke-width="2" marker-end="url(#a)"/>
+</svg>

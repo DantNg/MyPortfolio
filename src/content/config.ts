@@ -30,4 +30,22 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { projects, blog };
+/**
+ * Series học LVGL — mỗi bài có 2 file: `<slug>.en.md` và `<slug>.vi.md`.
+ * Trang bài học render CẢ HAI, rồi LanguageProvider ẩn/hiện theo ngôn ngữ
+ * đang chọn (data-lang-block) — chuyển ngữ tức thì, không tải lại trang.
+ */
+const lvgl = defineCollection({
+  type: 'content',
+  schema: z.object({
+    lesson: z.number(),
+    lang: z.enum(['en', 'vi']),
+    title: z.string(),
+    description: z.string(),
+    duration: z.string(),
+    tags: z.array(z.string()).default([]),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { projects, blog, lvgl };

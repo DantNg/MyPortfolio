@@ -31,9 +31,9 @@ const posts = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Header -->
       <div class="max-w-2xl mb-12" data-animate>
-        <p class="text-brand-400 font-mono text-sm mb-3 tracking-widest uppercase">Writing</p>
-        <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-white mb-4">Blog</h1>
-        <p class="text-xl text-zinc-400">
+        <p class="text-brand-600 font-mono text-sm mb-3 tracking-widest uppercase">Writing</p>
+        <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-zinc-900 mb-4">Blog</h1>
+        <p class="text-xl text-zinc-600">
           Deep dives into embedded systems, firmware patterns, and lessons from the field.
         </p>
       </div>
@@ -53,13 +53,13 @@ const posts = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
           />
         </div>
         <div class="flex items-center gap-2 flex-wrap">
-          <a href={url('/blog')} class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${!tag ? 'bg-brand-600 text-white' : 'bg-zinc-800 text-zinc-400 hover:text-white'}`}>
+          <a href={url('/blog')} class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${!tag ? 'bg-brand-600 text-white' : 'bg-zinc-100 text-zinc-700 hover:bg-zinc-200 hover:text-zinc-900'}`}>
             All
           </a>
           {allTags.map(t => (
             <a
               href={url(`/blog?tag=${t}${search ? `&q=${search}` : ''}`)}
-              class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${tag === t ? 'bg-brand-600 text-white' : 'bg-zinc-800 text-zinc-400 hover:text-white'}`}
+              class={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${tag === t ? 'bg-brand-600 text-white' : 'bg-zinc-100 text-zinc-700 hover:bg-zinc-200 hover:text-zinc-900'}`}
             >
               {t}
             </a>
@@ -70,8 +70,8 @@ const posts = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
       {(tag || search) && (
         <p class="text-sm text-zinc-500 mb-6">
           {filtered.length} article{filtered.length !== 1 ? 's' : ''}
-          {tag && <> tagged <span class="text-brand-400">#{tag}</span></>}
-          {search && <> matching <span class="text-zinc-300">"{search}"</span></>}
+          {tag && <> tagged <span class="text-brand-600">#{tag}</span></>}
+          {search && <> matching <span class="text-zinc-700">"{search}"</span></>}
         </p>
       )}
 

@@ -14,7 +14,7 @@ const channels = [
 <section id="contact" class="py-24 md:py-32">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="max-w-3xl mx-auto text-center mb-16" data-animate>
-      <p class="text-brand-400 font-mono text-sm mb-3 tracking-widest uppercase" data-i18n="contact.eyebrow">{t('contact.eyebrow')}</p>
+      <p class="text-brand-600 font-mono text-sm mb-3 tracking-widest uppercase" data-i18n="contact.eyebrow">{t('contact.eyebrow')}</p>
       <h2 class="section-heading" data-i18n="contact.heading">{t('contact.heading')}</h2>
       <p class="section-subheading" data-i18n="contact.subheading">
         {t('contact.subheading')}
@@ -25,28 +25,28 @@ const channels = [
       <!-- Contact info -->
       <div class="space-y-6" data-animate>
         <div class="card">
-          <h3 class="font-semibold text-white mb-6" data-i18n="contact.getInTouch">{t('contact.getInTouch')}</h3>
+          <h3 class="font-semibold text-zinc-900 mb-6" data-i18n="contact.getInTouch">{t('contact.getInTouch')}</h3>
           <div class="space-y-4">
             <a href={`mailto:${SITE.email}`} class="flex items-center gap-4 group">
-              <div class="flex-shrink-0 w-10 h-10 rounded-xl bg-brand-950 border border-brand-900 flex items-center justify-center text-brand-400 group-hover:bg-brand-900 transition-colors">
+              <div class="flex-shrink-0 w-10 h-10 rounded-xl bg-brand-50 border border-brand-200 flex items-center justify-center text-brand-600 group-hover:bg-brand-100 transition-colors">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                 </svg>
               </div>
               <div>
                 <p class="text-xs text-zinc-500 mb-0.5">Email</p>
-                <p class="text-sm text-zinc-200 group-hover:text-brand-400 transition-colors">{SITE.email}</p>
+                <p class="text-sm text-zinc-800 group-hover:text-brand-600 transition-colors">{SITE.email}</p>
               </div>
             </a>
 
             {channels.map(c => (
               <a href={c.href} target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 group">
-                <div class="flex-shrink-0 w-10 h-10 rounded-xl bg-zinc-800 border border-zinc-700 flex items-center justify-center text-zinc-400 group-hover:bg-zinc-700 transition-colors">
+                <div class="flex-shrink-0 w-10 h-10 rounded-xl bg-zinc-100 border border-zinc-300 flex items-center justify-center text-zinc-600 group-hover:bg-zinc-200 transition-colors">
                   <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" set:html={c.icon} />
                 </div>
                 <div>
                   <p class="text-xs text-zinc-500 mb-0.5">{c.label}</p>
-                  <p class="text-sm text-zinc-200 group-hover:text-brand-400 transition-colors">{c.value}</p>
+                  <p class="text-sm text-zinc-800 group-hover:text-brand-600 transition-colors">{c.value}</p>
                 </div>
               </a>
             ))}
@@ -56,10 +56,10 @@ const channels = [
         <div class="card">
           <div class="flex items-center gap-2 mb-2">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span class="text-sm font-medium text-white" data-i18n="contact.available.title">{t('contact.available.title')}</span>
+            <span class="text-sm font-medium text-zinc-900" data-i18n="contact.available.title">{t('contact.available.title')}</span>
           </div>
-          <p class="text-sm text-zinc-400">
-            <span data-i18n="contact.available.body">{t('contact.available.body')}</span> <span class="text-zinc-300">{SITE.location}.</span>
+          <p class="text-sm text-zinc-600">
+            <span data-i18n="contact.available.body">{t('contact.available.body')}</span> <span class="text-zinc-700">{SITE.location}.</span>
           </p>
         </div>
       </div>
@@ -72,26 +72,26 @@ const channels = [
           action="https://formspree.io/f/yourformid"
           method="POST"
         >
-          <h3 class="font-semibold text-white mb-2" data-i18n="contact.form.title">{t('contact.form.title')}</h3>
+          <h3 class="font-semibold text-zinc-900 mb-2" data-i18n="contact.form.title">{t('contact.form.title')}</h3>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label for="name" class="block text-xs font-medium text-zinc-400 mb-1.5" data-i18n="contact.form.name">{t('contact.form.name')}</label>
+              <label for="name" class="block text-xs font-medium text-zinc-600 mb-1.5" data-i18n="contact.form.name">{t('contact.form.name')}</label>
               <input type="text" id="name" name="name" required class="input" placeholder="John Doe" data-i18n-ph="contact.form.namePh" />
             </div>
             <div>
-              <label for="email" class="block text-xs font-medium text-zinc-400 mb-1.5" data-i18n="contact.form.email">{t('contact.form.email')}</label>
+              <label for="email" class="block text-xs font-medium text-zinc-600 mb-1.5" data-i18n="contact.form.email">{t('contact.form.email')}</label>
               <input type="email" id="email" name="email" required class="input" placeholder="john@example.com" data-i18n-ph="contact.form.emailPh" />
             </div>
           </div>
 
           <div>
-            <label for="subject" class="block text-xs font-medium text-zinc-400 mb-1.5" data-i18n="contact.form.subject">{t('contact.form.subject')}</label>
+            <label for="subject" class="block text-xs font-medium text-zinc-600 mb-1.5" data-i18n="contact.form.subject">{t('contact.form.subject')}</label>
             <input type="text" id="subject" name="subject" required class="input" placeholder="Project inquiry..." data-i18n-ph="contact.form.subjectPh" />
           </div>
 
           <div>
-            <label for="message" class="block text-xs font-medium text-zinc-400 mb-1.5" data-i18n="contact.form.message">{t('contact.form.message')}</label>
+            <label for="message" class="block text-xs font-medium text-zinc-600 mb-1.5" data-i18n="contact.form.message">{t('contact.form.message')}</label>
             <textarea id="message" name="message" required rows="5" class="input resize-none" placeholder="Tell me about your project..." data-i18n-ph="contact.form.messagePh"></textarea>
           </div>
 

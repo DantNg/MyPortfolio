@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 340" width="760" height="340" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="340" fill="#ffffff"/>
+  <text x="380" y="30" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">Draw buffer — RAM đổi lấy tốc độ / trading RAM for speed</text>
+
+  <!-- partial -->
+  <rect x="24" y="58" width="230" height="250" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="139" y="82" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1d4ed8">1 buffer nhỏ / one small</text>
+  <rect x="52" y="96" width="174" height="120" rx="6" fill="#ffffff" stroke="#d4d4d8"/>
+  <rect x="52" y="96" width="174" height="20" fill="#bfdbfe"/>
+  <text x="139" y="111" text-anchor="middle" font-size="9.5" fill="#1e40af">1/10 màn hình</text>
+  <line x1="52" y1="120" x2="226" y2="120" stroke="#e4e4e7"/>
+  <line x1="52" y1="144" x2="226" y2="144" stroke="#e4e4e7"/>
+  <line x1="52" y1="168" x2="226" y2="168" stroke="#e4e4e7"/>
+  <line x1="52" y1="192" x2="226" y2="192" stroke="#e4e4e7"/>
+  <text x="139" y="238" text-anchor="middle" font-size="11" fill="#16a34a">RAM: thấp / lowest</text>
+  <text x="139" y="258" text-anchor="middle" font-size="11" fill="#b45309">Tốc độ: chậm nhất</text>
+  <text x="139" y="278" text-anchor="middle" font-size="10.5" fill="#71717a">flush nhiều lần / many flushes</text>
+  <text x="139" y="296" text-anchor="middle" font-size="10" fill="#71717a">≥ 1/10 × hres × vres</text>
+
+  <!-- double -->
+  <rect x="266" y="58" width="230" height="250" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="381" y="82" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1d4ed8">2 buffer nhỏ / two small</text>
+  <rect x="294" y="96" width="174" height="120" rx="6" fill="#ffffff" stroke="#d4d4d8"/>
+  <rect x="294" y="96" width="174" height="20" fill="#bfdbfe"/>
+  <rect x="294" y="120" width="174" height="20" fill="#a5f3fc"/>
+  <text x="381" y="111" text-anchor="middle" font-size="9.5" fill="#1e40af">CPU vẽ / draws</text>
+  <text x="381" y="135" text-anchor="middle" font-size="9.5" fill="#0e7490">DMA đẩy / flushes</text>
+  <text x="381" y="238" text-anchor="middle" font-size="11" fill="#b45309">RAM: trung bình / medium</text>
+  <text x="381" y="258" text-anchor="middle" font-size="11" fill="#16a34a">Tốc độ: tốt — vẽ song song DMA</text>
+  <text x="381" y="278" text-anchor="middle" font-size="10.5" fill="#71717a">draw &amp; flush overlap</text>
+  <text x="381" y="296" text-anchor="middle" font-size="10" fill="#71717a">lựa chọn tốt nhất đa số ca / best default</text>
+
+  <!-- full -->
+  <rect x="508" y="58" width="230" height="250" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="623" y="82" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1d4ed8">2 buffer full-screen</text>
+  <rect x="536" y="96" width="174" height="120" rx="6" fill="#bfdbfe" stroke="#60a5fa"/>
+  <text x="623" y="160" text-anchor="middle" font-size="10.5" fill="#1e40af">toàn khung hình / full frame</text>
+  <text x="623" y="238" text-anchor="middle" font-size="11" fill="#dc2626">RAM: rất cao / highest</text>
+  <text x="623" y="258" text-anchor="middle" font-size="11" fill="#16a34a">Tốc độ: nhanh nhất, không xé hình</text>
+  <text x="623" y="278" text-anchor="middle" font-size="10.5" fill="#71717a">tearing-free, needs PSRAM/SDRAM</text>
+  <text x="623" y="296" text-anchor="middle" font-size="10" fill="#71717a">2 × hres × vres × 2 byte (RGB565)</text>
+</svg>

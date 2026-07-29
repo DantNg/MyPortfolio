@@ -3,16 +3,23 @@
 @tailwind utilities;
 
 /*
+  ============================================================
+   LIGHT THEME
+  ============================================================
   brand palette (blue):
   50:#eff6ff 100:#dbeafe 200:#bfdbfe 300:#93c5fd 400:#60a5fa
   500:#3b82f6 600:#2563eb 700:#1d4ed8 800:#1e40af 900:#1e3a8a 950:#172554
+
+  Nền sáng (zinc-50 / white), chữ đậm (zinc-900), điểm nhấn brand-600.
+  Riêng khối "terminal" vẫn giữ nền tối — đó là màn hình thiết bị,
+  giống console thật, tương phản tốt trên nền sáng.
 */
 
 @layer base {
   :root {
-    --color-bg: #09090b;
-    --color-surface: #111113;
-    --color-border: #27272a;
+    --color-bg: #ffffff;
+    --color-surface: #f8fafc;
+    --color-border: #e4e4e7;
   }
 
   html {
@@ -20,76 +27,84 @@
   }
 
   body {
-    @apply bg-zinc-950 text-zinc-100 antialiased;
+    @apply bg-white text-zinc-900 antialiased;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   }
 
+  /* Khối song ngữ bị ẩn phải luôn biến mất, kể cả khi có display:flex/grid */
+  [hidden] { display: none !important; }
+
   ::selection {
-    background-color: #2563eb;
-    color: #fff;
+    background-color: #bfdbfe;
+    color: #1e3a8a;
   }
 
   ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: #18181b; }
-  ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 9999px; }
-  ::-webkit-scrollbar-thumb:hover { background: #71717a; }
+  ::-webkit-scrollbar-track { background: #f4f4f5; }
+  ::-webkit-scrollbar-thumb { background: #d4d4d8; border-radius: 9999px; }
+  ::-webkit-scrollbar-thumb:hover { background: #a1a1aa; }
 }
 
 @layer components {
   .glass {
-    background: rgba(255,255,255,0.05);
+    background: rgba(255,255,255,0.72);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(24,24,27,0.08);
+    box-shadow: 0 1px 2px rgba(24,24,27,0.04);
   }
 
   .glass-hover {
     @apply transition-all duration-300;
   }
   .glass-hover:hover {
-    background: rgba(255,255,255,0.08);
-    border-color: rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.95);
+    border-color: rgba(37,99,235,0.28);
+    box-shadow: 0 12px 30px -12px rgba(24,24,27,0.18);
   }
 
   .gradient-text {
-    background: linear-gradient(to right, #60a5fa, #22d3ee);
+    background: linear-gradient(to right, #2563eb, #0891b2);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .section-heading {
-    @apply text-3xl md:text-4xl font-bold tracking-tight text-white;
+    @apply text-3xl md:text-4xl font-bold tracking-tight text-zinc-900;
   }
 
   .section-subheading {
-    @apply text-zinc-400 mt-3 text-lg leading-relaxed;
+    @apply text-zinc-600 mt-3 text-lg leading-relaxed;
   }
 
   .btn-primary {
     @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-white font-medium text-sm transition-all duration-200;
     background-color: #2563eb;
-    box-shadow: 0 4px 14px rgba(29, 78, 216, 0.3);
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
   }
   .btn-primary:hover {
-    background-color: #3b82f6;
+    background-color: #1d4ed8;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(29, 78, 216, 0.4);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
   }
 
   .btn-secondary {
-    @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-zinc-700 hover:border-zinc-500 text-zinc-300 hover:text-white font-medium text-sm transition-all duration-200;
+    @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-zinc-300 bg-white text-zinc-700 font-medium text-sm transition-all duration-200;
   }
   .btn-secondary:hover {
+    border-color: #60a5fa;
+    color: #1d4ed8;
     transform: translateY(-2px);
+    box-shadow: 0 6px 18px -8px rgba(24,24,27,0.25);
   }
 
   .tag {
     @apply inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium;
-    background-color: #172554;
-    color: #93c5fd;
-    border: 1px solid #1e3a8a;
+    background-color: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
   }
 
   .card {
@@ -97,97 +112,115 @@
   }
 
   .input {
-    @apply w-full bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-2.5 text-zinc-100 placeholder-zinc-500 transition-all duration-200;
+    @apply w-full bg-white border border-zinc-300 rounded-lg px-4 py-2.5 text-zinc-900 placeholder-zinc-400 transition-all duration-200;
     outline: none;
   }
   .input:focus {
     border-color: #2563eb;
-    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
   }
 
   .prose-custom h1, .prose-custom h2, .prose-custom h3,
   .prose-custom h4, .prose-custom h5, .prose-custom h6 {
-    @apply font-semibold tracking-tight;
+    @apply font-semibold tracking-tight text-zinc-900;
   }
   .prose-custom a {
-    color: #60a5fa;
+    color: #2563eb;
     text-decoration: none;
   }
   .prose-custom a:hover { text-decoration: underline; }
   .prose-custom code {
-    color: #93c5fd;
-    background: #18181b;
+    color: #1d4ed8;
+    background: #eff6ff;
     padding: 2px 6px;
     border-radius: 4px;
     font-size: 0.875em;
+    border: 1px solid #dbeafe;
   }
   .prose-custom code::before, .prose-custom code::after { content: none; }
   .prose-custom pre {
-    @apply bg-zinc-900 border border-zinc-800;
+    @apply bg-zinc-900 border border-zinc-800 text-zinc-100;
+  }
+  .prose-custom pre code {
+    background: transparent;
+    border: 0;
+    color: inherit;
+    padding: 0;
   }
   .prose-custom blockquote {
     border-left-color: #2563eb;
-    @apply text-zinc-400;
+    background: #f8fafc;
+    @apply text-zinc-600 rounded-r-lg py-1;
+  }
+  .prose-custom table {
+    @apply text-sm;
+  }
+  .prose-custom th {
+    @apply bg-zinc-50;
+  }
+  .prose-custom img {
+    @apply rounded-xl border border-zinc-200 bg-white;
   }
 }
 
 @layer components {
-  /* ===== EMBEDDED / HARDWARE UI ===== */
+  /* ===== EMBEDDED / HARDWARE UI (light) ===== */
 
-  /* Neon-glow terminal panel */
+  /* Device console — cố tình giữ nền tối như màn hình thiết bị thật */
   .terminal {
     @apply rounded-xl border overflow-hidden font-mono text-sm relative;
-    background: linear-gradient(180deg, rgba(8,12,20,0.95), rgba(6,9,16,0.98));
-    border-color: rgba(34,211,238,0.25);
-    box-shadow: 0 0 0 1px rgba(34,211,238,0.05), 0 20px 60px -20px rgba(34,211,238,0.35), inset 0 0 60px rgba(34,211,238,0.04);
+    background: linear-gradient(180deg, #0f172a, #020617);
+    border-color: rgba(15,23,42,0.14);
+    box-shadow: 0 24px 50px -24px rgba(15,23,42,0.45), 0 2px 6px rgba(15,23,42,0.08);
   }
   .terminal-bar {
     @apply flex items-center gap-2 px-4 py-2.5 border-b;
-    background: rgba(34,211,238,0.04);
-    border-color: rgba(34,211,238,0.15);
+    background: rgba(148,163,184,0.10);
+    border-color: rgba(148,163,184,0.18);
   }
   .terminal-dot { @apply w-2.5 h-2.5 rounded-full; }
 
-  /* CRT scanline overlay */
+  /* CRT scanline overlay (giữ nhẹ, chỉ dùng trong terminal) */
   .crt::after {
     content: '';
     @apply absolute inset-0 pointer-events-none;
-    background: repeating-linear-gradient(0deg, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 2px, rgba(0,0,0,0.18) 3px, rgba(0,0,0,0) 4px);
-    mix-blend-mode: overlay;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 2px, rgba(0,0,0,0.14) 3px, rgba(0,0,0,0) 4px);
   }
 
   /* Physical LED indicator */
   .led {
     @apply inline-block w-2.5 h-2.5 rounded-full;
-    box-shadow: 0 0 8px currentColor, 0 0 2px currentColor, inset 0 0 2px rgba(255,255,255,0.5);
+    background: currentColor;
+    box-shadow: 0 0 6px currentColor, inset 0 0 2px rgba(255,255,255,0.6);
   }
 
-  /* Neon text */
-  .neon-cyan { color: #22d3ee; text-shadow: 0 0 8px rgba(34,211,238,0.6), 0 0 24px rgba(34,211,238,0.3); }
-  .neon-green { color: #4ade80; text-shadow: 0 0 8px rgba(74,222,128,0.6), 0 0 24px rgba(74,222,128,0.3); }
+  /* Text nhấn (trên nền tối của terminal) */
+  .neon-cyan { color: #22d3ee; }
+  .neon-green { color: #4ade80; }
 
-  /* Holographic chip card */
+  /* Chip card — thẻ trắng viền nhẹ, hover có vệt sáng brand */
   .chip-card {
     @apply relative rounded-xl border p-5 overflow-hidden transition-all duration-300;
-    background: linear-gradient(150deg, rgba(17,24,39,0.7), rgba(8,12,20,0.7));
-    border-color: rgba(59,130,246,0.18);
+    background: #ffffff;
+    border-color: rgba(24,24,27,0.10);
+    box-shadow: 0 1px 2px rgba(24,24,27,0.05);
   }
   .chip-card::before {
     content: '';
     @apply absolute inset-0 opacity-0 transition-opacity duration-500 pointer-events-none;
-    background: radial-gradient(400px circle at var(--mx,50%) var(--my,50%), rgba(34,211,238,0.12), transparent 40%);
+    background: radial-gradient(400px circle at var(--mx,50%) var(--my,50%), rgba(37,99,235,0.10), transparent 40%);
   }
   .chip-card:hover::before { @apply opacity-100; }
   .chip-card:hover {
-    border-color: rgba(34,211,238,0.4);
+    border-color: rgba(37,99,235,0.35);
     transform: translateY(-4px);
-    box-shadow: 0 20px 50px -20px rgba(34,211,238,0.4);
+    box-shadow: 0 20px 40px -22px rgba(37,99,235,0.45);
   }
 
   /* Status pill blinking */
   .blink-cursor::after {
     content: '▋';
-    @apply text-cyan-400;
+    color: #2563eb;
     animation: ledBlink 1s steps(1) infinite;
   }
 }
@@ -196,9 +229,9 @@
   .text-balance { text-wrap: balance; }
   .bg-pcb {
     background-image:
-      linear-gradient(rgba(34,211,238,0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(34,211,238,0.05) 1px, transparent 1px),
-      radial-gradient(circle at 50% 50%, rgba(59,130,246,0.08), transparent 60%);
+      linear-gradient(rgba(37,99,235,0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(37,99,235,0.07) 1px, transparent 1px),
+      radial-gradient(circle at 50% 50%, rgba(37,99,235,0.05), transparent 60%);
     background-size: 32px 32px, 32px 32px, 100% 100%;
   }
   .animate-delay-100 { animation-delay: 100ms; }

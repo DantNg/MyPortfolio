@@ -40,6 +40,12 @@ import { ui, defaultLang } from '../i18n';
         if (dict[key] != null) el.setAttribute('aria-label', dict[key]);
       });
 
+      // Khối nội dung song ngữ (markdown dài: series LVGL)
+      // <div data-lang-block="en"> ... </div> / <div data-lang-block="vi"> ... </div>
+      document.querySelectorAll('[data-lang-block]').forEach(function (el) {
+        el.hidden = el.getAttribute('data-lang-block') !== lang;
+      });
+
       // Cập nhật trạng thái các nút chuyển ngôn ngữ
       document.querySelectorAll('[data-lang-btn]').forEach(function (btn) {
         const active = btn.getAttribute('data-lang-btn') === lang;

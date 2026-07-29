@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" width="760" height="400" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="400" fill="#ffffff"/>
+  <text x="380" y="30" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">Style = Part × State</text>
+
+  <!-- parts -->
+  <text x="200" y="62" text-anchor="middle" font-size="13" font-weight="700" fill="#1d4ed8">PART — bộ phận của widget</text>
+  <rect x="40" y="76" width="320" height="150" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+
+  <text x="200" y="100" text-anchor="middle" font-size="11.5" fill="#52525b">lv_slider</text>
+  <rect x="80" y="116" width="240" height="14" rx="7" fill="#e4e4e7"/>
+  <rect x="80" y="116" width="140" height="14" rx="7" fill="#2563eb"/>
+  <circle cx="220" cy="123" r="14" fill="#ffffff" stroke="#2563eb" stroke-width="3"/>
+
+  <path d="M60 150 L60 123 L78 123" fill="none" stroke="#a1a1aa" stroke-width="1.4"/>
+  <text x="60" y="166" text-anchor="middle" font-size="10" font-family="monospace" fill="#3f3f46">MAIN</text>
+  <path d="M150 168 L150 138 L150 132" fill="none" stroke="#a1a1aa" stroke-width="1.4"/>
+  <text x="150" y="182" text-anchor="middle" font-size="10" font-family="monospace" fill="#3f3f46">INDICATOR</text>
+  <path d="M270 168 L270 140 L228 128" fill="none" stroke="#a1a1aa" stroke-width="1.4"/>
+  <text x="278" y="182" text-anchor="middle" font-size="10" font-family="monospace" fill="#3f3f46">KNOB</text>
+
+  <text x="200" y="210" text-anchor="middle" font-size="10.5" fill="#71717a">LV_PART_MAIN · INDICATOR · KNOB · SCROLLBAR …</text>
+
+  <!-- states -->
+  <text x="560" y="62" text-anchor="middle" font-size="13" font-weight="700" fill="#1d4ed8">STATE — trạng thái</text>
+  <rect x="400" y="76" width="320" height="150" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+
+  <rect x="424" y="100" width="128" height="36" rx="8" fill="#2563eb"/>
+  <text x="488" y="123" text-anchor="middle" font-size="12" font-weight="600" fill="#ffffff">Button</text>
+  <text x="488" y="152" text-anchor="middle" font-size="10" font-family="monospace" fill="#3f3f46">DEFAULT</text>
+
+  <rect x="568" y="100" width="128" height="36" rx="8" fill="#1d4ed8"/>
+  <text x="632" y="123" text-anchor="middle" font-size="12" font-weight="600" fill="#ffffff">Button</text>
+  <text x="632" y="152" text-anchor="middle" font-size="10" font-family="monospace" fill="#3f3f46">PRESSED</text>
+
+  <rect x="424" y="168" width="128" height="36" rx="8" fill="#e4e4e7"/>
+  <text x="488" y="191" text-anchor="middle" font-size="12" font-weight="600" fill="#a1a1aa">Button</text>
+  <text x="488" y="220" text-anchor="middle" font-size="10" font-family="monospace" fill="#3f3f46">DISABLED</text>
+
+  <rect x="568" y="168" width="128" height="36" rx="8" fill="#2563eb" stroke="#22d3ee" stroke-width="3"/>
+  <text x="632" y="191" text-anchor="middle" font-size="12" font-weight="600" fill="#ffffff">Button</text>
+  <text x="632" y="220" text-anchor="middle" font-size="10" font-family="monospace" fill="#3f3f46">FOCUSED</text>
+
+  <!-- combination -->
+  <rect x="40" y="252" width="680" height="128" rx="10" fill="#eff6ff" stroke="#bfdbfe"/>
+  <text x="62" y="278" font-size="12.5" font-weight="700" fill="#1d4ed8">Ghép lại / Combine them with |</text>
+  <text x="62" y="306" font-size="12" font-family="monospace" fill="#27272a">lv_obj_set_style_bg_color(slider, lv_color_hex(0x2563eb), LV_PART_INDICATOR | LV_STATE_DEFAULT);</text>
+  <text x="62" y="330" font-size="12" font-family="monospace" fill="#27272a">lv_obj_set_style_bg_color(btn,    lv_color_hex(0x1d4ed8), LV_PART_MAIN      | LV_STATE_PRESSED);</text>
+  <text x="62" y="360" font-size="11" fill="#52525b">Không truyền state → mặc định là LV_STATE_DEFAULT. / Omit the state and LVGL uses LV_STATE_DEFAULT.</text>
+</svg>

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 330" width="760" height="330" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="330" fill="#ffffff"/>
+  <text x="380" y="30" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">Animation — LVGL nội suy một số / LVGL interpolates a number</text>
+
+  <!-- curve chart -->
+  <rect x="40" y="58" width="400" height="200" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <line x1="76" y1="230" x2="410" y2="230" stroke="#a1a1aa" stroke-width="1.5"/>
+  <line x1="76" y1="86" x2="76" y2="230" stroke="#a1a1aa" stroke-width="1.5"/>
+  <text x="243" y="250" text-anchor="middle" font-size="10.5" fill="#71717a">time → (duration)</text>
+  <text x="58" y="158" text-anchor="middle" font-size="10.5" fill="#71717a" transform="rotate(-90 58 158)">value</text>
+
+  <path d="M76 230 L410 86" fill="none" stroke="#a1a1aa" stroke-width="2" stroke-dasharray="5 4"/>
+  <text x="330" y="128" font-size="10" fill="#71717a">linear</text>
+
+  <path d="M76 230 C 200 230, 286 86, 410 86" fill="none" stroke="#2563eb" stroke-width="3"/>
+  <text x="150" y="206" font-size="10.5" font-weight="600" fill="#1d4ed8">ease_in_out</text>
+
+  <path d="M76 230 C 120 100, 180 70, 410 86" fill="none" stroke="#0891b2" stroke-width="2"/>
+  <text x="120" y="92" font-size="10" fill="#0e7490">overshoot</text>
+
+  <text x="70" y="246" text-anchor="middle" font-size="10" fill="#71717a">start</text>
+  <text x="414" y="80" text-anchor="middle" font-size="10" fill="#71717a">end</text>
+
+  <!-- code -->
+  <rect x="464" y="58" width="270" height="200" rx="10" fill="#18181b"/>
+  <text x="484" y="84" font-size="11" font-family="monospace" fill="#a5f3fc">lv_anim_t a;</text>
+  <text x="484" y="102" font-size="11" font-family="monospace" fill="#e4e4e7">lv_anim_init(&amp;a);</text>
+  <text x="484" y="120" font-size="11" font-family="monospace" fill="#e4e4e7">lv_anim_set_var(&amp;a, obj);</text>
+  <text x="484" y="138" font-size="11" font-family="monospace" fill="#e4e4e7">lv_anim_set_values(&amp;a, 0, 240);</text>
+  <text x="484" y="156" font-size="11" font-family="monospace" fill="#e4e4e7">lv_anim_set_time(&amp;a, 500);</text>
+  <text x="484" y="174" font-size="11" font-family="monospace" fill="#e4e4e7">lv_anim_set_exec_cb(&amp;a,</text>
+  <text x="500" y="192" font-size="11" font-family="monospace" fill="#86efac">    set_x_cb);</text>
+  <text x="484" y="210" font-size="11" font-family="monospace" fill="#e4e4e7">lv_anim_set_path_cb(&amp;a,</text>
+  <text x="500" y="228" font-size="11" font-family="monospace" fill="#86efac">    lv_anim_path_ease_out);</text>
+  <text x="484" y="246" font-size="11" font-family="monospace" fill="#fbbf24">lv_anim_start(&amp;a);</text>
+
+  <rect x="40" y="276" width="694" height="38" rx="8" fill="#eff6ff" stroke="#bfdbfe"/>
+  <text x="60" y="300" font-size="11.5" fill="#1d4ed8">exec_cb nhận (void *var, int32_t v) — bạn quyết định v là toạ độ, độ rộng, opacity hay góc quay.</text>
+</svg>

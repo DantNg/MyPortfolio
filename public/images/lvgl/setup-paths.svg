@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 320" width="760" height="320" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="320" fill="#ffffff"/>
+  <text x="380" y="30" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">Ba cách bắt đầu / Three ways to start</text>
+
+  <rect x="24" y="56" width="230" height="238" rx="10" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="139" y="82" text-anchor="middle" font-size="13" font-weight="700" fill="#15803d">A. PC simulator</text>
+  <text x="139" y="104" text-anchor="middle" font-size="11" fill="#3f3f46">SDL2 · VS Code · CMake</text>
+  <rect x="48" y="120" width="182" height="94" rx="8" fill="#ffffff" stroke="#bbf7d0"/>
+  <text x="139" y="146" text-anchor="middle" font-size="11" fill="#27272a">không cần phần cứng</text>
+  <text x="139" y="164" text-anchor="middle" font-size="11" fill="#27272a">no hardware needed</text>
+  <text x="139" y="188" text-anchor="middle" font-size="11" fill="#27272a">build vài giây</text>
+  <text x="139" y="206" text-anchor="middle" font-size="11" fill="#27272a">seconds per build</text>
+  <text x="139" y="244" text-anchor="middle" font-size="11.5" font-weight="600" fill="#15803d">Học UI: bắt đầu ở đây</text>
+  <text x="139" y="264" text-anchor="middle" font-size="11" fill="#52525b">Start here to learn LVGL</text>
+
+  <rect x="266" y="56" width="230" height="238" rx="10" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="381" y="82" text-anchor="middle" font-size="13" font-weight="700" fill="#1d4ed8">B. ESP32 + ESP-IDF</text>
+  <text x="381" y="104" text-anchor="middle" font-size="11" fill="#3f3f46">idf.py add-dependency lvgl/lvgl</text>
+  <rect x="290" y="120" width="182" height="94" rx="8" fill="#ffffff" stroke="#bfdbfe"/>
+  <text x="381" y="146" text-anchor="middle" font-size="11" fill="#27272a">ST7789 / ILI9341 SPI</text>
+  <text x="381" y="164" text-anchor="middle" font-size="11" fill="#27272a">esp_lcd + DMA</text>
+  <text x="381" y="188" text-anchor="middle" font-size="11" fill="#27272a">RAM nội hoặc PSRAM</text>
+  <text x="381" y="206" text-anchor="middle" font-size="11" fill="#27272a">internal RAM or PSRAM</text>
+  <text x="381" y="244" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1d4ed8">Board rẻ, cộng đồng lớn</text>
+  <text x="381" y="264" text-anchor="middle" font-size="11" fill="#52525b">Cheap boards, big community</text>
+
+  <rect x="508" y="56" width="230" height="238" rx="10" fill="#fefce8" stroke="#fde047"/>
+  <text x="623" y="82" text-anchor="middle" font-size="13" font-weight="700" fill="#a16207">C. STM32 + CubeMX</text>
+  <text x="623" y="104" text-anchor="middle" font-size="11" fill="#3f3f46">HAL · LTDC / FSMC / SPI</text>
+  <rect x="532" y="120" width="182" height="94" rx="8" fill="#ffffff" stroke="#fef08a"/>
+  <text x="623" y="146" text-anchor="middle" font-size="11" fill="#27272a">SysTick → lv_tick_inc()</text>
+  <text x="623" y="164" text-anchor="middle" font-size="11" fill="#27272a">DMA2D tăng tốc vẽ</text>
+  <text x="623" y="188" text-anchor="middle" font-size="11" fill="#27272a">DMA2D accelerates fills</text>
+  <text x="623" y="206" text-anchor="middle" font-size="11" fill="#27272a">SDRAM cho màn lớn</text>
+  <text x="623" y="244" text-anchor="middle" font-size="11.5" font-weight="600" fill="#a16207">Kiểm soát sâu phần cứng</text>
+  <text x="623" y="264" text-anchor="middle" font-size="11" fill="#52525b">Most hardware control</text>
+</svg>
