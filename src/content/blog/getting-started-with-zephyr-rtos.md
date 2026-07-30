@@ -3,6 +3,7 @@ title: "Getting Started with Zephyr RTOS on Nordic nRF52840"
 description: "A practical guide to setting up Zephyr RTOS, configuring the build system, and running your first BLE application on the Nordic nRF52840 DK."
 date: 2024-11-05
 tags: ["Zephyr", "Nordic nRF", "BLE", "RTOS", "Embedded"]
+coverImage: "/images/blog/zephyr-rtos.svg"
 draft: false
 featured: true
 ---

@@ -24,12 +24,27 @@ interface Props {
 const { frontmatter, headings, rawContent } = Astro.props;
 const readingTime = getReadingTime(rawContent);
 const hasToc = headings.filter(h => h.depth <= 3).length > 2;
+
+/**
+ * Ảnh cho thẻ Open Graph.
+ *
+ * Hai lỗi được sửa ở đây:
+ *   1. `coverImage` trong frontmatter là đường dẫn KHÔNG có base (`/images/...`),
+ *      nên trước đây og:image trỏ tới dantng.github.io/images/... — thiếu
+ *      /MyPortfolio và 404. Phải đi qua url().
+ *   2. Bộ đọc OG của Facebook/X/LinkedIn KHÔNG render SVG. Ảnh bìa hiển thị là
+ *      SVG, nên ở đây ta trỏ sang bản PNG cùng tên do `npm run thumbnails` sinh ra.
+ */
+const ogImage = frontmatter.coverImage
+  ? url(frontmatter.coverImage.replace(/\.svg$/, '.png'))
+  : undefined;
+
 ---
 
 <BaseLayout
   title={frontmatter.title}
   description={frontmatter.description}
-  image={frontmatter.coverImage}
+  image={ogImage}
   type="article"
   publishedTime={frontmatter.date.toISOString()}
   tags={frontmatter.tags}

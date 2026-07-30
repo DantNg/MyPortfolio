@@ -30,7 +30,7 @@ const statusColors: Record<string, string> = {
 <BaseLayout
   title={frontmatter.title}
   description={frontmatter.description}
-  image={frontmatter.coverImage}
+  image={frontmatter.coverImage ? url(frontmatter.coverImage.replace(/\.svg$/, '.png')) : undefined}
   type="article"
   tags={frontmatter.tags}
 >

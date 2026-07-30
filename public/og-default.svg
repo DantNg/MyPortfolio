@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" font-family="Inter, system-ui, sans-serif">
+  <defs>
+    <linearGradient id="ogbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="55%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#eff6ff"/>
+    </linearGradient>
+    <radialGradient id="ogglow" cx="0.78" cy="0.3" r="0.6">
+      <stop offset="0%" stop-color="#2563eb" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#2563eb" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#ogbg)"/>
+  <ellipse cx="940" cy="190" rx="420" ry="300" fill="url(#ogglow)"/>
+
+  <!-- lưới PCB mờ -->
+  <g stroke="#2563eb" stroke-opacity="0.07" stroke-width="1">
+    <path d="M0 90h1200M0 180h1200M0 270h1200M0 360h1200M0 450h1200M0 540h1200"/>
+    <path d="M120 0v630M240 0v630M360 0v630M480 0v630M600 0v630M720 0v630M840 0v630M960 0v630M1080 0v630"/>
+  </g>
+
+  <!-- đường mạch + node như trên bo mạch -->
+  <g stroke="#2563eb" stroke-opacity="0.3" stroke-width="3" fill="none" stroke-linecap="round">
+    <path d="M760 470 L840 470 L880 430 L1010 430"/>
+    <path d="M760 510 L900 510 L940 470 L1080 470"/>
+    <path d="M790 390 L860 390 L900 350 L1010 350"/>
+  </g>
+  <g fill="#2563eb" fill-opacity="0.55">
+    <circle cx="840" cy="470" r="6"/>
+    <circle cx="900" cy="510" r="6"/>
+    <circle cx="860" cy="390" r="6"/>
+    <circle cx="1010" cy="430" r="6"/>
+  </g>
+
+  <!-- chip -->
+  <g>
+    <rect x="856" y="140" width="180" height="180" rx="18" fill="#18181b"/>
+    <rect x="878" y="162" width="136" height="136" rx="10" fill="#27272a" stroke="#3f3f46" stroke-width="2"/>
+    <circle cx="898" cy="182" r="6" fill="#52525b"/>
+    <text x="946" y="222" text-anchor="middle" font-size="20" font-weight="700" fill="#93c5fd">ARM</text>
+    <text x="946" y="252" text-anchor="middle" font-size="17" fill="#71717a">Cortex-M</text>
+    <g fill="#a1a1aa">
+      <rect x="822" y="170" width="30" height="8" rx="4"/>
+      <rect x="822" y="202" width="30" height="8" rx="4"/>
+      <rect x="822" y="234" width="30" height="8" rx="4"/>
+      <rect x="822" y="266" width="30" height="8" rx="4"/>
+      <rect x="1040" y="170" width="30" height="8" rx="4"/>
+      <rect x="1040" y="202" width="30" height="8" rx="4"/>
+      <rect x="1040" y="234" width="30" height="8" rx="4"/>
+      <rect x="1040" y="266" width="30" height="8" rx="4"/>
+    </g>
+  </g>
+
+  <!-- chữ -->
+  <g>
+    <rect x="80" y="86" width="62" height="62" rx="14" fill="#2563eb"/>
+    <text x="111" y="128" text-anchor="middle" font-size="27" font-weight="700" fill="#ffffff">DN</text>
+    <text x="160" y="128" font-size="25" font-weight="600" fill="#18181b">Dat Nguyen</text>
+  </g>
+
+  <text x="80" y="268" font-size="60" font-weight="700" fill="#18181b">Embedded</text>
+  <text x="80" y="336" font-size="60" font-weight="700" fill="#18181b">Software</text>
+  <text x="80" y="404" font-size="60" font-weight="700" fill="#2563eb">Engineer</text>
+
+  <text x="80" y="464" font-size="23" fill="#52525b">STM32 · ESP32 · FreeRTOS · Zephyr · BLE · Embedded Linux</text>
+
+  <!-- chân trang -->
+  <rect x="80" y="518" width="4" height="52" rx="2" fill="#2563eb"/>
+  <text x="102" y="544" font-size="21" font-weight="600" fill="#27272a">dantng.github.io/MyPortfolio</text>
+  <text x="102" y="568" font-size="17" fill="#71717a">Bilingual learning series on RTOS, Linux, automotive and firmware design</text>
+</svg>
