@@ -21,7 +21,7 @@ const rightPins = ['PC13/LED', 'SWDIO', 'SWCLK', 'NRST', 'VDD', 'GND'];
   <!-- vignette -->
   <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse at center, transparent 35%, rgba(255,255,255,0.92) 100%)" aria-hidden="true"></div>
 
-  <div class="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 grid lg:grid-cols-2 gap-12 items-center">
+  <div class="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
 
     <!-- ========== LEFT: Identity ========== -->
     <div class="text-center lg:text-left">
@@ -32,14 +32,14 @@ const rightPins = ['PC13/LED', 'SWDIO', 'SWCLK', 'NRST', 'VDD', 'GND'];
       </div>
 
       <!-- Name -->
-      <h1 class="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-zinc-900 mb-4 animate-slide-up">
+      <h1 class="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-zinc-900 mb-4 animate-slide-up">
         {firstName} <span class="gradient-text">{lastName}</span>
       </h1>
 
       <!-- Title (typed) -->
       <div class="flex items-center justify-center lg:justify-start gap-3 mb-6 animate-slide-up animate-delay-100">
         <span class="text-brand-500 font-mono text-lg">&gt;_</span>
-        <p class="text-xl md:text-2xl font-medium text-zinc-800 font-mono">
+        <p class="text-base sm:text-xl md:text-2xl font-medium text-zinc-800 font-mono">
           <span id="role-type"></span><span class="blink-cursor"></span>
         </p>
       </div>
@@ -98,18 +98,18 @@ const rightPins = ['PC13/LED', 'SWDIO', 'SWCLK', 'NRST', 'VDD', 'GND'];
           <span class="terminal-dot bg-red-500/80"></span>
           <span class="terminal-dot bg-yellow-500/80"></span>
           <span class="terminal-dot bg-green-500/80"></span>
-          <span class="ml-2 text-xs text-cyan-300/80">/dev/ttyUSB0 · 115200 8N1</span>
+          <span class="ml-2 text-[11px] sm:text-xs text-cyan-300/80 truncate">/dev/ttyUSB0<span class="hidden sm:inline"> · 115200 8N1</span></span>
           <span class="ml-auto flex items-center gap-1.5 text-[10px] text-emerald-400">
             <span class="led text-emerald-400 animate-led-blink-fast"></span> RX/TX
           </span>
         </div>
-        <div id="boot-log" class="p-4 h-[230px] overflow-hidden leading-relaxed text-[12.5px] text-emerald-300/90 whitespace-pre-wrap"></div>
+        <div id="boot-log" class="p-3 sm:p-4 h-[170px] sm:h-[210px] lg:h-[230px] overflow-hidden leading-relaxed text-[10.5px] sm:text-[12px] lg:text-[12.5px] text-emerald-300/90 whitespace-pre-wrap break-all"></div>
       </div>
 
       <!-- MCU chip + oscilloscope -->
-      <div class="mt-5 grid grid-cols-5 gap-4">
+      <div class="mt-4 sm:mt-5 grid grid-cols-1 sm:grid-cols-5 gap-3 sm:gap-4">
         <!-- MCU chip -->
-        <div class="col-span-2 chip-card flex flex-col items-center justify-center" data-tilt>
+        <div class="sm:col-span-2 chip-card flex flex-col items-center justify-center" data-tilt>
           <div class="text-[9px] font-mono text-cyan-600/70 mb-2 self-start">U1 · MCU</div>
           <div class="relative">
             <!-- pins left -->
@@ -134,7 +134,7 @@ const rightPins = ['PC13/LED', 'SWDIO', 'SWCLK', 'NRST', 'VDD', 'GND'];
         </div>
 
         <!-- Oscilloscope -->
-        <div class="col-span-3 chip-card p-0 overflow-hidden">
+        <div class="sm:col-span-3 chip-card p-0 overflow-hidden">
           <div class="flex items-center justify-between px-3 py-1.5 border-b border-brand-200/40">
             <span class="text-[9px] font-mono text-cyan-600/70">SCOPE · CH1</span>
             <span class="text-[9px] font-mono text-emerald-500/70">PWM 50% · 1kHz</span>

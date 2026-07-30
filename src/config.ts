@@ -53,3 +53,36 @@ export const SOCIALS = {
 
 /** Handle Twitter dùng cho thẻ meta (không bắt buộc) */
 export const TWITTER_HANDLE = '@yourhandle';
+
+/**
+ * ============================================================
+ *  ĐẾM LƯỢT XEM
+ * ============================================================
+ *  Site này là tĩnh (GitHub Pages) nên không có backend để tự
+ *  đếm. Bộ đếm dùng dịch vụ miễn phí Abacus — không cần đăng ký,
+ *  không cookie, chỉ lưu một con số cho mỗi đường dẫn.
+ *
+ *  LƯU Ý VỀ QUYỀN RIÊNG TƯ: mỗi lần mở trang, trình duyệt của
+ *  khách sẽ gửi ĐƯỜNG DẪN trang đó tới abacus.jasoncameron.dev.
+ *  Không gửi kèm thông tin cá nhân nào. Nếu bạn không muốn phụ
+ *  thuộc bên thứ ba, đặt `enabled: false` là bộ đếm biến mất
+ *  hoàn toàn khỏi giao diện.
+ *
+ *  Muốn tự chủ hoàn toàn thì thay `endpoint` bằng một Cloudflare
+ *  Worker / API riêng, chỉ cần nó trả về JSON dạng {"value": số}.
+ */
+export const VIEWS = {
+  enabled: true,
+
+  /** Gộp số đếm theo namespace này — đổi thành domain của bạn cho khỏi trùng */
+  namespace: 'dantng-github-io',
+
+  /** `hit` để tăng rồi trả về, `get` để chỉ đọc */
+  endpoint: 'https://abacus.jasoncameron.dev',
+
+  /**
+   * Chỉ tính thêm 1 lượt cho mỗi trang trong cùng một phiên trình duyệt.
+   * Tắt đi thì mỗi lần F5 là +1.
+   */
+  onePerSession: true,
+} as const;

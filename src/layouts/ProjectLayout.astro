@@ -2,6 +2,7 @@
 import BaseLayout from './BaseLayout.astro';
 import { formatDate } from '../utils/formatDate';
 import { url } from '../utils/url';
+import ViewCounter from '../components/ViewCounter.astro';
 
 interface Props {
   frontmatter: {
@@ -43,6 +44,7 @@ const statusColors: Record<string, string> = {
           <time class="text-sm text-zinc-500" datetime={frontmatter.date.toISOString()}>
             {formatDate(frontmatter.date)}
           </time>
+          <ViewCounter />
         </div>
 
         <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-zinc-900 mb-4">

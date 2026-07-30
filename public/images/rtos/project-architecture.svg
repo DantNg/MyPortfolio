@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 440" width="760" height="440" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="440" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">Dự án cuối — bộ ghi dữ liệu cảm biến, kiến trúc đầy đủ</text>
+
+  <defs>
+    <marker id="pa2" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#2563eb"/>
+    </marker>
+  </defs>
+
+  <!-- ISR row -->
+  <rect x="24" y="50" width="150" height="52" rx="8" fill="#fee2e2" stroke="#fca5a5"/>
+  <text x="99" y="70" text-anchor="middle" font-size="10.5" font-weight="600" fill="#b91c1c">ISR: DMA ADC xong</text>
+  <text x="99" y="86" text-anchor="middle" font-size="9" fill="#3f3f46">notify → prio 6</text>
+
+  <rect x="188" y="50" width="150" height="52" rx="8" fill="#fee2e2" stroke="#fca5a5"/>
+  <text x="263" y="70" text-anchor="middle" font-size="10.5" font-weight="600" fill="#b91c1c">ISR: UART RX</text>
+  <text x="263" y="86" text-anchor="middle" font-size="9" fill="#3f3f46">stream buffer</text>
+
+  <rect x="352" y="50" width="150" height="52" rx="8" fill="#fef3c7" stroke="#fcd34d"/>
+  <text x="427" y="70" text-anchor="middle" font-size="10.5" font-weight="600" fill="#a16207">lv_timer 1 s</text>
+  <text x="427" y="86" text-anchor="middle" font-size="9" fill="#3f3f46">cmd EV_TICK</text>
+
+  <rect x="516" y="50" width="150" height="52" rx="8" fill="#fee2e2" stroke="#fca5a5"/>
+  <text x="591" y="70" text-anchor="middle" font-size="10.5" font-weight="600" fill="#b91c1c">ISR: nút bấm</text>
+  <text x="591" y="86" text-anchor="middle" font-size="9" fill="#3f3f46">cmd CMD_MARK</text>
+
+  <!-- tasks -->
+  <rect x="24" y="132" width="150" height="66" rx="8" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="99" y="152" text-anchor="middle" font-size="11" font-weight="700" fill="#1d4ed8">sample_task</text>
+  <text x="99" y="168" text-anchor="middle" font-size="9" fill="#3f3f46">prio 6 · 512 W</text>
+  <text x="99" y="182" text-anchor="middle" font-size="9" fill="#71717a">lọc, quy đổi đơn vị</text>
+  <text x="99" y="194" text-anchor="middle" font-size="9" fill="#71717a">1 kHz, không bao giờ chặn lâu</text>
+
+  <rect x="188" y="132" width="150" height="66" rx="8" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="263" y="152" text-anchor="middle" font-size="11" font-weight="700" fill="#1d4ed8">comms_task</text>
+  <text x="263" y="168" text-anchor="middle" font-size="9" fill="#3f3f46">prio 5 · 768 W</text>
+  <text x="263" y="182" text-anchor="middle" font-size="9" fill="#71717a">phân tích khung</text>
+  <text x="263" y="194" text-anchor="middle" font-size="9" fill="#71717a">→ đẩy vào cmd queue</text>
+
+  <rect x="352" y="132" width="150" height="66" rx="8" fill="#dbeafe" stroke="#60a5fa"/>
+  <text x="427" y="152" text-anchor="middle" font-size="11" font-weight="700" fill="#1d4ed8">app_task</text>
+  <text x="427" y="168" text-anchor="middle" font-size="9" fill="#3f3f46">prio 4 · 1024 W</text>
+  <text x="427" y="182" text-anchor="middle" font-size="9" fill="#71717a">MÁY TRẠNG THÁI</text>
+  <text x="427" y="194" text-anchor="middle" font-size="9" fill="#71717a">sở hữu toàn bộ state</text>
+
+  <rect x="516" y="132" width="150" height="66" rx="8" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="591" y="152" text-anchor="middle" font-size="11" font-weight="700" fill="#1d4ed8">storage_task</text>
+  <text x="591" y="168" text-anchor="middle" font-size="9" fill="#3f3f46">prio 2 · 1024 W</text>
+  <text x="591" y="182" text-anchor="middle" font-size="9" fill="#71717a">gom 4 kB rồi ghi</text>
+  <text x="591" y="194" text-anchor="middle" font-size="9" fill="#71717a">flash 40 ms — chặn ai cũng không sao</text>
+
+  <rect x="680" y="132" width="56" height="66" rx="8" fill="#f4f4f5" stroke="#d4d4d8"/>
+  <text x="708" y="158" text-anchor="middle" font-size="10" font-weight="700" fill="#52525b">IDLE</text>
+  <text x="708" y="174" text-anchor="middle" font-size="8.5" fill="#71717a">prio 0</text>
+  <text x="708" y="188" text-anchor="middle" font-size="8.5" fill="#71717a">ngủ sâu</text>
+
+  <!-- arrows ISR -> task -->
+  <line x1="99" y1="102" x2="99" y2="128" stroke="#2563eb" stroke-width="1.8" marker-end="url(#pa2)"/>
+  <line x1="263" y1="102" x2="263" y2="128" stroke="#2563eb" stroke-width="1.8" marker-end="url(#pa2)"/>
+  <line x1="427" y1="102" x2="427" y2="128" stroke="#2563eb" stroke-width="1.8" marker-end="url(#pa2)"/>
+  <line x1="591" y1="102" x2="510" y2="128" stroke="#2563eb" stroke-width="1.8" marker-end="url(#pa2)"/>
+
+  <!-- queues -->
+  <rect x="188" y="232" width="314" height="34" rx="7" fill="#2563eb"/>
+  <text x="345" y="254" text-anchor="middle" font-size="11" font-weight="600" fill="#ffffff">cmd_queue — 16 × cmd_t (mọi lệnh đi vào đây)</text>
+
+  <rect x="24" y="286" width="314" height="34" rx="7" fill="#0891b2"/>
+  <text x="181" y="308" text-anchor="middle" font-size="11" font-weight="600" fill="#ffffff">sample_queue — 64 × sample_t</text>
+
+  <rect x="352" y="286" width="314" height="34" rx="7" fill="#16a34a"/>
+  <text x="509" y="308" text-anchor="middle" font-size="11" font-weight="600" fill="#ffffff">block_pool — 3 × 4 kB, chuyển quyền sở hữu</text>
+
+  <line x1="263" y1="198" x2="263" y2="228" stroke="#2563eb" stroke-width="1.8" marker-end="url(#pa2)"/>
+  <line x1="345" y1="266" x2="400" y2="200" stroke="#2563eb" stroke-width="1.8" marker-end="url(#pa2)"/>
+  <line x1="99" y1="198" x2="120" y2="282" stroke="#0891b2" stroke-width="1.8" marker-end="url(#pa2)"/>
+  <line x1="240" y1="286" x2="410" y2="204" stroke="#0891b2" stroke-width="1.8" marker-end="url(#pa2)"/>
+  <line x1="470" y1="204" x2="470" y2="282" stroke="#16a34a" stroke-width="1.8" marker-end="url(#pa2)"/>
+  <line x1="600" y1="286" x2="600" y2="204" stroke="#16a34a" stroke-width="1.8" marker-end="url(#pa2)"/>
+
+  <!-- budget -->
+  <rect x="24" y="340" width="712" height="88" rx="9" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="46" y="362" font-size="12" font-weight="700" fill="#18181b">Ngân sách đã tính trước, không đoán</text>
+  <g font-size="10.5" fill="#3f3f46">
+    <text x="46" y="384">CPU: 0,15/1 + 0,4/10 + 1/100 + 40/1000 ≈ 24%</text>
+    <text x="46" y="402">RAM: (512+768+1024+1024+128) W × 4 B ≈ 13,8 kB stack</text>
+    <text x="46" y="420">+ queue 1,3 kB + pool 12 kB + kernel 0,5 kB ≈ 27,6 kB / 128 kB</text>
+    <text x="430" y="384" font-weight="600" fill="#15803d">→ dưới ngưỡng 70%, an toàn</text>
+    <text x="430" y="402" fill="#71717a">đo lại bằng high-water mark sau khi chạy tải</text>
+    <text x="430" y="420" fill="#71717a">còn dư cho lwIP nếu sau này thêm mạng</text>
+  </g>
+</svg>

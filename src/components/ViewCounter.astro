@@ -1,0 +1,102 @@
+---
+/**
+ * Đếm lượt xem cho một trang.
+ *
+ * Cách hoạt động: server render sẵn một placeholder ẩn; script phía client
+ * gọi API đếm rồi mới hiện con số ra. Nếu API lỗi hoặc bị chặn, placeholder
+ * ở lại trạng thái ẩn — không có chỗ trống, không có thông báo lỗi.
+ *
+ * `key` mặc định lấy theo đường dẫn trang, nên mỗi bài có bộ đếm riêng.
+ */
+import { VIEWS } from '../config';
+
+interface Props {
+  /** Khoá đếm. Bỏ trống thì tự sinh từ đường dẫn hiện tại. */
+  key?: string;
+  /** Cỡ chữ: 'sm' cho thẻ/danh sách, 'base' cho đầu bài viết. */
+  size?: 'sm' | 'base';
+  class?: string;
+}
+
+const { key, size = 'base', class: className = '' } = Astro.props;
+
+/** Chuẩn hoá đường dẫn thành khoá an toàn: chỉ chữ, số, gạch ngang. */
+function toKey(path: string): string {
+  const cleaned = path
+    .replace(/^\/+|\/+$/g, '')
+    .replace(/[^a-zA-Z0-9/_-]/g, '')
+    .replace(/\//g, '-')
+    .toLowerCase();
+  return cleaned || 'home';
+}
+
+const counterKey = key ?? toKey(Astro.url.pathname);
+const textSize = size === 'sm' ? 'text-xs' : 'text-sm';
+---
+
+{VIEWS.enabled && (
+  <span
+    class={`view-counter inline-flex items-center gap-1.5 ${textSize} text-zinc-500 ${className}`}
+    data-view-key={counterKey}
+    hidden
+  >
+    <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+    </svg>
+    <span class="view-count tabular-nums">–</span>
+    <span class="sr-only">lượt xem / views</span>
+  </span>
+)}
+
+{VIEWS.enabled && (
+  <script is:inline define:vars={{ VIEWS }}>
+    (function () {
+      var els = document.querySelectorAll('.view-counter[data-view-key]');
+      if (!els.length) return;
+
+      function format(n) {
+        if (n >= 1000000) return (n / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+        if (n >= 1000) return (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+        return String(n);
+      }
+
+      els.forEach(function (el) {
+        var key = el.getAttribute('data-view-key');
+        var storageKey = 'viewed:' + key;
+
+        // Đã xem trong phiên này rồi thì chỉ đọc, không tăng nữa.
+        var alreadyCounted = false;
+        if (VIEWS.onePerSession) {
+          try {
+            alreadyCounted = sessionStorage.getItem(storageKey) === '1';
+          } catch (e) { /* trình duyệt chặn storage — coi như chưa đếm */ }
+        }
+
+        var action = alreadyCounted ? 'get' : 'hit';
+        var url = VIEWS.endpoint + '/' + action + '/' + VIEWS.namespace + '/' + key;
+
+        fetch(url, { cache: 'no-store' })
+          .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+          .then(function (data) {
+            var n = data && typeof data.value === 'number' ? data.value : null;
+            if (n === null) return;
+
+            var out = el.querySelector('.view-count');
+            if (out) out.textContent = format(n);
+            el.hidden = false;
+
+            if (!alreadyCounted && VIEWS.onePerSession) {
+              try { sessionStorage.setItem(storageKey, '1'); } catch (e) {}
+            }
+          })
+          .catch(function () {
+            /* Không có mạng, bị adblock, hoặc dịch vụ chết:
+               giữ nguyên trạng thái ẩn. Giao diện không đổi. */
+          });
+      });
+    })();
+  </script>
+)}

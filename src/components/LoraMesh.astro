@@ -43,7 +43,7 @@ const meshData = JSON.stringify(projects);
           <span class="terminal-dot bg-red-500/80"></span>
           <span class="terminal-dot bg-yellow-500/80"></span>
           <span class="terminal-dot bg-green-500/80"></span>
-          <span class="ml-2 text-xs text-cyan-300/80">project-mesh · 868 MHz · SF7</span>
+          <span class="ml-2 text-[11px] sm:text-xs text-cyan-300/80 truncate">project-mesh<span class="hidden sm:inline"> · 868 MHz · SF7</span></span>
           <button id="mesh-toggle" type="button"
             class="ml-auto inline-flex items-center gap-1.5 text-[11px] font-mono text-emerald-400/90 hover:text-emerald-300 transition-colors">
             <span id="mesh-toggle-dot" class="led text-emerald-400 animate-led-blink"></span>
@@ -51,7 +51,7 @@ const meshData = JSON.stringify(projects);
           </button>
         </div>
         <div class="relative">
-          <canvas id="mesh-canvas" class="w-full block" style="height:440px" height="440"></canvas>
+          <canvas id="mesh-canvas" class="w-full block h-[300px] sm:h-[380px] lg:h-[440px]"></canvas>
           <div id="mesh-tip" class="absolute hidden pointer-events-none z-10 px-2.5 py-1.5 rounded-md text-[11px] font-mono bg-black/85 border border-cyan-700/60 text-cyan-200 whitespace-nowrap shadow-lg"></div>
           <div class="absolute bottom-2 left-3 text-[10px] font-mono text-zinc-400" data-i18n="mesh.hint">{t('mesh.hint')}</div>
         </div>
@@ -95,7 +95,7 @@ const meshData = JSON.stringify(projects);
     </div>
 
     <!-- Legend -->
-    <div class="flex flex-wrap items-center justify-center gap-6 mt-8 text-xs font-mono text-zinc-600" data-animate>
+    <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-8 text-[11px] sm:text-xs font-mono text-zinc-600" data-animate>
       <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-amber-400" style="box-shadow:0 0 8px #fbbf24"></span><span data-i18n="mesh.legend.gateway">{t('mesh.legend.gateway')}</span></span>
       <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-cyan-400" style="box-shadow:0 0 8px #22d3ee"></span><span data-i18n="mesh.legend.node">{t('mesh.legend.node')}</span></span>
       <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-sm bg-emerald-400" style="box-shadow:0 0 8px #34d399"></span><span data-i18n="mesh.legend.drone">{t('mesh.legend.drone')}</span></span>
@@ -125,11 +125,13 @@ const meshData = JSON.stringify(projects);
     if (canvas && canvas.getContext && PROJECTS.length) {
       const ctx = canvas.getContext('2d');
       let W = 0, H = 440, dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const measureH = () => canvas.clientHeight || 440;
       let nodes = [], edges = [], packets = [], hover = -1, running = false, started = false;
       const rand = (a, b) => a + Math.random() * (b - a);
 
       function build() {
         W = canvas.clientWidth;
+        H = measureH();          /* chiều cao do CSS quyết định -> responsive */
         dpr = Math.min(window.devicePixelRatio || 1, 2);
         canvas.width = W * dpr; canvas.height = H * dpr;
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);

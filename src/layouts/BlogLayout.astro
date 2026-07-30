@@ -4,6 +4,7 @@ import { formatDate } from '../utils/formatDate';
 import { getReadingTime } from '../utils/readingTime';
 import { url } from '../utils/url';
 import TableOfContents from '../components/TableOfContents.astro';
+import ViewCounter from '../components/ViewCounter.astro';
 
 interface Props {
   frontmatter: {
@@ -41,6 +42,7 @@ const hasToc = headings.filter(h => h.depth <= 3).length > 2;
           </time>
           <span>·</span>
           <span>{readingTime}</span>
+          <ViewCounter />
         </div>
 
         <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-zinc-900 text-balance mb-6">

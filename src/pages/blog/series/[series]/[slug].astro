@@ -7,6 +7,7 @@
  */
 import BaseLayout from '../../../../layouts/BaseLayout.astro';
 import TableOfContents from '../../../../components/TableOfContents.astro';
+import ViewCounter from '../../../../components/ViewCounter.astro';
 import { SERIES, getSeries } from '../../../../series';
 import { getSeriesLessons } from '../../../../utils/seriesData';
 import { t } from '../../../../i18n';
@@ -83,6 +84,7 @@ const seriesUrl = url(`/blog/series/${meta.id}`);
           <span>·</span>
           <span data-lang-block="en">{en?.data.duration}</span>
           <span data-lang-block="vi" hidden>{vi?.data.duration}</span>
+          <ViewCounter class="ml-1" />
         </div>
 
         <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-zinc-900 text-balance mb-4">

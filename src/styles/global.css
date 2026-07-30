@@ -30,6 +30,13 @@
     @apply bg-white text-zinc-900 antialiased;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    /* Chốt an toàn: không cho bất kỳ phần tử nào đẩy cả trang trượt ngang */
+    overflow-x: hidden;
+  }
+
+  /* Ảnh và canvas không bao giờ được rộng hơn khung chứa */
+  img, svg, canvas, video {
+    max-width: 100%;
   }
 
   /* Khối song ngữ bị ẩn phải luôn biến mất, kể cả khi có display:flex/grid */
@@ -134,10 +141,10 @@
   }
   /* Nhịp đọc thoáng hơn: tách rõ các phần */
   .prose-custom h2 {
-    @apply mt-14 mb-4 pb-2 border-b border-zinc-200;
+    @apply mt-10 sm:mt-14 mb-3 sm:mb-4 pb-2 border-b border-zinc-200 text-[1.45rem] sm:text-2xl;
   }
   .prose-custom h3 {
-    @apply mt-10 mb-3;
+    @apply mt-8 sm:mt-10 mb-3 text-lg sm:text-xl;
   }
   .prose-custom > p,
   .prose-custom > ul,
@@ -166,10 +173,18 @@
 
   .prose-custom pre {
     @apply bg-zinc-900 border border-zinc-800 text-zinc-100 rounded-xl my-6;
-    padding: 1.1rem 1.25rem;
-    line-height: 1.65;
-    font-size: 0.855rem;
+    padding: 0.85rem 0.95rem;
+    line-height: 1.6;
+    font-size: 0.76rem;          /* mobile: vừa được ~46 ký tự/dòng */
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  @screen sm {
+    .prose-custom pre {
+      padding: 1.1rem 1.25rem;
+      line-height: 1.65;
+      font-size: 0.855rem;
+    }
   }
   .prose-custom pre code {
     background: transparent;
@@ -187,25 +202,6 @@
   }
   .prose-custom blockquote p:first-of-type { @apply mt-0; }
   .prose-custom blockquote p:last-of-type  { @apply mb-0; }
-
-  /* Bảng: chỉ bảng cuộn ngang, không đẩy tràn cả trang */
-  .table-scroll {
-    @apply my-6 overflow-x-auto rounded-xl border border-zinc-200;
-    -webkit-overflow-scrolling: touch;
-  }
-  .table-scroll > table {
-    @apply my-0 text-sm w-full;
-    border-collapse: collapse;
-    min-width: 30rem;
-  }
-  .table-scroll th,
-  .table-scroll td {
-    @apply px-4 py-2.5 align-top border-b border-zinc-200;
-  }
-  .table-scroll th {
-    @apply bg-zinc-50 text-left font-semibold text-zinc-800 whitespace-nowrap;
-  }
-  .table-scroll tr:last-child td { @apply border-b-0; }
 
   .prose-custom img {
     @apply rounded-xl border border-zinc-200 bg-white my-8 w-full;
@@ -307,4 +303,52 @@
   .animate-delay-300 { animation-delay: 300ms; }
   .animate-delay-400 { animation-delay: 400ms; }
   .animate-delay-500 { animation-delay: 500ms; }
+}
+
+/*
+  ============================================================
+   Bảng trong markdown — KHÔNG để trong @layer
+  ============================================================
+  Class `.table-scroll` do rehype plugin trong astro.config.mjs bọc quanh
+  mỗi <table>, nên nó không xuất hiện trong bất kỳ file nào Tailwind quét.
+  Nếu đặt trong `@layer components`, Tailwind sẽ coi là không dùng và xoá đi.
+  Để ở ngoài layer thì rule luôn được xuất ra.
+*/
+.table-scroll {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 0.75rem;
+  border: 1px solid #e4e4e7;
+  /* dải mờ ở mép phải để thấy còn nội dung bên ngoài khung */
+  background: linear-gradient(to left, rgba(24,24,27,0.06), transparent 2rem)
+              right / 2rem 100% no-repeat;
+}
+.table-scroll > table {
+  margin: 0;
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 26rem;
+  font-size: 0.8125rem;
+}
+.table-scroll th,
+.table-scroll td {
+  padding: 0.5rem 0.75rem;
+  vertical-align: top;
+  border-bottom: 1px solid #e4e4e7;
+}
+.table-scroll th {
+  background: #fafafa;
+  text-align: left;
+  font-weight: 600;
+  color: #27272a;
+  white-space: nowrap;
+}
+.table-scroll tr:last-child td { border-bottom: 0; }
+
+@media (min-width: 640px) {
+  .table-scroll > table { font-size: 0.875rem; }
+  .table-scroll th,
+  .table-scroll td { padding: 0.625rem 1rem; }
 }

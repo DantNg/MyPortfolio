@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" width="760" height="380" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="380" fill="#ffffff"/>
+  <text x="380" y="30" text-anchor="middle" font-size="17" font-weight="700" fill="#18181b">FreeRTOS SMP — hai nhân, và mọi thứ khó lên gấp đôi</text>
+
+  <!-- cores -->
+  <rect x="34" y="54" width="330" height="150" rx="10" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="199" y="78" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1d4ed8">Core 0 (PRO_CPU)</text>
+  <rect x="56" y="90" width="286" height="26" rx="5" fill="#2563eb"/>
+  <text x="199" y="108" text-anchor="middle" font-size="10.5" fill="#ffffff">wifi_task — ghim vào core 0</text>
+  <rect x="56" y="122" width="286" height="26" rx="5" fill="#ffffff" stroke="#bfdbfe"/>
+  <text x="199" y="140" text-anchor="middle" font-size="10.5" fill="#27272a">tcpip_task — ghim vào core 0</text>
+  <rect x="56" y="154" width="286" height="26" rx="5" fill="#dbeafe" stroke="#93c5fd" stroke-dasharray="4 3"/>
+  <text x="199" y="172" text-anchor="middle" font-size="10.5" fill="#1e40af">app_task — không ghim (chạy nhân nào cũng được)</text>
+
+  <rect x="396" y="54" width="330" height="150" rx="10" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="561" y="78" text-anchor="middle" font-size="12.5" font-weight="700" fill="#15803d">Core 1 (APP_CPU)</text>
+  <rect x="418" y="90" width="286" height="26" rx="5" fill="#16a34a"/>
+  <text x="561" y="108" text-anchor="middle" font-size="10.5" fill="#ffffff">control_task — ghim vào core 1</text>
+  <rect x="418" y="122" width="286" height="26" rx="5" fill="#ffffff" stroke="#bbf7d0"/>
+  <text x="561" y="140" text-anchor="middle" font-size="10.5" fill="#27272a">sensor_task — ghim vào core 1</text>
+  <rect x="418" y="154" width="286" height="26" rx="5" fill="#dcfce7" stroke="#86efac" stroke-dasharray="4 3"/>
+  <text x="561" y="172" text-anchor="middle" font-size="10.5" fill="#15803d">app_task — có thể chạy ở đây thay vì core 0</text>
+
+  <!-- shared -->
+  <rect x="34" y="222" width="692" height="42" rx="8" fill="#fef3c7" stroke="#fcd34d"/>
+  <text x="380" y="240" text-anchor="middle" font-size="12" font-weight="700" fill="#a16207">RAM dùng chung · ngoại vi dùng chung</text>
+  <text x="380" y="256" text-anchor="middle" font-size="10.5" fill="#3f3f46">taskENTER_CRITICAL() chỉ chặn nhân HIỆN TẠI — nhân kia vẫn chạy tiếp</text>
+
+  <!-- key differences -->
+  <rect x="34" y="282" width="340" height="86" rx="9" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="54" y="304" font-size="11.5" font-weight="700" fill="#b91c1c">Điều gì KHÁC so với một nhân</text>
+  <g font-size="10" fill="#3f3f46">
+    <text x="54" y="324">• hai task chạy THẬT SỰ cùng lúc</text>
+    <text x="54" y="340">• đoạn găng cần spinlock giữa hai nhân</text>
+    <text x="54" y="356">• ưu tiên chỉ còn đúng trong phạm vi một nhân</text>
+  </g>
+
+  <rect x="386" y="282" width="340" height="86" rx="9" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="406" y="304" font-size="11.5" font-weight="700" fill="#15803d">Cách làm an toàn</text>
+  <g font-size="10" font-family="monospace" fill="#27272a">
+    <text x="406" y="324">xTaskCreatePinnedToCore(...)</text>
+    <text x="406" y="340">portENTER_CRITICAL(&amp;my_spinlock)</text>
+    <text x="406" y="356">queue vẫn an toàn — kernel tự lo</text>
+  </g>
+</svg>
