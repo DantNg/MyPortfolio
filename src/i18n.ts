@@ -72,6 +72,14 @@ export const ui: Record<Lang, Dict> = {
     'blog.heading': 'Latest Articles',
     'blog.subheading': "Deep dives into embedded systems, firmware architecture, and the lessons I've learned the hard way.",
     'blog.viewAll': 'View all articles',
+    'blog.searchPh': 'Search articles…',
+    'blog.allTags': 'All',
+    'blog.noResults': 'No articles match your filters.',
+    'blog.noResultsHint': 'Try a different keyword, or browse the learning series above.',
+    'blog.clearFilters': 'Clear filters',
+    'blog.showMore': 'Show more',
+    'blog.noSeriesMatch': 'No series matches that keyword.',
+    'toc.heading': 'In this article',
 
     // ---- Timeline ----
     'timeline.eyebrow': 'Career',
@@ -217,6 +225,14 @@ export const ui: Record<Lang, Dict> = {
     'blog.heading': 'Bài viết mới nhất',
     'blog.subheading': 'Đào sâu về hệ thống nhúng, kiến trúc firmware và những bài học rút ra từ thực tế.',
     'blog.viewAll': 'Xem tất cả bài viết',
+    'blog.searchPh': 'Tìm bài viết…',
+    'blog.allTags': 'Tất cả',
+    'blog.noResults': 'Không có bài viết nào khớp với bộ lọc.',
+    'blog.noResultsHint': 'Thử từ khoá khác, hoặc xem các series học tập ở trên.',
+    'blog.clearFilters': 'Bỏ bộ lọc',
+    'blog.showMore': 'Xem thêm',
+    'blog.noSeriesMatch': 'Không có series nào khớp từ khoá đó.',
+    'toc.heading': 'Trong bài này',
 
     // ---- Timeline ----
     'timeline.eyebrow': 'Sự nghiệp',

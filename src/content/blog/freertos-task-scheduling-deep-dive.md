@@ -3,7 +3,6 @@ title: "FreeRTOS Task Scheduling: A Deep Dive"
 description: "Understanding FreeRTOS scheduler internals, priority inversion, and practical patterns for building reliable real-time embedded systems."
 date: 2024-09-18
 tags: ["FreeRTOS", "RTOS", "C", "Embedded", "Real-Time"]
-coverImage: "/images/blog/freertos.jpg"
 draft: false
 featured: false
 ---

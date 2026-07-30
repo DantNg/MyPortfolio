@@ -3,7 +3,6 @@ title: "BLE Mesh Architecture: From Theory to Production"
 description: "A comprehensive look at Bluetooth Mesh networking — how provisioning, relay flooding, and friend/LPN relationships work, and what to watch out for in a real deployment."
 date: 2024-08-02
 tags: ["BLE Mesh", "BLE", "IoT", "Networking", "Nordic nRF"]
-coverImage: "/images/blog/ble-mesh.jpg"
 draft: false
 featured: false
 ---

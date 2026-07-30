@@ -3,6 +3,7 @@ import BaseLayout from './BaseLayout.astro';
 import { formatDate } from '../utils/formatDate';
 import { url } from '../utils/url';
 import ViewCounter from '../components/ViewCounter.astro';
+import ArticleEnhancements from '../components/ArticleEnhancements.astro';
 
 interface Props {
   frontmatter: {
@@ -118,4 +119,6 @@ const statusColors: Record<string, string> = {
       </div>
     </div>
   </article>
+
+  <ArticleEnhancements />
 </BaseLayout>

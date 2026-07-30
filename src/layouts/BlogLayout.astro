@@ -5,6 +5,8 @@ import { getReadingTime } from '../utils/readingTime';
 import { url } from '../utils/url';
 import TableOfContents from '../components/TableOfContents.astro';
 import ViewCounter from '../components/ViewCounter.astro';
+import MobileToc from '../components/MobileToc.astro';
+import ArticleEnhancements from '../components/ArticleEnhancements.astro';
 
 interface Props {
   frontmatter: {
@@ -75,8 +77,11 @@ const hasToc = headings.filter(h => h.depth <= 3).length > 2;
 
       <!-- Content with optional TOC -->
       <div class={hasToc ? 'lg:grid lg:grid-cols-[minmax(0,1fr)_14rem] lg:gap-14' : ''}>
-        <div class="prose prose-zinc max-w-none prose-custom min-w-0">
-          <slot />
+        <div class="min-w-0">
+          <MobileToc headings={headings} />
+          <div class="prose prose-zinc max-w-none prose-custom">
+            <slot />
+          </div>
         </div>
 
         {hasToc && (
@@ -99,4 +104,6 @@ const hasToc = headings.filter(h => h.depth <= 3).length > 2;
       </div>
     </div>
   </article>
+
+  <ArticleEnhancements />
 </BaseLayout>

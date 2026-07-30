@@ -8,6 +8,8 @@
 import BaseLayout from '../../../../layouts/BaseLayout.astro';
 import TableOfContents from '../../../../components/TableOfContents.astro';
 import ViewCounter from '../../../../components/ViewCounter.astro';
+import MobileToc from '../../../../components/MobileToc.astro';
+import ArticleEnhancements from '../../../../components/ArticleEnhancements.astro';
 import { SERIES, getSeries } from '../../../../series';
 import { getSeriesLessons } from '../../../../utils/seriesData';
 import { t } from '../../../../i18n';
@@ -111,6 +113,7 @@ const seriesUrl = url(`/blog/series/${meta.id}`);
 
       <!-- Body -->
       <div>
+        <MobileToc headings={headings} />
         <div class="min-w-0">
           {ContentEn && (
             <div data-lang-block="en" class="prose prose-zinc max-w-none prose-custom">
@@ -170,4 +173,6 @@ const seriesUrl = url(`/blog/series/${meta.id}`);
       </div>
     </div>
   </article>
+
+  <ArticleEnhancements />
 </BaseLayout>

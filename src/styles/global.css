@@ -352,3 +352,75 @@
   .table-scroll th,
   .table-scroll td { padding: 0.625rem 1rem; }
 }
+
+/*
+  ============================================================
+   Khối code có nút copy — KHÔNG để trong @layer
+  ============================================================
+  `.code-block` và `.code-copy` do JS trong ArticleEnhancements tạo ra lúc
+  chạy, nên Tailwind không quét thấy. Cùng lý do với .table-scroll.
+*/
+.code-block {
+  position: relative;
+}
+.code-block > pre {
+  /* chừa chỗ cho nút để dòng code đầu không bị che */
+  padding-right: 5.5rem;
+}
+.code-copy {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  border: 1px solid rgba(228, 228, 231, 0.25);
+  background: rgba(63, 63, 70, 0.85);
+  color: #d4d4d8;
+  font-size: 0.7rem;
+  font-family: Inter, system-ui, sans-serif;
+  line-height: 1;
+  cursor: pointer;
+  /* Trên máy tính chỉ hiện khi hover; trên cảm ứng thì luôn hiện (xem @media dưới) */
+  opacity: 0;
+  transition: opacity 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+.code-block:hover .code-copy,
+.code-copy:focus-visible {
+  opacity: 1;
+}
+.code-copy:hover {
+  background: rgba(82, 82, 91, 0.95);
+  color: #ffffff;
+}
+.code-copy.is-done {
+  background: rgba(22, 163, 74, 0.9);
+  border-color: rgba(134, 239, 172, 0.4);
+  color: #ffffff;
+  opacity: 1;
+}
+
+/* Thiết bị cảm ứng không có hover — luôn hiện nút, và làm nó to hơn cho dễ bấm */
+@media (hover: none) {
+  .code-copy {
+    opacity: 0.9;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.72rem;
+  }
+  .code-block > pre { padding-right: 5rem; }
+}
+
+/*
+  ============================================================
+   Mục lục thu gọn trên mobile
+  ============================================================
+*/
+.toc-mobile > summary {
+  cursor: pointer;
+  list-style: none;
+}
+.toc-mobile > summary::-webkit-details-marker { display: none; }
+.toc-mobile[open] .toc-chevron { transform: rotate(180deg); }
+.toc-chevron { transition: transform 0.2s ease; }
