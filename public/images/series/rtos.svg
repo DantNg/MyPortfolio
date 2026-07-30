@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" font-family="Inter, system-ui, sans-serif">
+  <defs>
+    <linearGradient id="rtbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#eff6ff"/>
+      <stop offset="55%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#ecfeff"/>
+    </linearGradient>
+    <radialGradient id="rtglow" cx="0.68" cy="0.42" r="0.6">
+      <stop offset="0%" stop-color="#2563eb" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#2563eb" stop-opacity="0"/>
+    </radialGradient>
+    <marker id="rta" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#rtbg)"/>
+  <ellipse cx="800" cy="270" rx="430" ry="300" fill="url(#rtglow)"/>
+
+  <g stroke="#2563eb" stroke-opacity="0.06" stroke-width="1">
+    <path d="M0 90h1200M0 180h1200M0 270h1200M0 360h1200M0 450h1200M0 540h1200"/>
+    <path d="M120 0v630M240 0v630M360 0v630M480 0v630M600 0v630M720 0v630M840 0v630M960 0v630M1080 0v630"/>
+  </g>
+
+  <!-- badge -->
+  <g>
+    <rect x="72" y="64" width="176" height="34" rx="17" fill="#ffffff" stroke="#bfdbfe" stroke-width="2"/>
+    <circle cx="94" cy="81" r="5" fill="#2563eb"/>
+    <text x="108" y="86" font-size="15" font-weight="600" fill="#1d4ed8">RTOS · FreeRTOS</text>
+  </g>
+
+  <!-- ===== bốn trạng thái của task ===== -->
+  <g>
+    <rect x="470" y="126" width="200" height="66" rx="12" fill="#2563eb"/>
+    <text x="570" y="158" text-anchor="middle" font-size="17" font-weight="700" fill="#ffffff">RUNNING</text>
+    <text x="570" y="180" text-anchor="middle" font-size="12" fill="#dbeafe">one per core</text>
+
+    <rect x="264" y="264" width="190" height="66" rx="12" fill="#dbeafe" stroke="#60a5fa" stroke-width="2.5"/>
+    <text x="359" y="296" text-anchor="middle" font-size="16" font-weight="700" fill="#1d4ed8">READY</text>
+    <text x="359" y="316" text-anchor="middle" font-size="11.5" fill="#3f3f46">waiting for CPU</text>
+
+    <rect x="686" y="264" width="190" height="66" rx="12" fill="#fef3c7" stroke="#fcd34d" stroke-width="2.5"/>
+    <text x="781" y="296" text-anchor="middle" font-size="16" font-weight="700" fill="#a16207">BLOCKED</text>
+    <text x="781" y="316" text-anchor="middle" font-size="11.5" fill="#3f3f46">0% CPU</text>
+
+    <rect x="470" y="398" width="200" height="60" rx="12" fill="#f4f4f5" stroke="#d4d4d8" stroke-width="2.5"/>
+    <text x="570" y="428" text-anchor="middle" font-size="16" font-weight="700" fill="#52525b">SUSPENDED</text>
+    <text x="570" y="447" text-anchor="middle" font-size="11.5" fill="#3f3f46">off the scheduler</text>
+
+    <!-- Chu trình trạng thái. Hai chiều đi trên hai đường TÁCH BIỆT, không
+         cắt nhau — bản trước dùng 4 đường cong chồng lên nhau và lên cả nhãn. -->
+    <g stroke="#2563eb" stroke-width="2.5" fill="none" marker-end="url(#rta)">
+      <!-- READY → RUNNING (scheduler chọn) -->
+      <path d="M420 264 L420 218 L520 218 L520 196"/>
+      <!-- RUNNING → READY (bị giành quyền) -->
+      <path d="M498 194 L498 240 L458 240"/>
+      <!-- RUNNING → BLOCKED (tự chặn) -->
+      <path d="M642 194 L642 240 L722 240 L722 260"/>
+      <!-- BLOCKED → READY (có dữ liệu / hết hạn) -->
+      <path d="M686 314 L560 314 L560 300 L458 300"/>
+      <!-- RUNNING ↔ SUSPENDED -->
+      <path d="M570 194 L570 394"/>
+    </g>
+    <g font-size="12.5" font-family="monospace" fill="#2563eb">
+      <text x="430" y="212">scheduler</text>
+      <text x="652" y="212">vTaskDelay()</text>
+    </g>
+    <text x="572" y="290" font-size="11.5" font-family="monospace" fill="#71717a">data ready → READY</text>
+  </g>
+
+  <!-- ===== queue: ISR -> task ===== -->
+  <g>
+    <rect x="880" y="120" width="248" height="128" rx="14" fill="#ffffff" stroke="#bfdbfe" stroke-width="2"/>
+    <text x="900" y="148" font-size="12.5" font-weight="700" fill="#1d4ed8">ISR → QUEUE → TASK</text>
+    <rect x="900" y="162" width="60" height="34" rx="6" fill="#fee2e2" stroke="#fca5a5"/>
+    <text x="930" y="184" text-anchor="middle" font-size="11" fill="#b91c1c">ISR</text>
+    <rect x="972" y="162" width="72" height="34" rx="6" fill="#2563eb"/>
+    <text x="1008" y="184" text-anchor="middle" font-size="11" fill="#ffffff">queue</text>
+    <rect x="1056" y="162" width="56" height="34" rx="6" fill="#dcfce7" stroke="#86efac"/>
+    <text x="1084" y="184" text-anchor="middle" font-size="11" fill="#15803d">task</text>
+    <g stroke="#2563eb" stroke-width="2" marker-end="url(#rta)">
+      <line x1="962" y1="179" x2="968" y2="179"/>
+      <line x1="1046" y1="179" x2="1052" y2="179"/>
+    </g>
+    <text x="900" y="222" font-size="11.5" fill="#52525b">ISR posts 4 bytes and exits</text>
+    <text x="900" y="238" font-size="11.5" fill="#52525b">task takes as long as it needs</text>
+  </g>
+
+  <!-- tiêu đề -->
+  <text x="72" y="486" font-size="52" font-weight="700" fill="#18181b">Real-time with</text>
+  <text x="72" y="544" font-size="52" font-weight="700" fill="#2563eb">FreeRTOS</text>
+  <text x="74" y="584" font-size="19" fill="#52525b">10 lessons · tasks · queues · priority inversion · tickless idle · SMP</text>
+</svg>

@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" font-family="Inter, system-ui, sans-serif">
+  <defs>
+    <linearGradient id="lvbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f5f3ff"/>
+      <stop offset="55%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#eef2ff"/>
+    </linearGradient>
+    <radialGradient id="lvglow" cx="0.72" cy="0.4" r="0.6">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#lvbg)"/>
+  <ellipse cx="840" cy="270" rx="420" ry="290" fill="url(#lvglow)"/>
+
+  <g stroke="#6366f1" stroke-opacity="0.07" stroke-width="1">
+    <path d="M0 90h1200M0 180h1200M0 270h1200M0 360h1200M0 450h1200M0 540h1200"/>
+    <path d="M120 0v630M240 0v630M360 0v630M480 0v630M600 0v630M720 0v630M840 0v630M960 0v630M1080 0v630"/>
+  </g>
+
+  <!-- badge -->
+  <g>
+    <rect x="72" y="64" width="112" height="34" rx="17" fill="#ffffff" stroke="#c7d2fe" stroke-width="2"/>
+    <circle cx="94" cy="81" r="5" fill="#6366f1"/>
+    <text x="108" y="86" font-size="15" font-weight="600" fill="#4338ca">LVGL</text>
+  </g>
+
+  <!-- ===== màn hình thiết bị với widget LVGL ===== -->
+  <g>
+    <rect x="660" y="120" width="470" height="330" rx="22" fill="#27272a"/>
+    <rect x="678" y="138" width="434" height="294" rx="10" fill="#f4f4f5"/>
+
+    <!-- thanh tiêu đề -->
+    <rect x="678" y="138" width="434" height="46" rx="10" fill="#4f46e5"/>
+    <rect x="678" y="168" width="434" height="16" fill="#4f46e5"/>
+    <text x="700" y="168" font-size="17" font-weight="600" fill="#ffffff">Dashboard</text>
+    <circle cx="1082" cy="161" r="6" fill="#4ade80"/>
+
+    <!-- thẻ số liệu -->
+    <rect x="698" y="202" width="180" height="88" rx="10" fill="#ffffff" stroke="#e4e4e7"/>
+    <text x="716" y="226" font-size="11" fill="#71717a">TEMPERATURE</text>
+    <text x="716" y="262" font-size="30" font-weight="700" fill="#18181b">27.4</text>
+    <text x="790" y="262" font-size="14" fill="#71717a">°C</text>
+    <rect x="716" y="272" width="144" height="6" rx="3" fill="#e4e4e7"/>
+    <rect x="716" y="272" width="92" height="6" rx="3" fill="#6366f1"/>
+
+    <!-- arc gauge -->
+    <rect x="892" y="202" width="200" height="88" rx="10" fill="#ffffff" stroke="#e4e4e7"/>
+    <path d="M928 272 A 44 44 0 0 1 1016 272" fill="none" stroke="#e4e4e7" stroke-width="11" stroke-linecap="round"/>
+    <path d="M928 272 A 44 44 0 0 1 1000 238" fill="none" stroke="#6366f1" stroke-width="11" stroke-linecap="round"/>
+    <text x="972" y="270" text-anchor="middle" font-size="18" font-weight="700" fill="#18181b">72%</text>
+    <text x="1060" y="226" text-anchor="end" font-size="11" fill="#71717a">LOAD</text>
+
+    <!-- chart -->
+    <rect x="698" y="302" width="394" height="70" rx="10" fill="#ffffff" stroke="#e4e4e7"/>
+    <polyline points="716,356 750,344 784,348 818,328 852,334 886,314 920,322 954,302 988,310 1022,294 1056,300 1074,286"
+              fill="none" stroke="#6366f1" stroke-width="3" stroke-linejoin="round"/>
+
+    <!-- nút + slider -->
+    <rect x="698" y="384" width="188" height="32" rx="16" fill="#4f46e5"/>
+    <text x="792" y="405" text-anchor="middle" font-size="14" font-weight="600" fill="#ffffff">Start</text>
+    <rect x="906" y="396" width="186" height="7" rx="3.5" fill="#e4e4e7"/>
+    <rect x="906" y="396" width="110" height="7" rx="3.5" fill="#6366f1"/>
+    <circle cx="1016" cy="399.5" r="12" fill="#ffffff" stroke="#6366f1" stroke-width="3.5"/>
+  </g>
+
+  <!-- ===== nhãn widget chú thích ===== -->
+  <g font-size="14" fill="#4338ca" font-family="monospace">
+    <rect x="72" y="180" width="152" height="30" rx="8" fill="#ffffff" stroke="#c7d2fe"/>
+    <text x="88" y="200">lv_label</text>
+    <rect x="72" y="222" width="152" height="30" rx="8" fill="#ffffff" stroke="#c7d2fe"/>
+    <text x="88" y="242">lv_chart</text>
+    <rect x="72" y="264" width="152" height="30" rx="8" fill="#ffffff" stroke="#c7d2fe"/>
+    <text x="88" y="284">lv_slider</text>
+    <rect x="72" y="306" width="152" height="30" rx="8" fill="#ffffff" stroke="#c7d2fe"/>
+    <text x="88" y="326">lv_arc</text>
+  </g>
+  <g stroke="#a5b4fc" stroke-width="2" stroke-dasharray="5 5" fill="none">
+    <path d="M224 195 L660 230"/>
+    <path d="M224 237 L698 330"/>
+    <path d="M224 279 L900 399"/>
+    <path d="M224 321 L892 250"/>
+  </g>
+
+  <!-- tiêu đề -->
+  <text x="72" y="474" font-size="52" font-weight="700" fill="#18181b">Embedded GUI</text>
+  <text x="72" y="534" font-size="52" font-weight="700" fill="#4f46e5">with LVGL</text>
+  <text x="74" y="576" font-size="19" fill="#52525b">8 lessons · widgets · layouts · styles · performance</text>
+</svg>

@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" font-family="Inter, system-ui, sans-serif">
+  <defs>
+    <linearGradient id="aubg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="55%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#fef2f2"/>
+    </linearGradient>
+    <radialGradient id="auglow" cx="0.5" cy="0.42" r="0.6">
+      <stop offset="0%" stop-color="#e11d48" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#e11d48" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#aubg)"/>
+  <ellipse cx="640" cy="260" rx="450" ry="290" fill="url(#auglow)"/>
+
+  <g stroke="#e11d48" stroke-opacity="0.06" stroke-width="1">
+    <path d="M0 90h1200M0 180h1200M0 270h1200M0 360h1200M0 450h1200M0 540h1200"/>
+    <path d="M120 0v630M240 0v630M360 0v630M480 0v630M600 0v630M720 0v630M840 0v630M960 0v630M1080 0v630"/>
+  </g>
+
+  <!-- badge -->
+  <g>
+    <rect x="72" y="64" width="152" height="34" rx="17" fill="#ffffff" stroke="#fecdd3" stroke-width="2"/>
+    <circle cx="94" cy="81" r="5" fill="#e11d48"/>
+    <text x="108" y="86" font-size="15" font-weight="600" fill="#be123c">Automotive</text>
+  </g>
+
+  <!-- ===== hình chiếu bằng của xe với các ECU ===== -->
+  <g>
+    <!-- thân xe -->
+    <path d="M300 200 C 300 176, 322 160, 350 160 L 900 160 C 940 160, 966 178, 980 200
+             L 1020 236 C 1036 250, 1036 274, 1020 288 L 980 324 C 966 346, 940 364, 900 364
+             L 350 364 C 322 364, 300 348, 300 324 Z"
+          fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/>
+    <!-- khoang -->
+    <path d="M392 190 L392 334 M700 190 L700 334 M868 190 L868 334" stroke="#e2e8f0" stroke-width="2"/>
+    <!-- bánh -->
+    <rect x="404" y="146" width="72" height="26" rx="12" fill="#3f3f46"/>
+    <rect x="404" y="352" width="72" height="26" rx="12" fill="#3f3f46"/>
+    <rect x="800" y="146" width="72" height="26" rx="12" fill="#3f3f46"/>
+    <rect x="800" y="352" width="72" height="26" rx="12" fill="#3f3f46"/>
+
+    <!-- xương sống CAN / Ethernet -->
+    <line x1="330" y1="262" x2="1000" y2="262" stroke="#e11d48" stroke-width="4" stroke-dasharray="14 8"/>
+    <!-- Nhãn bus đặt DƯỚI đường bus: đặt trên sẽ bị hàng hộp ECU đè lên -->
+    <text x="452" y="330" text-anchor="middle" font-size="13" font-family="monospace" fill="#be123c">CAN FD · Automotive Ethernet</text>
+
+    <!-- các ECU trên bus -->
+    <g>
+      <rect x="330" y="228" width="60" height="34" rx="8" fill="#fee2e2" stroke="#fda4af" stroke-width="2"/>
+      <text x="360" y="250" text-anchor="middle" font-size="11" font-weight="700" fill="#be123c">ECM</text>
+
+      <rect x="416" y="228" width="72" height="34" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+      <text x="452" y="250" text-anchor="middle" font-size="11" font-weight="700" fill="#334155">ABS</text>
+
+      <rect x="514" y="228" width="72" height="34" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+      <text x="550" y="250" text-anchor="middle" font-size="11" font-weight="700" fill="#334155">BCM</text>
+
+      <rect x="612" y="262" width="96" height="34" rx="8" fill="#e11d48"/>
+      <text x="660" y="284" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff">GATEWAY</text>
+
+      <rect x="736" y="228" width="82" height="34" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+      <text x="777" y="250" text-anchor="middle" font-size="11" font-weight="700" fill="#334155">IVI</text>
+
+      <rect x="846" y="228" width="82" height="34" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+      <text x="887" y="250" text-anchor="middle" font-size="11" font-weight="700" fill="#334155">ADAS</text>
+
+      <rect x="900" y="278" width="90" height="34" rx="8" fill="#dbeafe" stroke="#93c5fd" stroke-width="2"/>
+      <text x="945" y="300" text-anchor="middle" font-size="11" font-weight="700" fill="#1d4ed8">HPC</text>
+    </g>
+
+    <!-- nhánh nối xuống bus -->
+    <g stroke="#94a3b8" stroke-width="2">
+      <path d="M360 262 L360 262"/>
+      <path d="M452 262 L452 262"/>
+      <path d="M550 262 L550 262"/>
+      <path d="M777 262 L777 262"/>
+      <path d="M887 262 L887 262"/>
+      <path d="M945 278 L945 264"/>
+    </g>
+  </g>
+
+  <!-- ===== khung UDS ===== -->
+  <g>
+    <rect x="72" y="392" width="330" height="106" rx="12" fill="#18181b"/>
+    <text x="92" y="418" font-size="12" font-family="monospace" fill="#fbbf24">UDS · ISO 14229</text>
+    <g font-family="monospace" font-size="14">
+      <text x="92" y="446"><tspan fill="#60a5fa">→</tspan><tspan fill="#e4e4e7"> 22 F1 90        </tspan><tspan fill="#71717a">read VIN</tspan></text>
+      <text x="92" y="470"><tspan fill="#4ade80">←</tspan><tspan fill="#e4e4e7"> 62 F1 90 …      </tspan><tspan fill="#71717a">SID + 0x40</tspan></text>
+      <text x="92" y="490"><tspan fill="#f87171">←</tspan><tspan fill="#e4e4e7"> 7F 22 33        </tspan><tspan fill="#71717a">denied</tspan></text>
+    </g>
+  </g>
+
+  <!-- ===== ASIL ===== -->
+  <g>
+    <rect x="424" y="392" width="330" height="106" rx="12" fill="#ffffff" stroke="#fecdd3" stroke-width="2"/>
+    <text x="444" y="418" font-size="12" font-weight="700" fill="#be123c">ISO 26262 — ASIL</text>
+    <g>
+      <rect x="444" y="432" width="56" height="46" rx="7" fill="#f4f4f5"/>
+      <text x="472" y="461" text-anchor="middle" font-size="13" font-weight="700" fill="#52525b">QM</text>
+      <rect x="508" y="432" width="56" height="46" rx="7" fill="#ecfdf5"/>
+      <text x="536" y="461" text-anchor="middle" font-size="13" font-weight="700" fill="#15803d">A</text>
+      <rect x="572" y="432" width="56" height="46" rx="7" fill="#fefce8"/>
+      <text x="600" y="461" text-anchor="middle" font-size="13" font-weight="700" fill="#a16207">B</text>
+      <rect x="636" y="432" width="56" height="46" rx="7" fill="#fff7ed"/>
+      <text x="664" y="461" text-anchor="middle" font-size="13" font-weight="700" fill="#c2410c">C</text>
+      <rect x="700" y="432" width="40" height="46" rx="7" fill="#fee2e2"/>
+      <text x="720" y="461" text-anchor="middle" font-size="13" font-weight="700" fill="#b91c1c">D</text>
+    </g>
+  </g>
+
+  <!-- tiêu đề -->
+  <text x="776" y="428" font-size="42" font-weight="700" fill="#18181b">Automotive</text>
+  <text x="776" y="476" font-size="42" font-weight="700" fill="#be123c">software</text>
+  <text x="778" y="512" font-size="17" fill="#52525b">6 lessons · CAN · UDS</text>
+  <text x="778" y="536" font-size="17" fill="#52525b">AUTOSAR · SOME/IP · ASIL</text>
+</svg>

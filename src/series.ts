@@ -28,6 +28,12 @@ export interface SeriesMeta {
   /** path của icon Heroicons (24 outline) */
   iconPath: string;
   /**
+   * Ảnh thumbnail, dạng SVG trong public/images/series/.
+   * Bản .png cùng tên (do `npm run thumbnails` sinh ra) được dùng cho thẻ
+   * Open Graph, vì bộ đọc OG của Facebook/X/LinkedIn không render SVG.
+   */
+  thumbnail: string;
+  /**
    * Ngày xuất bản series (ISO). Dùng làm `datePublished` cho mọi bài trong
    * series — các bài của một series đều lên cùng lúc, nên đây là mốc đúng.
    * Không có ngày thì Google không đánh giá được độ mới của nội dung.
@@ -38,6 +44,7 @@ export interface SeriesMeta {
 export const SERIES: SeriesMeta[] = [
   {
     id: 'lvgl',
+    thumbnail: '/images/series/lvgl.svg',
     published: '2026-07-29',
     order: 1,
     badge: 'LVGL',
@@ -66,6 +73,7 @@ export const SERIES: SeriesMeta[] = [
   },
   {
     id: 'linux',
+    thumbnail: '/images/series/linux.svg',
     published: '2026-07-29',
     order: 2,
     badge: 'Linux',
@@ -97,6 +105,7 @@ export const SERIES: SeriesMeta[] = [
 SERIES.push(
   {
     id: 'rtos',
+    thumbnail: '/images/series/rtos.svg',
     published: '2026-07-30',
     order: 3,
     badge: 'RTOS',
@@ -125,6 +134,7 @@ SERIES.push(
   },
   {
     id: 'automotive',
+    thumbnail: '/images/series/automotive.svg',
     published: '2026-07-30',
     order: 4,
     badge: 'Automotive',
@@ -153,6 +163,7 @@ SERIES.push(
   },
   {
     id: 'design-patterns',
+    thumbnail: '/images/series/design-patterns.svg',
     published: '2026-07-30',
     order: 5,
     badge: 'Patterns',

@@ -24,9 +24,22 @@ const lessons = await getSeriesLessons(meta.id);
 const allTags = [
   ...new Set(lessons.flatMap((l) => l.en?.data.tags ?? [])),
 ];
+
+/**
+ * Ảnh Open Graph = bản PNG của thumbnail series.
+ *
+ * Hai lý do phải đổi sang .png thay vì dùng thẳng .svg:
+ *   - Bộ đọc OG của Facebook/X/LinkedIn không render SVG, share link sẽ không
+ *     có ảnh xem trước.
+ *   - Trước đây các trang này rơi về og-default.png, nên mọi bài học trong
+ *     mọi series đều xem trước giống nhau. Giờ mỗi series có ảnh riêng.
+ * Bản .png do `npm run thumbnails` sinh ra, nằm cạnh file .svg.
+ */
+const ogImage = url(meta.thumbnail.replace(/\.svg$/, '.png'));
+
 ---
 
-<BaseLayout lang={lang} title={meta.title[lang]} description={meta.intro[lang]} tags={allTags}>
+<BaseLayout lang={lang} title={meta.title[lang]} description={meta.intro[lang]} image={ogImage} tags={allTags}>
   <StructuredData
     slot="head"
     kind="collection"

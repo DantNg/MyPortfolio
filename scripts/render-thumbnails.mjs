@@ -28,6 +28,11 @@ const TARGETS = [
   ['public/images/blog/ble-mesh.svg', 1200],
   ['public/images/blog/freertos.svg', 1200],
   ['public/images/blog/zephyr-rtos.svg', 1200],
+  ['public/images/series/lvgl.svg', 1200],
+  ['public/images/series/linux.svg', 1200],
+  ['public/images/series/rtos.svg', 1200],
+  ['public/images/series/automotive.svg', 1200],
+  ['public/images/series/design-patterns.svg', 1200],
   ['public/og-default.svg', 1200],
 ];
 

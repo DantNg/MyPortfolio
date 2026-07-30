@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" font-family="Inter, system-ui, sans-serif">
+  <defs>
+    <linearGradient id="dpbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ecfdf5"/>
+      <stop offset="55%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f0fdfa"/>
+    </linearGradient>
+    <radialGradient id="dpglow" cx="0.3" cy="0.4" r="0.6">
+      <stop offset="0%" stop-color="#059669" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#059669" stop-opacity="0"/>
+    </radialGradient>
+    <marker id="dpa" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#059669"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#dpbg)"/>
+  <ellipse cx="380" cy="260" rx="440" ry="290" fill="url(#dpglow)"/>
+
+  <g stroke="#059669" stroke-opacity="0.06" stroke-width="1">
+    <path d="M0 90h1200M0 180h1200M0 270h1200M0 360h1200M0 450h1200M0 540h1200"/>
+    <path d="M120 0v630M240 0v630M360 0v630M480 0v630M600 0v630M720 0v630M840 0v630M960 0v630M1080 0v630"/>
+  </g>
+
+  <!-- badge -->
+  <g>
+    <rect x="72" y="64" width="196" height="34" rx="17" fill="#ffffff" stroke="#a7f3d0" stroke-width="2"/>
+    <circle cx="94" cy="81" r="5" fill="#059669"/>
+    <text x="108" y="86" font-size="15" font-weight="600" fill="#047857">Design Patterns</text>
+  </g>
+
+  <!-- ===== máy trạng thái ===== -->
+  <g>
+    <text x="72" y="146" font-size="13" font-weight="700" fill="#047857">STATE MACHINE</text>
+
+    <rect x="72" y="160" width="112" height="46" rx="10" fill="#f4f4f5" stroke="#d4d4d8" stroke-width="2"/>
+    <text x="128" y="189" text-anchor="middle" font-size="13" font-weight="600" fill="#52525b">IDLE</text>
+
+    <rect x="224" y="160" width="132" height="46" rx="10" fill="#d1fae5" stroke="#6ee7b7" stroke-width="2"/>
+    <text x="290" y="189" text-anchor="middle" font-size="13" font-weight="600" fill="#047857">PRECHARGE</text>
+
+    <rect x="396" y="160" width="112" height="46" rx="10" fill="#d1fae5" stroke="#6ee7b7" stroke-width="2"/>
+    <text x="452" y="189" text-anchor="middle" font-size="13" font-weight="600" fill="#047857">FAST</text>
+
+    <rect x="548" y="160" width="112" height="46" rx="10" fill="#059669"/>
+    <text x="604" y="189" text-anchor="middle" font-size="13" font-weight="600" fill="#ffffff">DONE</text>
+
+    <g stroke="#059669" stroke-width="2.5" marker-end="url(#dpa)">
+      <line x1="184" y1="183" x2="218" y2="183"/>
+      <line x1="356" y1="183" x2="390" y2="183"/>
+      <line x1="508" y1="183" x2="542" y2="183"/>
+    </g>
+    <path d="M604 206 L604 232 L128 232 L128 210" fill="none" stroke="#a1a1aa" stroke-width="2" marker-end="url(#dpa)"/>
+    <text x="366" y="250" text-anchor="middle" font-size="11.5" font-family="monospace" fill="#71717a">UNPLUGGED</text>
+  </g>
+
+  <!-- ===== phân tầng ===== -->
+  <g>
+    <text x="72" y="298" font-size="13" font-weight="700" fill="#047857">LAYERING</text>
+
+    <rect x="72" y="312" width="440" height="40" rx="9" fill="#d1fae5" stroke="#6ee7b7" stroke-width="2"/>
+    <text x="92" y="337" font-size="14" font-weight="600" fill="#047857">Application — policy, no vendor headers</text>
+    <text x="492" y="337" text-anchor="end" font-size="12" fill="#16a34a">✔ test</text>
+
+    <rect x="72" y="358" width="440" height="40" rx="9" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+    <text x="92" y="383" font-size="14" font-weight="600" fill="#27272a">Device — sensors, storage</text>
+    <text x="492" y="383" text-anchor="end" font-size="12" fill="#16a34a">✔ fake</text>
+
+    <rect x="72" y="404" width="440" height="40" rx="9" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+    <text x="92" y="429" font-size="14" font-weight="600" fill="#27272a">HAL — i2c_if_t, uart_if_t</text>
+    <text x="492" y="429" text-anchor="end" font-size="12" fill="#a16207">~ hw</text>
+
+    <rect x="72" y="450" width="440" height="28" rx="7" fill="#27272a"/>
+    <text x="292" y="469" text-anchor="middle" font-size="12.5" font-weight="600" fill="#e4e4e7">Registers · silicon</text>
+
+    <!-- Mũi tên "phụ thuộc đi xuống", vẽ tay để kiểm soát kích thước.
+         Dùng marker trên đoạn thẳng 2px sẽ cho ra mũi tên phóng đại. -->
+    <g fill="#059669" opacity="0.75">
+      <path d="M286 352 L298 352 L292 359 Z"/>
+      <path d="M286 398 L298 398 L292 405 Z"/>
+      <path d="M286 444 L298 444 L292 451 Z"/>
+    </g>
+  </g>
+
+  <!-- ===== code: interface trong C ===== -->
+  <g>
+    <rect x="560" y="284" width="568" height="240" rx="14" fill="#18181b"/>
+    <text x="584" y="312" font-size="12.5" font-family="monospace" fill="#fbbf24">/* i2c_if.h — a contract, no vendor headers */</text>
+    <g font-family="monospace" font-size="15" fill="#e4e4e7">
+      <text x="584" y="344">typedef struct {</text>
+      <text x="584" y="370">  int (*read)(void *ctx, uint8_t a,</text>
+      <text x="584" y="392">             uint8_t *b, size_t n);</text>
+      <text x="584" y="418">  int (*write)(void *ctx, uint8_t a,</text>
+      <text x="584" y="440">             const uint8_t *b, size_t n);</text>
+      <text x="584" y="466">  void *ctx;</text>
+      <text x="584" y="492">} <tspan fill="#86efac">i2c_if_t</tspan>;</text>
+    </g>
+  </g>
+
+  <!-- tiêu đề -->
+  <text x="72" y="540" font-size="44" font-weight="700" fill="#18181b">Design patterns for</text>
+  <text x="72" y="590" font-size="44" font-weight="700" fill="#047857">embedded C &amp; C++</text>
+  <text x="700" y="562" font-size="17" fill="#52525b">6 lessons · SOLID · state machines</text>
+  <text x="700" y="588" font-size="17" fill="#52525b">interfaces · RAII · testing</text>
+</svg>

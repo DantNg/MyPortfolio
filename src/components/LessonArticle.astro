@@ -20,6 +20,7 @@ import type { SeriesMeta } from '../series';
 import type { LessonGroup } from '../utils/seriesData';
 import { t, type Lang } from '../i18n';
 import { localeUrl, localeHref } from '../utils/i18nUrl';
+import { url } from '../utils/url';
 
 interface Props {
   lang: Lang;
@@ -54,6 +55,19 @@ const published = new Date(meta.published).toISOString();
 
 /** "12 min" / "12 phút" -> 12, cho schema timeRequired */
 const minutes = parseInt(duration.replace(/\D/g, ''), 10) || undefined;
+
+/**
+ * Ảnh Open Graph = bản PNG của thumbnail series.
+ *
+ * Hai lý do phải đổi sang .png thay vì dùng thẳng .svg:
+ *   - Bộ đọc OG của Facebook/X/LinkedIn không render SVG, share link sẽ không
+ *     có ảnh xem trước.
+ *   - Trước đây các trang này rơi về og-default.png, nên mọi bài học trong
+ *     mọi series đều xem trước giống nhau. Giờ mỗi series có ảnh riêng.
+ * Bản .png do `npm run thumbnails` sinh ra, nằm cạnh file .svg.
+ */
+const ogImage = url(meta.thumbnail.replace(/\.svg$/, '.png'));
+
 ---
 
 <BaseLayout
@@ -62,6 +76,7 @@ const minutes = parseInt(duration.replace(/\D/g, ''), 10) || undefined;
   description={description}
   type="article"
   tags={tags}
+  image={ogImage}
   publishedTime={published}
 >
   <StructuredData
@@ -71,6 +86,7 @@ const minutes = parseInt(duration.replace(/\D/g, ''), 10) || undefined;
     description={description}
     datePublished={published}
     keywords={tags}
+    image={ogImage}
     readingMinutes={minutes}
     partOf={{ name: meta.title[lang], path: seriesPath }}
     crumbs={[

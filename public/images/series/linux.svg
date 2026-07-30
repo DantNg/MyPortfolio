@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" font-family="Inter, system-ui, sans-serif">
+  <defs>
+    <linearGradient id="lnbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fffbeb"/>
+      <stop offset="55%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#fff7ed"/>
+    </linearGradient>
+    <radialGradient id="lnglow" cx="0.7" cy="0.38" r="0.6">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#lnbg)"/>
+  <ellipse cx="820" cy="250" rx="420" ry="290" fill="url(#lnglow)"/>
+
+  <g stroke="#f59e0b" stroke-opacity="0.08" stroke-width="1">
+    <path d="M0 90h1200M0 180h1200M0 270h1200M0 360h1200M0 450h1200M0 540h1200"/>
+    <path d="M120 0v630M240 0v630M360 0v630M480 0v630M600 0v630M720 0v630M840 0v630M960 0v630M1080 0v630"/>
+  </g>
+
+  <!-- badge -->
+  <g>
+    <rect x="72" y="64" width="110" height="34" rx="17" fill="#ffffff" stroke="#fed7aa" stroke-width="2"/>
+    <circle cx="94" cy="81" r="5" fill="#f59e0b"/>
+    <text x="108" y="86" font-size="15" font-weight="600" fill="#b45309">Linux</text>
+  </g>
+
+  <!-- ===== cửa sổ terminal ===== -->
+  <g>
+    <rect x="470" y="118" width="660" height="330" rx="16" fill="#18181b"/>
+    <rect x="470" y="118" width="660" height="42" rx="16" fill="#27272a"/>
+    <rect x="470" y="146" width="660" height="14" fill="#27272a"/>
+    <circle cx="496" cy="139" r="7" fill="#ef4444"/>
+    <circle cx="520" cy="139" r="7" fill="#f59e0b"/>
+    <circle cx="544" cy="139" r="7" fill="#22c55e"/>
+    <text x="800" y="145" text-anchor="middle" font-size="14" fill="#a1a1aa" font-family="monospace">dat@build: ~/firmware</text>
+
+    <g font-family="monospace" font-size="16.5">
+      <text x="496" y="196"><tspan fill="#4ade80">$</tspan><tspan fill="#e4e4e7"> uname -m</tspan></text>
+      <text x="496" y="224" fill="#a1a1aa">aarch64</text>
+
+      <text x="496" y="262"><tspan fill="#4ade80">$</tspan><tspan fill="#e4e4e7"> dmesg | grep -i i2c</tspan></text>
+      <text x="496" y="290" fill="#a1a1aa">i2c i2c-1: adapter registered</text>
+
+      <text x="496" y="328"><tspan fill="#4ade80">$</tspan><tspan fill="#e4e4e7"> systemctl status sensord</tspan></text>
+      <text x="496" y="356"><tspan fill="#4ade80">  ● active (running)</tspan><tspan fill="#71717a"> since 2h ago</tspan></text>
+
+      <text x="496" y="394"><tspan fill="#4ade80">$</tspan><tspan fill="#e4e4e7"> cat /sys/class/thermal/…/temp</tspan></text>
+      <text x="496" y="422"><tspan fill="#fbbf24">48312</tspan><tspan fill="#22d3ee"> ▋</tspan></text>
+    </g>
+  </g>
+
+  <!-- ===== cây thư mục ===== -->
+  <g font-family="monospace" font-size="15">
+    <rect x="72" y="150" width="356" height="300" rx="14" fill="#ffffff" stroke="#fed7aa" stroke-width="2"/>
+    <text x="94" y="180" font-size="13" font-family="Inter" font-weight="700" fill="#b45309">ONE FILESYSTEM TREE</text>
+
+    <text x="94" y="212" fill="#b45309" font-weight="700">/</text>
+    <text x="118" y="242" fill="#3f3f46">├─ /etc</text>
+    <text x="118" y="270" fill="#3f3f46">├─ /home</text>
+    <text x="118" y="298" fill="#15803d">├─ /dev</text>
+    <text x="118" y="326" fill="#15803d">├─ /proc</text>
+    <text x="118" y="354" fill="#15803d">├─ /sys</text>
+    <text x="118" y="382" fill="#a16207">├─ /var/log</text>
+    <text x="118" y="410" fill="#3f3f46">└─ /usr/bin</text>
+    <text x="252" y="298" font-size="12" font-family="Inter" fill="#71717a">devices as files</text>
+    <text x="252" y="326" font-size="12" font-family="Inter" fill="#71717a">kernel as files</text>
+  </g>
+
+  <!-- tiêu đề -->
+  <text x="72" y="514" font-size="50" font-weight="700" fill="#18181b">Linux for</text>
+  <text x="72" y="570" font-size="50" font-weight="700" fill="#b45309">embedded devs</text>
+  <text x="620" y="514" font-size="19" fill="#52525b">8 lessons · shell · permissions · processes</text>
+  <text x="620" y="546" font-size="19" fill="#52525b">systemd · debugging · cross-compiling</text>
+</svg>
