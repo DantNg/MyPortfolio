@@ -1,5 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+/* Ba section này trước ở trang chủ. Trang chủ giờ là blog, còn chúng thuộc về
+   "về tôi": nhận diện, kỹ năng, và hành trình nghề nghiệp. */
+import Hero from '../components/Hero.astro';
+import Skills from '../components/Skills.astro';
+import Timeline from '../components/Timeline.astro';
+import StructuredData from '../components/StructuredData.astro';
 import { SITE, SOCIALS } from '../config';
 import { t } from '../i18n';
 import { url } from '../utils/url';
@@ -34,6 +40,10 @@ const glance = [
   title="About"
   description="Learn more about my background, philosophy, and the embedded systems journey that brought me here."
 >
+  <StructuredData slot="head" kind="profile" headline="About" crumbs={[{ name: "Home", path: "/" }, { name: "About", path: "/about" }]} />
+
+  <Hero />
+
   <div class="py-24 md:py-32">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -134,4 +144,6 @@ const glance = [
       </div>
     </div>
   </div>
+  <Skills />
+  <Timeline />
 </BaseLayout>

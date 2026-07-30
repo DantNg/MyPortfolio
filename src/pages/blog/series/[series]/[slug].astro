@@ -10,6 +10,7 @@ import TableOfContents from '../../../../components/TableOfContents.astro';
 import ViewCounter from '../../../../components/ViewCounter.astro';
 import MobileToc from '../../../../components/MobileToc.astro';
 import ArticleEnhancements from '../../../../components/ArticleEnhancements.astro';
+import StructuredData from '../../../../components/StructuredData.astro';
 import { SERIES, getSeries } from '../../../../series';
 import { getSeriesLessons } from '../../../../utils/seriesData';
 import { t } from '../../../../i18n';
@@ -55,6 +56,13 @@ const ContentEn = rendered.en?.Content;
 const ContentVi = rendered.vi?.Content;
 
 const seriesUrl = url(`/blog/series/${meta.id}`);
+
+/* Ngày xuất bản lấy từ series — các bài của một series đều lên cùng lúc.
+   Không có ngày thì Google không đánh giá được độ mới của nội dung. */
+const published = new Date(meta.published).toISOString();
+
+/** "12 min" / "12 phút" -> 12, dùng cho schema timeRequired */
+const minutes = parseInt((en?.data.duration ?? '').replace(/\D/g, ''), 10) || undefined;
 ---
 
 <BaseLayout
@@ -62,7 +70,23 @@ const seriesUrl = url(`/blog/series/${meta.id}`);
   description={en?.data.description ?? vi?.data.description}
   type="article"
   tags={en?.data.tags ?? []}
+  publishedTime={published}
 >
+  <StructuredData
+    slot="head"
+    kind="article"
+    headline={en?.data.title}
+    description={en?.data.description}
+    datePublished={published}
+    keywords={en?.data.tags ?? []}
+    readingMinutes={minutes}
+    partOf={{ name: meta.title.en, path: `/blog/series/${meta.id}` }}
+    crumbs={[
+      { name: 'Home', path: '/' },
+      { name: meta.title.en, path: `/blog/series/${meta.id}` },
+      { name: en?.data.title ?? '', path: `/blog/series/${meta.id}/${group.slug}` },
+    ]}
+  />
   <article class="pt-28 pb-16 md:pt-32 md:pb-24">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class={hasToc ? 'lg:grid lg:grid-cols-[minmax(0,1fr)_14rem] lg:gap-14' : ''}>
@@ -71,7 +95,7 @@ const seriesUrl = url(`/blog/series/${meta.id}`);
       <!-- Header -->
       <header class="mb-12">
         <nav class="flex flex-wrap items-center gap-2 text-sm text-zinc-500 mb-6">
-          <a href={url('/blog')} class="hover:text-brand-600 transition-colors" data-i18n="nav.blog">{t('nav.blog')}</a>
+          <a href={url('/')} class="hover:text-brand-600 transition-colors" data-i18n="nav.blog">{t('nav.blog')}</a>
           <span>/</span>
           <a href={seriesUrl} class="hover:text-brand-600 transition-colors">
             <span data-lang-block="en">{meta.title.en}</span>

@@ -1,5 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+/* Đồ thị LoRa mesh là một cách trực quan hoá chính các dự án này, nên nó
+   thuộc về đây chứ không phải trang chủ. */
+import LoraMesh from '../../components/LoraMesh.astro';
+import StructuredData from '../../components/StructuredData.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
 import { url } from '../../utils/url';
@@ -26,6 +30,8 @@ const projects = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PA
 ---
 
 <BaseLayout title="Projects" description="Embedded systems projects: STM32 firmware, BLE Mesh networks, LoRaWAN deployments, and autonomous drone systems.">
+  <StructuredData slot="head" kind="collection" headline="Projects" crumbs={[{ name: "Home", path: "/" }, { name: "Projects", path: "/projects" }]} />
+
   <div class="py-24 md:py-32">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Header -->
@@ -123,6 +129,7 @@ const projects = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PA
       )}
     </div>
   </div>
+  <LoraMesh />
 </BaseLayout>
 
 <script>

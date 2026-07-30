@@ -1,0 +1,167 @@
+---
+/**
+ * JSON-LD cho từng loại trang.
+ *
+ * Trước đây mọi trang chỉ có một khối `Person` giống nhau — không đủ để Google
+ * hiểu đây là bài viết, thuộc series nào, xuất bản khi nào. Component này sinh
+ * đúng schema theo loại trang, cộng BreadcrumbList để hiện đường dẫn trong
+ * kết quả tìm kiếm thay vì URL trần.
+ */
+import { SITE, SOCIALS } from '../config';
+import { url } from '../utils/url';
+
+type Kind = 'website' | 'article' | 'collection' | 'profile';
+
+interface Crumb {
+  name: string;
+  /** đường dẫn nội bộ, ví dụ '/blog/series/rtos' */
+  path: string;
+}
+
+interface Props {
+  kind: Kind;
+  headline?: string;
+  description?: string;
+  /** ISO date */
+  datePublished?: string;
+  dateModified?: string;
+  image?: string;
+  keywords?: string[];
+  /** phần của series nào, nếu có */
+  partOf?: { name: string; path: string };
+  crumbs?: Crumb[];
+  /** số phút đọc, dùng cho timeRequired */
+  readingMinutes?: number;
+}
+
+const {
+  kind,
+  headline,
+  description,
+  datePublished,
+  dateModified,
+  image,
+  keywords = [],
+  partOf,
+  crumbs = [],
+  readingMinutes,
+} = Astro.props;
+
+const origin = (import.meta.env.SITE ?? SITE.url).replace(/\/$/, '');
+const abs = (p: string) => new URL(url(p), origin + '/').toString();
+const pageUrl = new URL(Astro.url.pathname, origin + '/').toString();
+
+/** Tác giả + nhà xuất bản dùng chung cho mọi schema, khai báo một lần */
+const person = {
+  '@type': 'Person',
+  '@id': abs('/#person'),
+  name: SITE.name,
+  url: abs('/'),
+  jobTitle: SITE.title,
+  email: `mailto:${SITE.email}`,
+  address: { '@type': 'PostalAddress', addressLocality: SITE.location },
+  sameAs: [SOCIALS.github, SOCIALS.linkedin, SOCIALS.facebook].filter(Boolean),
+  knowsAbout: [
+    'Embedded Systems',
+    'Firmware Development',
+    'FreeRTOS',
+    'Zephyr RTOS',
+    'Embedded Linux',
+    'AUTOSAR',
+    'CAN bus',
+    'Bluetooth Low Energy',
+    'STM32',
+    'ESP32',
+  ],
+};
+
+const graph: Record<string, unknown>[] = [person];
+
+/* ---- WebSite: cho phép Google hiểu ô tìm kiếm nội bộ ---- */
+if (kind === 'website') {
+  graph.push({
+    '@type': 'WebSite',
+    '@id': abs('/#website'),
+    url: abs('/'),
+    name: `${SITE.name} — ${SITE.title}`,
+    description,
+    inLanguage: ['en', 'vi'],
+    publisher: { '@id': abs('/#person') },
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: { '@type': 'EntryPoint', urlTemplate: `${abs('/')}?q={search_term_string}` },
+      'query-input': 'required name=search_term_string',
+    },
+  });
+}
+
+/* ---- Bài viết / bài học ---- */
+if (kind === 'article') {
+  graph.push({
+    '@type': 'BlogPosting',
+    '@id': pageUrl + '#article',
+    headline,
+    description,
+    url: pageUrl,
+    ...(datePublished ? { datePublished } : {}),
+    ...(dateModified ?? datePublished ? { dateModified: dateModified ?? datePublished } : {}),
+    ...(image ? { image: [new URL(image, origin + '/').toString()] } : {}),
+    ...(keywords.length ? { keywords: keywords.join(', ') } : {}),
+    ...(readingMinutes ? { timeRequired: `PT${readingMinutes}M` } : {}),
+    inLanguage: ['en', 'vi'],
+    author: { '@id': abs('/#person') },
+    publisher: { '@id': abs('/#person') },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
+    ...(partOf
+      ? {
+          isPartOf: {
+            '@type': 'CreativeWorkSeries',
+            name: partOf.name,
+            url: abs(partOf.path),
+          },
+        }
+      : {}),
+  });
+}
+
+/* ---- Trang tổng hợp: index blog, trang series ---- */
+if (kind === 'collection') {
+  graph.push({
+    '@type': 'CollectionPage',
+    '@id': pageUrl + '#collection',
+    name: headline,
+    description,
+    url: pageUrl,
+    inLanguage: ['en', 'vi'],
+    isPartOf: { '@id': abs('/#website') },
+    author: { '@id': abs('/#person') },
+  });
+}
+
+if (kind === 'profile') {
+  graph.push({
+    '@type': 'ProfilePage',
+    '@id': pageUrl + '#profile',
+    name: headline,
+    url: pageUrl,
+    mainEntity: { '@id': abs('/#person') },
+  });
+}
+
+/* ---- Breadcrumb: hiện đường dẫn thay cho URL trần trong SERP ---- */
+if (crumbs.length) {
+  graph.push({
+    '@type': 'BreadcrumbList',
+    itemListElement: crumbs.map((c, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: c.name,
+      item: abs(c.path),
+    })),
+  });
+}
+
+const jsonld = { '@context': 'https://schema.org', '@graph': graph };
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonld)} />

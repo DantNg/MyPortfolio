@@ -1,4 +1,9 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://yourusername.github.io/sitemap-index.xml
+# Các URL chỉ để chuyển hướng — không có nội dung riêng, đừng lập chỉ mục.
+# (Chúng cũng đã bị loại khỏi src/pages/sitemap.xml.ts.)
+Disallow: /MyPortfolio/lvgl/
+Disallow: /MyPortfolio/blog/index.html
+
+Sitemap: https://dantng.github.io/MyPortfolio/sitemap.xml

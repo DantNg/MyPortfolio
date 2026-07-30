@@ -3,7 +3,7 @@ import '../styles/global.css';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import LanguageProvider from '../components/LanguageProvider.astro';
-import { SITE, SOCIALS, TWITTER_HANDLE } from '../config';
+import { SITE, TWITTER_HANDLE } from '../config';
 import { url } from '../utils/url';
 
 interface Props {
@@ -51,6 +51,8 @@ const fullTitle = title === 'Home' ? `${SITE.name} — ${SITE.title}` : `${title
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="vi_VN" />
     {publishedTime && <meta property="article:published_time" content={publishedTime} />}
     {tags.map(tag => <meta property="article:tag" content={tag} />)}
 
@@ -61,15 +63,12 @@ const fullTitle = title === 'Home' ? `${SITE.name} — ${SITE.title}` : `${title
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <!-- Structured Data -->
-    <script type="application/ld+json" set:html={JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'Person',
-      name: SITE.name,
-      url: siteUrl,
-      jobTitle: SITE.title,
-      sameAs: [SOCIALS.github, SOCIALS.facebook, SOCIALS.linkedin].filter(Boolean),
-    })} />
+    <!-- Structured Data: mỗi trang tự khai qua <StructuredData> trong slot "head" -->
+    <slot name="head" />
+
+    <!-- Feed & sitemap -->
+    <link rel="alternate" type="application/rss+xml" title={`${SITE.name} — Blog`} href={url('/rss.xml')} />
+    <link rel="sitemap" type="application/xml" href={url('/sitemap.xml')} />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />

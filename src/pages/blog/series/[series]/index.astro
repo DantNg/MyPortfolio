@@ -9,6 +9,7 @@ import { SERIES, getSeries } from '../../../../series';
 import { getSeriesLessons } from '../../../../utils/seriesData';
 import { t } from '../../../../i18n';
 import { url } from '../../../../utils/url';
+import StructuredData from '../../../../components/StructuredData.astro';
 
 export async function getStaticPaths() {
   return SERIES.map((s) => ({ params: { series: s.id } }));
@@ -24,6 +25,16 @@ const allTags = [
 ---
 
 <BaseLayout title={meta.title.en} description={meta.intro.en} tags={allTags}>
+  <StructuredData
+    slot="head"
+    kind="collection"
+    headline={meta.title.en}
+    description={meta.intro.en}
+    crumbs={[
+      { name: 'Home', path: '/' },
+      { name: meta.title.en, path: `/blog/series/${meta.id}` },
+    ]}
+  />
   <section class="pt-28 pb-14 md:pt-32 md:pb-16 relative overflow-hidden">
     <div class="absolute inset-0 bg-pcb opacity-30 pointer-events-none" aria-hidden="true"></div>
     <div class="absolute inset-0 bg-radial-glow pointer-events-none" aria-hidden="true"></div>
@@ -31,7 +42,7 @@ const allTags = [
     <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- breadcrumb -->
       <nav class="flex items-center gap-2 text-sm text-zinc-500 mb-8">
-        <a href={url('/blog')} class="hover:text-brand-600 transition-colors" data-i18n="nav.blog">{t('nav.blog')}</a>
+        <a href={url('/')} class="hover:text-brand-600 transition-colors" data-i18n="nav.blog">{t('nav.blog')}</a>
         <span>/</span>
         <a href={url('/blog#series')} class="hover:text-brand-600 transition-colors" data-i18n="series.label">{t('series.label')}</a>
         <span>/</span>
@@ -143,7 +154,7 @@ const allTags = [
       </ol>
 
       <div class="mt-12">
-        <a href={url('/blog')} class="btn-secondary inline-flex">
+        <a href={url('/')} class="btn-secondary inline-flex">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>

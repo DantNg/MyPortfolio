@@ -7,6 +7,7 @@ import TableOfContents from '../components/TableOfContents.astro';
 import ViewCounter from '../components/ViewCounter.astro';
 import MobileToc from '../components/MobileToc.astro';
 import ArticleEnhancements from '../components/ArticleEnhancements.astro';
+import StructuredData from '../components/StructuredData.astro';
 
 interface Props {
   frontmatter: {
@@ -49,6 +50,21 @@ const ogImage = frontmatter.coverImage
   publishedTime={frontmatter.date.toISOString()}
   tags={frontmatter.tags}
 >
+  <StructuredData
+    slot="head"
+    kind="article"
+    headline={frontmatter.title}
+    description={frontmatter.description}
+    datePublished={frontmatter.date.toISOString()}
+    dateModified={frontmatter.updatedDate?.toISOString()}
+    image={ogImage}
+    keywords={frontmatter.tags}
+    readingMinutes={parseInt(readingTime.replace(/\D/g, ''), 10) || undefined}
+    crumbs={[
+      { name: 'Home', path: '/' },
+      { name: frontmatter.title, path: `/blog/${Astro.url.pathname.split('/').filter(Boolean).pop()}` },
+    ]}
+  />
   <article class="py-16 md:py-24">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Header -->
@@ -110,7 +126,7 @@ const ogImage = frontmatter.coverImage
 
       <!-- Footer nav -->
       <div class="mt-16 pt-8 border-t border-zinc-200">
-        <a href={url('/blog')} class="btn-secondary inline-flex">
+        <a href={url('/')} class="btn-secondary inline-flex">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>

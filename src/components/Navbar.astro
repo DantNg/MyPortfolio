@@ -4,16 +4,38 @@ import { t } from '../i18n';
 import { url } from '../utils/url';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 
-const navLinks = [
+/**
+ * Blog đứng đầu vì nó là trang chủ và là nội dung chính.
+ *
+ * `activeAlso` cần cho mục Blog: nó trỏ về `/`, nhưng khi đang đọc một bài ở
+ * `/blog/series/...` thì vẫn phải sáng — nếu không, đang đọc bài mà không mục
+ * nào trong nav được đánh dấu.
+ */
+const navLinks: { key: string; href: string; activeAlso?: string }[] = [
+  { key: 'nav.blog', href: '/', activeAlso: '/blog' },
   { key: 'nav.about', href: '/about' },
   { key: 'nav.projects', href: '/projects' },
   { key: 'nav.repos', href: '/repos' },
-  { key: 'nav.blog', href: '/blog' },
   { key: 'nav.resume', href: '/resume' },
   { key: 'nav.contact', href: '/contact' },
 ];
 
 const pathname = Astro.url.pathname;
+
+/** Chuẩn hoá: bỏ dấu '/' cuối để so sánh không phụ thuộc trailing slash */
+const norm = (p: string) => (p.length > 1 ? p.replace(/\/$/, '') : p);
+
+function isActiveLink(link: { href: string; activeAlso?: string }): boolean {
+  const here = norm(pathname);
+  const target = norm(url(link.href));
+  if (here === target) return true;
+  if (link.href !== '/' && here.startsWith(target + '/')) return true;
+  if (link.activeAlso) {
+    const also = norm(url(link.activeAlso));
+    if (here === also || here.startsWith(also + '/')) return true;
+  }
+  return false;
+}
 ---
 
 <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="navbar">
@@ -31,7 +53,7 @@ const pathname = Astro.url.pathname;
       <ul class="hidden md:flex items-center gap-1">
         {navLinks.map(link => {
           const linkUrl = url(link.href);
-          const isActive = pathname === linkUrl || pathname.startsWith(linkUrl + '/');
+          const isActive = isActiveLink(link);
           return (
             <li>
               <a
@@ -92,7 +114,7 @@ const pathname = Astro.url.pathname;
     <div class="max-w-7xl mx-auto px-4 py-3 space-y-1">
       {navLinks.map(link => {
         const linkUrl = url(link.href);
-        const isActive = pathname === linkUrl || pathname.startsWith(linkUrl + '/');
+        const isActive = isActiveLink(link);
         return (
           <a
             href={linkUrl}

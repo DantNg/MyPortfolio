@@ -1,22 +1,396 @@
 ---
+/**
+ * TRANG CHỦ = BLOG.
+ *
+ * Trước đây `/` là trang giới thiệu tổng hợp (hero + skills + timeline +
+ * contact) còn blog nằm ở `/blog`. Nhưng blog mới là nội dung chính, và trang
+ * chủ là trang có sức mạnh SEO lớn nhất của một tên miền — nội dung phải nằm ở
+ * đó, không phải một trang tóm tắt trỏ đi nơi khác.
+ *
+ * Các section cũ không mất: LoRa mesh và Featured projects chuyển sang
+ * /projects; Hero, Skills, Timeline chuyển sang /about. Ở đây chỉ giữ một dải
+ * giới thiệu gọn để khách biết ngay đây là ai, rồi vào thẳng nội dung.
+ */
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero.astro';
-import Skills from '../components/Skills.astro';
-import LoraMesh from '../components/LoraMesh.astro';
-import FeaturedProjects from '../components/FeaturedProjects.astro';
-import LatestArticles from '../components/LatestArticles.astro';
-import SeriesSection from '../components/SeriesSection.astro';
-import Timeline from '../components/Timeline.astro';
-import Contact from '../components/Contact.astro';
+import BlogCard from '../components/BlogCard.astro';
+import SeriesCard from '../components/SeriesCard.astro';
+import StructuredData from '../components/StructuredData.astro';
+import { getCollection } from 'astro:content';
+import { SITE, SOCIALS } from '../config';
+import { SERIES } from '../series';
+import { getSeriesLessons } from '../utils/seriesData';
+import { t } from '../i18n';
+import { url } from '../utils/url';
+
+const seriesList = [...SERIES].sort((a, b) => a.order - b.order);
+
+const allPosts = await getCollection('blog', (p) => !p.data.draft);
+const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+/** Tổng số bài học trong mọi series */
+let lessonTotal = 0;
+for (const s of seriesList) lessonTotal += (await getSeriesLessons(s.id)).length;
+
+const tagCounts = new Map<string, number>();
+for (const p of posts) {
+  for (const tg of p.data.tags) tagCounts.set(tg, (tagCounts.get(tg) ?? 0) + 1);
+}
+const allTags = [...tagCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+
+const PAGE_SIZE = 9;
+
+const description =
+  `Embedded systems writing by ${SITE.name}, ${SITE.title.toLowerCase()} — ` +
+  `${lessonTotal} bilingual lessons (English / Tiếng Việt) across FreeRTOS, embedded Linux, ` +
+  'LVGL, automotive software and firmware design patterns.';
 ---
 
-<BaseLayout title="Home">
-  <Hero />
-  <Skills />
-  <LoraMesh />
-  <FeaturedProjects />
-  <LatestArticles />
-  <SeriesSection />
-  <Timeline />
-  <Contact />
+<BaseLayout title="Home" description={description}>
+  <StructuredData slot="head" kind="website" description={description} />
+
+  <!-- ===== Dải giới thiệu: ai viết, viết về gì ===== -->
+  <section class="pt-28 pb-10 md:pt-32 md:pb-12 relative overflow-hidden">
+    <div class="absolute inset-0 bg-pcb opacity-25 pointer-events-none" aria-hidden="true"></div>
+    <div class="absolute inset-0 bg-radial-glow pointer-events-none" aria-hidden="true"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col lg:flex-row lg:items-start gap-8">
+        <div class="flex items-start gap-5 min-w-0 flex-1">
+          <div class="flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-brand-600 text-white flex items-center justify-center text-xl sm:text-2xl font-bold">
+            {SITE.initials}
+          </div>
+
+          <div class="min-w-0">
+            <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-zinc-900 mb-1.5">
+              {SITE.name}
+            </h1>
+            <p class="text-base sm:text-lg text-brand-700 font-medium mb-4">{SITE.title}</p>
+
+            <p class="text-zinc-600 leading-relaxed max-w-2xl mb-6">
+              <span data-lang-block="en">
+                I write about what I build: real-time firmware, embedded Linux, automotive
+                middleware, and the architecture that keeps it maintainable. Every series below
+                reads in English or Vietnamese — switch with EN / VI in the header.
+              </span>
+              <span data-lang-block="vi" hidden>
+                Tôi viết về những gì mình làm: firmware thời gian thực, embedded Linux, middleware
+                ô tô, và cách tổ chức code để còn bảo trì được. Mọi series bên dưới đều có bản
+                tiếng Việt và tiếng Anh — đổi bằng nút EN / VI trên thanh điều hướng.
+              </span>
+            </p>
+
+            <div class="flex flex-wrap items-center gap-2.5">
+              <a href={url('/about')} class="btn-secondary text-sm">
+                <span data-i18n="nav.about">{t('nav.about')}</span>
+              </a>
+              <a href={url('/projects')} class="btn-secondary text-sm">
+                <span data-i18n="nav.projects">{t('nav.projects')}</span>
+              </a>
+              <a href={url('/resume')} class="btn-secondary text-sm">
+                <span data-i18n="nav.resume">{t('nav.resume')}</span>
+              </a>
+              <a href={SOCIALS.github} target="_blank" rel="noopener noreferrer" class="btn-secondary text-sm">
+                GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- số liệu nội dung -->
+        <dl class="flex lg:flex-col gap-6 lg:gap-3 lg:border-l lg:border-zinc-200 lg:pl-6 flex-shrink-0">
+          <div>
+            <dt class="text-[11px] uppercase tracking-wider text-zinc-500">Series</dt>
+            <dd class="text-2xl font-bold font-mono gradient-text">{seriesList.length}</dd>
+          </div>
+          <div>
+            <dt class="text-[11px] uppercase tracking-wider text-zinc-500" data-i18n="series.meta.lessons">
+              {t('series.meta.lessons')}
+            </dt>
+            <dd class="text-2xl font-bold font-mono gradient-text">{lessonTotal}</dd>
+          </div>
+          <div>
+            <dt class="text-[11px] uppercase tracking-wider text-zinc-500" data-i18n="series.articlesHeading">
+              {t('series.articlesHeading')}
+            </dt>
+            <dd class="text-2xl font-bold font-mono gradient-text">{posts.length}</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <div class="pb-20 md:pb-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- ===== Series ===== -->
+      {seriesList.length > 0 && (
+        <section id="series" class="mb-16 scroll-mt-24" data-animate>
+          <div class="flex items-center gap-3 mb-2">
+            <h2 class="text-2xl font-bold tracking-tight text-zinc-900" data-i18n="series.sectionHeading">
+              {t('series.sectionHeading')}
+            </h2>
+            <span class="px-2 py-0.5 rounded-md bg-brand-50 border border-brand-200 text-brand-700 text-xs font-mono">
+              {seriesList.length}
+            </span>
+          </div>
+          <p class="text-zinc-600 mb-6 max-w-2xl leading-relaxed" data-i18n="series.sectionSub">
+            {t('series.sectionSub')}
+          </p>
+
+          <div id="series-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+            {seriesList.map((s) => (
+              <div
+                class="series-item"
+                data-text={`${s.badge} ${s.title.en} ${s.title.vi} ${s.tagline.en} ${s.tagline.vi} ${s.intro.en}`.toLowerCase()}
+              >
+                <SeriesCard meta={s} />
+              </div>
+            ))}
+          </div>
+
+          <p id="series-empty" class="text-sm text-zinc-500 hidden" data-i18n="blog.noSeriesMatch">
+            No series matches that keyword.
+          </p>
+        </section>
+      )}
+
+      <!-- ===== Bài viết lẻ ===== -->
+      <section id="articles" class="scroll-mt-24">
+        <div class="flex items-center gap-3 mb-6" data-animate>
+          <h2 class="text-2xl font-bold tracking-tight text-zinc-900" data-i18n="series.articlesHeading">
+            {t('series.articlesHeading')}
+          </h2>
+          <span
+            id="result-count"
+            class="px-2 py-0.5 rounded-md bg-zinc-100 border border-zinc-200 text-zinc-600 text-xs font-mono tabular-nums"
+          >
+            {posts.length}
+          </span>
+        </div>
+
+        <div class="mb-8 space-y-4" data-animate>
+          <div class="relative max-w-md">
+            <svg
+              class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none"
+              fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0" />
+            </svg>
+            <input
+              type="search"
+              id="search-input"
+              class="input pl-10 pr-10"
+              placeholder="Search articles…"
+              data-i18n-ph="blog.searchPh"
+              autocomplete="off"
+            />
+            <button
+              type="button"
+              id="search-clear"
+              class="absolute right-2.5 top-1/2 -translate-y-1/2 w-6 h-6 rounded-md text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 hidden items-center justify-center transition-colors"
+              aria-label="Clear search"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <div class="flex items-center gap-2 flex-wrap">
+            <button
+              type="button"
+              data-tag=""
+              class="tag-chip px-3 py-1.5 rounded-lg text-sm font-medium transition-all bg-brand-600 text-white"
+            >
+              <span data-i18n="blog.allTags">All</span>
+            </button>
+            {allTags.map(([tg, count]) => (
+              <button
+                type="button"
+                data-tag={tg}
+                class="tag-chip px-3 py-1.5 rounded-lg text-sm font-medium transition-all bg-zinc-100 text-zinc-700 hover:bg-zinc-200 hover:text-zinc-900"
+              >
+                {tg}
+                <span class="ml-1 text-[11px] font-mono opacity-60 tabular-nums">{count}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div id="post-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+          {posts.map((post, i) => (
+            <div
+              class="post-item"
+              data-tags={post.data.tags.join('|').toLowerCase()}
+              data-text={`${post.data.title} ${post.data.description}`.toLowerCase()}
+              hidden={i >= PAGE_SIZE}
+            >
+              <BlogCard
+                title={post.data.title}
+                description={post.data.description}
+                date={post.data.date}
+                tags={post.data.tags}
+                slug={post.slug}
+                coverImage={post.data.coverImage}
+                body={post.body}
+                featured={post.data.featured}
+              />
+            </div>
+          ))}
+        </div>
+
+        <div id="empty-state" class="text-center py-16 hidden">
+          <svg class="w-12 h-12 mx-auto text-zinc-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0" />
+          </svg>
+          <p class="text-zinc-600 mb-1" data-i18n="blog.noResults">No articles match your filters.</p>
+          <p class="text-sm text-zinc-500 mb-5" data-i18n="blog.noResultsHint">
+            Try a different keyword, or browse the learning series above.
+          </p>
+          <button type="button" id="reset-filters" class="btn-secondary inline-flex">
+            <span data-i18n="blog.clearFilters">Clear filters</span>
+          </button>
+        </div>
+
+        <div class="text-center mt-10 hidden" id="more-wrap">
+          <button type="button" id="show-more" class="btn-secondary inline-flex">
+            <span data-i18n="blog.showMore">Show more</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+        </div>
+      </section>
+    </div>
+  </div>
 </BaseLayout>
+
+<script is:inline define:vars={{ PAGE_SIZE }}>
+  /**
+   * Lọc bài viết + series ở client.
+   * Site build tĩnh nên `Astro.url.searchParams` chỉ có giá trị lúc build
+   * (luôn rỗng). Trạng thái đọc từ URL khi tải và ghi lại bằng replaceState,
+   * nên link chia sẻ dạng ?tag=…&q=… vẫn hoạt động.
+   */
+  (function () {
+    var items = Array.prototype.slice.call(document.querySelectorAll('.post-item'));
+    var seriesItems = Array.prototype.slice.call(document.querySelectorAll('.series-item'));
+    var seriesEmpty = document.getElementById('series-empty');
+    if (!items.length) return;
+
+    var input = document.getElementById('search-input');
+    var clearBtn = document.getElementById('search-clear');
+    var chips = Array.prototype.slice.call(document.querySelectorAll('.tag-chip'));
+    var countEl = document.getElementById('result-count');
+    var emptyEl = document.getElementById('empty-state');
+    var moreWrap = document.getElementById('more-wrap');
+    var moreBtn = document.getElementById('show-more');
+    var resetBtn = document.getElementById('reset-filters');
+
+    var ACTIVE = ['bg-brand-600', 'text-white'];
+    var IDLE = ['bg-zinc-100', 'text-zinc-700', 'hover:bg-zinc-200', 'hover:text-zinc-900'];
+
+    var state = { tag: '', q: '', shown: PAGE_SIZE };
+
+    try {
+      var sp = new URLSearchParams(location.search);
+      state.tag = sp.get('tag') || '';
+      state.q = sp.get('q') || '';
+      if (input && state.q) input.value = state.q;
+    } catch (e) {}
+
+    function matches(el) {
+      var okTag =
+        !state.tag ||
+        ('|' + el.getAttribute('data-tags') + '|').indexOf('|' + state.tag.toLowerCase() + '|') !== -1;
+      var okText = !state.q || el.getAttribute('data-text').indexOf(state.q.toLowerCase()) !== -1;
+      return okTag && okText;
+    }
+
+    function syncUrl() {
+      if (!window.history || !history.replaceState) return;
+      var sp = new URLSearchParams();
+      if (state.tag) sp.set('tag', state.tag);
+      if (state.q) sp.set('q', state.q);
+      var qs = sp.toString();
+      history.replaceState(null, '', location.pathname + (qs ? '?' + qs + '#articles' : ''));
+    }
+
+    function render() {
+      var visible = 0;
+      var matched = 0;
+
+      items.forEach(function (el) {
+        if (!matches(el)) { el.hidden = true; return; }
+        matched++;
+        if (visible < state.shown) { el.hidden = false; visible++; }
+        else { el.hidden = true; }
+      });
+
+      /* Tìm kiếm áp cả cho series: gõ "linux" là thấy ngay series Linux.
+         Tag chỉ áp cho bài lẻ, vì tag của series là hệ thống khác. */
+      var seriesMatched = 0;
+      seriesItems.forEach(function (el) {
+        var ok = !state.q || el.getAttribute('data-text').indexOf(state.q.toLowerCase()) !== -1;
+        el.hidden = !ok;
+        if (ok) seriesMatched++;
+      });
+      if (seriesEmpty) seriesEmpty.classList.toggle('hidden', seriesMatched !== 0 || !state.q);
+
+      if (countEl) countEl.textContent = String(matched);
+      if (emptyEl) emptyEl.classList.toggle('hidden', matched !== 0);
+      if (moreWrap) moreWrap.classList.toggle('hidden', matched <= visible);
+
+      chips.forEach(function (c) {
+        var on = (c.getAttribute('data-tag') || '') === state.tag;
+        ACTIVE.forEach(function (cls) { c.classList.toggle(cls, on); });
+        IDLE.forEach(function (cls) { c.classList.toggle(cls, !on); });
+        c.setAttribute('aria-pressed', String(on));
+      });
+
+      if (clearBtn) {
+        clearBtn.classList.toggle('hidden', !state.q);
+        clearBtn.classList.toggle('flex', !!state.q);
+      }
+    }
+
+    chips.forEach(function (c) {
+      c.addEventListener('click', function () {
+        state.tag = c.getAttribute('data-tag') || '';
+        state.shown = PAGE_SIZE;
+        render(); syncUrl();
+      });
+    });
+
+    var timer;
+    input && input.addEventListener('input', function () {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        state.q = input.value.trim();
+        state.shown = PAGE_SIZE;
+        render(); syncUrl();
+      }, 180);
+    });
+
+    clearBtn && clearBtn.addEventListener('click', function () {
+      if (input) input.value = '';
+      state.q = ''; state.shown = PAGE_SIZE;
+      render(); syncUrl();
+      input && input.focus();
+    });
+
+    moreBtn && moreBtn.addEventListener('click', function () {
+      state.shown += PAGE_SIZE;
+      render();
+    });
+
+    resetBtn && resetBtn.addEventListener('click', function () {
+      state.tag = ''; state.q = ''; state.shown = PAGE_SIZE;
+      if (input) input.value = '';
+      render(); syncUrl();
+    });
+
+    render();
+  })();
+</script>

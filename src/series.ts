@@ -27,11 +27,18 @@ export interface SeriesMeta {
   requirements: { en: string; vi: string };
   /** path của icon Heroicons (24 outline) */
   iconPath: string;
+  /**
+   * Ngày xuất bản series (ISO). Dùng làm `datePublished` cho mọi bài trong
+   * series — các bài của một series đều lên cùng lúc, nên đây là mốc đúng.
+   * Không có ngày thì Google không đánh giá được độ mới của nội dung.
+   */
+  published: string;
 }
 
 export const SERIES: SeriesMeta[] = [
   {
     id: 'lvgl',
+    published: '2026-07-29',
     order: 1,
     badge: 'LVGL',
     iconPath:
@@ -59,6 +66,7 @@ export const SERIES: SeriesMeta[] = [
   },
   {
     id: 'linux',
+    published: '2026-07-29',
     order: 2,
     badge: 'Linux',
     iconPath:
@@ -89,6 +97,7 @@ export const SERIES: SeriesMeta[] = [
 SERIES.push(
   {
     id: 'rtos',
+    published: '2026-07-30',
     order: 3,
     badge: 'RTOS',
     iconPath:
@@ -116,6 +125,7 @@ SERIES.push(
   },
   {
     id: 'automotive',
+    published: '2026-07-30',
     order: 4,
     badge: 'Automotive',
     iconPath:
@@ -143,6 +153,7 @@ SERIES.push(
   },
   {
     id: 'design-patterns',
+    published: '2026-07-30',
     order: 5,
     badge: 'Patterns',
     iconPath:
