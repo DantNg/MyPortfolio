@@ -1,4 +1,5 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { SERIES } from '../series';
 
 export type SeriesEntry = CollectionEntry<'series'>;
 
@@ -40,6 +41,34 @@ export async function getSeriesLessons(seriesId: string): Promise<LessonGroup[]>
   }
 
   return [...groups.values()].sort((a, b) => a.lesson - b.lesson);
+}
+
+/**
+ * Danh sách getStaticPaths dùng chung cho route tiếng Anh và tiếng Việt của
+ * bài học. Gom vào một hàm để hai route không bao giờ lệch nhau về số trang.
+ */
+export async function lessonPaths() {
+  const paths: {
+    params: { series: string; slug: string };
+    props: { group: LessonGroup; prev: LessonGroup | null; next: LessonGroup | null; total: number };
+  }[] = [];
+
+  for (const s of SERIES) {
+    const lessons = await getSeriesLessons(s.id);
+    lessons.forEach((group, i) => {
+      paths.push({
+        params: { series: s.id, slug: group.slug },
+        props: {
+          group,
+          prev: i > 0 ? lessons[i - 1] : null,
+          next: i < lessons.length - 1 ? lessons[i + 1] : null,
+          total: lessons.length,
+        },
+      });
+    });
+  }
+
+  return paths;
 }
 
 /** Số bài của một series (đếm theo số thứ tự bài, không nhân đôi vì 2 ngôn ngữ). */

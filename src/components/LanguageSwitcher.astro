@@ -1,23 +1,76 @@
 ---
-/** Nút gạt EN / VI. Logic xử lý nằm trong LanguageProvider. */
+/**
+ * Nút gạt EN / VI.
+ *
+ * Có hai chế độ, tuỳ trang:
+ *
+ *  - Trang CÓ bản dịch riêng (trang chủ, series, bài học): render thành hai
+ *    LINK trỏ sang URL song sinh. Đổi ngôn ngữ là điều hướng thật, nên URL,
+ *    `<html lang>` và thẻ hreflang luôn khớp nhau — điều kiện để Google lập
+ *    chỉ mục được cả hai bản.
+ *
+ *  - Trang KHÔNG có bản dịch (bài viết lẻ, dự án, about…): render thành hai
+ *    NÚT như trước, chỉ đổi nhãn giao diện tại chỗ. Nội dung vẫn là tiếng Anh
+ *    nên không có gì để điều hướng tới.
+ */
+import { localePath, localeHref, stripLocale, hasTranslation } from '../utils/i18nUrl';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const rawPath = Astro.url.pathname.startsWith(base)
+  ? Astro.url.pathname.slice(base.length) || '/'
+  : Astro.url.pathname;
+
+const { path, lang: current } = stripLocale(rawPath);
+const translated = hasTranslation(path);
+
+const hrefs = {
+  en: localeHref(path, 'en'),
+  vi: localeHref(path, 'vi'),
+};
 ---
+
 <div
   class="inline-flex items-center rounded-lg border border-zinc-300 bg-zinc-50/60 p-0.5 text-xs font-medium"
   role="group"
   aria-label="Language switcher"
 >
-  <button
-    type="button"
-    data-lang-btn="en"
-    aria-pressed="true"
-    class="lang-opt px-2 py-1 rounded-md text-zinc-600 transition-colors"
-  >EN</button>
-  <button
-    type="button"
-    data-lang-btn="vi"
-    aria-pressed="false"
-    class="lang-opt px-2 py-1 rounded-md text-zinc-600 transition-colors"
-  >VI</button>
+  {translated ? (
+    <>
+      <a
+        href={hrefs.en}
+        hreflang="en"
+        data-lang-btn="en"
+        aria-current={current === 'en' ? 'true' : undefined}
+        class={`lang-opt px-2 py-1 rounded-md transition-colors ${
+          current === 'en' ? 'lang-active' : 'text-zinc-600'
+        }`}
+      >EN</a>
+      <a
+        href={hrefs.vi}
+        hreflang="vi"
+        data-lang-btn="vi"
+        aria-current={current === 'vi' ? 'true' : undefined}
+        class={`lang-opt px-2 py-1 rounded-md transition-colors ${
+          current === 'vi' ? 'lang-active' : 'text-zinc-600'
+        }`}
+      >VI</a>
+    </>
+  ) : (
+    <>
+      <button
+        type="button"
+        data-lang-btn="en"
+        aria-pressed="true"
+        class="lang-opt px-2 py-1 rounded-md text-zinc-600 transition-colors"
+      >EN</button>
+      <button
+        type="button"
+        data-lang-btn="vi"
+        aria-pressed="false"
+        class="lang-opt px-2 py-1 rounded-md text-zinc-600 transition-colors"
+      >VI</button>
+    </>
+  )}
 </div>
 
 <style is:global>

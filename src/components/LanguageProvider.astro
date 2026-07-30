@@ -1,58 +1,76 @@
 ---
 /**
- * Bơm từ điển i18n xuống client + script đổi ngôn ngữ tức thì.
- * Đặt 1 lần trong BaseLayout. Không tải lại trang khi chuyển.
+ * Xử lý ngôn ngữ phía client.
+ *
+ * Site có hai loại trang, và script này phải phân biệt được:
+ *
+ *  1. Trang CÓ bản dịch riêng — `<html data-locale-locked="true">`.
+ *     Ngôn ngữ do URL quyết định và server đã render sẵn đúng ngôn ngữ.
+ *     Script KHÔNG được ghi đè nhãn theo localStorage, nếu không sẽ thành
+ *     trang tiếng Việt mà nhãn giao diện lại là tiếng Anh. Việc duy nhất cần
+ *     làm là ghi nhớ lựa chọn để trang trung tính sau đó theo đúng ý người
+ *     dùng, và làm nổi bật nút đang chọn.
+ *
+ *  2. Trang KHÔNG có bản dịch (bài viết lẻ, dự án, about…). Nội dung là tiếng
+ *     Anh, chỉ nhãn giao diện dịch được — đổi tại chỗ như trước, không tải lại.
  */
 import { ui, defaultLang } from '../i18n';
 ---
 
-<!-- Đặt sẵn ngôn ngữ trước khi vẽ để tránh nhấp nháy (FOUC) -->
+<!-- Đặt sẵn ngôn ngữ trước khi vẽ để tránh nhấp nháy (FOUC) trên trang trung tính -->
 <script is:inline define:vars={{ defaultLang }}>
   (function () {
     try {
+      if (document.documentElement.dataset.localeLocked === 'true') return;
       const saved = localStorage.getItem('lang');
-      if (saved && saved !== defaultLang) {
-        document.documentElement.lang = saved;
-      }
+      if (saved && saved !== defaultLang) document.documentElement.lang = saved;
     } catch (e) {}
   })();
 </script>
 
 <script is:inline define:vars={{ ui, defaultLang }}>
   (function () {
+    const html = document.documentElement;
+    const locked = html.dataset.localeLocked === 'true';
+
+    function markButtons(lang) {
+      document.querySelectorAll('[data-lang-btn]').forEach(function (btn) {
+        const active = btn.getAttribute('data-lang-btn') === lang;
+        btn.classList.toggle('lang-active', active);
+        btn.classList.toggle('text-zinc-600', !active);
+        if (btn.tagName === 'BUTTON') btn.setAttribute('aria-pressed', String(active));
+      });
+    }
+
+    /* ---------- Trang có URL riêng theo ngôn ngữ ---------- */
+    if (locked) {
+      const pageLang = html.lang || defaultLang;
+      /* Ghi nhớ để trang trung tính tiếp theo hiển thị đúng ngôn ngữ người
+         dùng vừa chọn bằng cách bấm link EN/VI. */
+      try { localStorage.setItem('lang', pageLang); } catch (e) {}
+      markButtons(pageLang);
+      return;   // nhãn đã đúng từ server — không sửa gì thêm
+    }
+
+    /* ---------- Trang trung tính: đổi nhãn tại chỗ ---------- */
     function applyLang(lang) {
       const dict = ui[lang] || ui[defaultLang];
-      document.documentElement.lang = lang;
+      html.lang = lang;
 
-      // Nội dung text/HTML
       document.querySelectorAll('[data-i18n]').forEach(function (el) {
         const key = el.getAttribute('data-i18n');
         if (dict[key] != null) el.innerHTML = dict[key];
       });
-      // Placeholder của input/textarea
       document.querySelectorAll('[data-i18n-ph]').forEach(function (el) {
         const key = el.getAttribute('data-i18n-ph');
         if (dict[key] != null) el.setAttribute('placeholder', dict[key]);
       });
-      // Nhãn aria
       document.querySelectorAll('[data-i18n-aria]').forEach(function (el) {
         const key = el.getAttribute('data-i18n-aria');
         if (dict[key] != null) el.setAttribute('aria-label', dict[key]);
       });
 
-      // Khối nội dung song ngữ (markdown dài: series LVGL)
-      // <div data-lang-block="en"> ... </div> / <div data-lang-block="vi"> ... </div>
-      document.querySelectorAll('[data-lang-block]').forEach(function (el) {
-        el.hidden = el.getAttribute('data-lang-block') !== lang;
-      });
-
-      // Cập nhật trạng thái các nút chuyển ngôn ngữ
-      document.querySelectorAll('[data-lang-btn]').forEach(function (btn) {
-        const active = btn.getAttribute('data-lang-btn') === lang;
-        btn.classList.toggle('lang-active', active);
-        btn.setAttribute('aria-pressed', String(active));
-      });
-
+      markButtons(lang);
       try { localStorage.setItem('lang', lang); } catch (e) {}
     }
 
@@ -60,17 +78,14 @@ import { ui, defaultLang } from '../i18n';
       try { return localStorage.getItem('lang') || defaultLang; } catch (e) { return defaultLang; }
     }
 
-    // Áp dụng ngay khi tải
     applyLang(getLang());
 
-    // Bắt sự kiện bấm nút (dùng delegation để hoạt động cả khi DOM thay đổi)
     document.addEventListener('click', function (e) {
-      const btn = e.target.closest('[data-lang-btn]');
+      const btn = e.target.closest('button[data-lang-btn]');
       if (!btn) return;
       applyLang(btn.getAttribute('data-lang-btn'));
     });
 
-    // Cho phép gọi lại từ nơi khác nếu cần
     window.__applyLang = applyLang;
   })();
 </script>

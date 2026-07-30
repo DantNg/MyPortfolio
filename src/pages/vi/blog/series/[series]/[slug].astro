@@ -1,0 +1,20 @@
+---
+/**
+ * Bài học, bản TIẾNG VIỆT — URL có tiền tố /vi.
+ * Cặp song sinh của src/pages/blog/series/[series]/[slug].astro; cả hai dùng
+ * chung LessonArticle nên không thể lệch nhau về bố cục.
+ */
+import LessonArticle from '../../../../../components/LessonArticle.astro';
+import { getSeries } from '../../../../../series';
+import { lessonPaths } from '../../../../../utils/seriesData';
+
+export async function getStaticPaths() {
+  return lessonPaths();
+}
+
+const { series: seriesId } = Astro.params;
+const { group, prev, next, total } = Astro.props;
+const meta = getSeries(seriesId!)!;
+---
+
+<LessonArticle lang="vi" meta={meta} group={group} prev={prev} next={next} total={total} />

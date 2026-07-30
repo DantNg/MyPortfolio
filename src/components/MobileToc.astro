@@ -6,11 +6,14 @@
  * bài học 400 dòng hoàn toàn không có cách nào nhảy tới mục cần đọc.
  * Component này là một <details> gập lại, chỉ hiện dưới `lg`.
  */
+import { t, type Lang } from '../i18n';
+
 interface Props {
   headings: { depth: number; slug: string; text: string }[];
+  lang?: Lang;
 }
 
-const { headings } = Astro.props;
+const { headings, lang = 'en' } = Astro.props;
 const items = headings.filter((h) => h.depth === 2);
 ---
 
@@ -21,7 +24,7 @@ const items = headings.filter((h) => h.depth === 2);
         <svg class="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
         </svg>
-        <span data-i18n="toc.heading">In this article</span>
+        <span>{t('toc.heading', lang)}</span>
         <span class="text-zinc-400 font-normal">({items.length})</span>
       </span>
       <svg class="toc-chevron w-4 h-4 text-zinc-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">

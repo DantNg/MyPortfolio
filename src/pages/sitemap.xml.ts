@@ -15,6 +15,7 @@ import { getCollection } from 'astro:content';
 import { SITE } from '../config';
 import { SERIES, getSeries } from '../series';
 import { url } from '../utils/url';
+import { hasTranslation, localePath } from '../utils/i18nUrl';
 
 interface Entry {
   path: string;
@@ -85,23 +86,49 @@ export async function get() {
     });
   }
 
+  /** URL tuyệt đối, luôn có '/' cuối để khớp canonical mà Astro sinh ra */
+  const loc = (p: string) => {
+    const u = abs(p);
+    return u.endsWith('/') ? u : u + '/';
+  };
+
+  /**
+   * Trang có bản dịch được khai HAI lần (một cho mỗi ngôn ngữ), và mỗi lần đều
+   * kèm đủ bộ `xhtml:link` trỏ chéo. Google đòi quan hệ hai chiều: nếu bản
+   * tiếng Việt khai bản tiếng Anh mà không có chiều ngược lại, cả cặp bị bỏ.
+   */
+  function block(e: Entry, lang: 'en' | 'vi'): string {
+    const out = ['  <url>', `    <loc>${loc(localePath(e.path, lang))}</loc>`];
+
+    if (hasTranslation(e.path)) {
+      const alts: [string, string][] = [
+        ['en', localePath(e.path, 'en')],
+        ['vi', localePath(e.path, 'vi')],
+        ['x-default', localePath(e.path, 'en')],
+      ];
+      for (const [code, path] of alts) {
+        out.push(`    <xhtml:link rel="alternate" hreflang="${code}" href="${loc(path)}"/>`);
+      }
+    }
+
+    if (e.lastmod) out.push(`    <lastmod>${e.lastmod.toISOString().slice(0, 10)}</lastmod>`);
+    out.push(`    <changefreq>${e.changefreq}</changefreq>`);
+    out.push(`    <priority>${e.priority}</priority>`);
+    out.push('  </url>');
+    return out.join('\n');
+  }
+
+  const blocks: string[] = [];
+  for (const e of entries) {
+    blocks.push(block(e, 'en'));
+    if (hasTranslation(e.path)) blocks.push(block(e, 'vi'));
+  }
+
   const xml =
     '<?xml version="1.0" encoding="UTF-8"?>\n' +
-    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
-    entries
-      .map((e) =>
-        [
-          '  <url>',
-          `    <loc>${abs(e.path)}${e.path === '/' ? '' : '/'}</loc>`,
-          e.lastmod ? `    <lastmod>${e.lastmod.toISOString().slice(0, 10)}</lastmod>` : '',
-          `    <changefreq>${e.changefreq}</changefreq>`,
-          `    <priority>${e.priority}</priority>`,
-          '  </url>',
-        ]
-          .filter(Boolean)
-          .join('\n')
-      )
-      .join('\n') +
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n' +
+    '        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' +
+    blocks.join('\n') +
     '\n</urlset>\n';
 
   return new Response(xml, {

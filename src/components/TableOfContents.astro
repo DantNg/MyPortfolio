@@ -1,14 +1,17 @@
 ---
+import { t, type Lang } from '../i18n';
+
 interface Props {
   headings: { depth: number; slug: string; text: string }[];
+  lang?: Lang;
 }
 
-const { headings } = Astro.props;
+const { headings, lang = 'en' } = Astro.props;
 const filtered = headings.filter(h => h.depth <= 3);
 ---
 
 <nav class="toc">
-  <p class="text-xs font-semibold text-zinc-600 uppercase tracking-widest mb-3">On this page</p>
+  <p class="text-xs font-semibold text-zinc-600 uppercase tracking-widest mb-3">{t('toc.heading', lang)}</p>
   <ul class="space-y-1">
     {filtered.map(h => (
       <li style={`padding-left: ${(h.depth - 2) * 12}px`}>

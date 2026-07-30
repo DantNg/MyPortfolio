@@ -2,6 +2,7 @@
 import { SITE, SOCIALS } from '../config';
 import { t } from '../i18n';
 import { url } from '../utils/url';
+import { localeUrl, stripLocale } from '../utils/i18nUrl';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 
 /**
@@ -22,16 +23,23 @@ const navLinks: { key: string; href: string; activeAlso?: string }[] = [
 
 const pathname = Astro.url.pathname;
 
+/* Ngôn ngữ của trang hiện tại, suy ra từ tiền tố /vi trong URL. Dùng để mục
+   "Blog" trỏ về đúng bản `/` hoặc `/vi/` — người đọc tiếng Việt bấm Blog thì
+   phải về trang chủ tiếng Việt, không bị đẩy sang bản tiếng Anh. */
+const basePrefix = import.meta.env.BASE_URL.replace(/\/$/, '');
+const rawPath = pathname.startsWith(basePrefix) ? pathname.slice(basePrefix.length) || '/' : pathname;
+const pageLang = stripLocale(rawPath).lang;
+
 /** Chuẩn hoá: bỏ dấu '/' cuối để so sánh không phụ thuộc trailing slash */
 const norm = (p: string) => (p.length > 1 ? p.replace(/\/$/, '') : p);
 
 function isActiveLink(link: { href: string; activeAlso?: string }): boolean {
   const here = norm(pathname);
-  const target = norm(url(link.href));
+  const target = norm(localeUrl(link.href, pageLang));
   if (here === target) return true;
   if (link.href !== '/' && here.startsWith(target + '/')) return true;
   if (link.activeAlso) {
-    const also = norm(url(link.activeAlso));
+    const also = norm(localeUrl(link.activeAlso, pageLang));
     if (here === also || here.startsWith(also + '/')) return true;
   }
   return false;
@@ -52,7 +60,7 @@ function isActiveLink(link: { href: string; activeAlso?: string }): boolean {
       <!-- Desktop Nav -->
       <ul class="hidden md:flex items-center gap-1">
         {navLinks.map(link => {
-          const linkUrl = url(link.href);
+          const linkUrl = localeUrl(link.href, pageLang);
           const isActive = isActiveLink(link);
           return (
             <li>
@@ -113,7 +121,7 @@ function isActiveLink(link: { href: string; activeAlso?: string }): boolean {
   >
     <div class="max-w-7xl mx-auto px-4 py-3 space-y-1">
       {navLinks.map(link => {
-        const linkUrl = url(link.href);
+        const linkUrl = localeUrl(link.href, pageLang);
         const isActive = isActiveLink(link);
         return (
           <a

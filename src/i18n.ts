@@ -2,13 +2,21 @@
  * ============================================================
  *  SONG NGỮ (i18n) — TỪ ĐIỂN DỊCH ANH / VIỆT
  * ============================================================
- *  Mỗi chuỗi có 1 "key". Component render bản tiếng Anh (mặc định)
- *  kèm thuộc tính data-i18n="key". Khi người dùng gạt nút chuyển
- *  ngôn ngữ, một đoạn script nhỏ sẽ thay nội dung theo từ điển này
- *  — KHÔNG tải lại trang. Lựa chọn được lưu trong localStorage.
+ *  Có HAI cơ chế song ngữ trên site này, dùng cho hai loại trang:
  *
- *  Muốn thêm chuỗi dịch mới: thêm cùng 1 key vào cả `en` và `vi`,
- *  rồi gắn data-i18n="key" vào phần tử tương ứng trong .astro.
+ *  1. TRANG CÓ URL RIÊNG THEO NGÔN NGỮ (trang chủ, trang series, bài học).
+ *     Nội dung tiếng Việt là thật, nên nó xứng đáng có URL riêng để Google
+ *     lập chỉ mục: `/vi/...`. Ở những trang này `t(key, lang)` render sẵn
+ *     đúng ngôn ngữ ngay từ server, `<html lang>` đúng, và có thẻ hreflang.
+ *     Nút EN/VI ở đây là LINK điều hướng sang URL song sinh.
+ *
+ *  2. TRANG CHỈ CÓ MỘT NGÔN NGỮ NỘI DUNG (bài viết lẻ, dự án, about, resume).
+ *     Nội dung là tiếng Anh; chỉ có nhãn giao diện là dịch được. Tạo bản
+ *     `/vi` cho chúng sẽ sinh ra trang gần-trùng-lặp, hại SEO chứ không lợi.
+ *     Ở đây vẫn dùng `data-i18n` + script đổi nhãn tại chỗ như trước.
+ *
+ *  Thêm chuỗi dịch mới: thêm cùng 1 key vào cả `en` và `vi`, rồi gắn
+ *  data-i18n="key" vào phần tử tương ứng trong .astro.
  */
 
 export const defaultLang = 'en' as const;
@@ -330,7 +338,16 @@ export const ui: Record<Lang, Dict> = {
   },
 };
 
-/** Lấy chuỗi tiếng Anh (bản render mặc định phía server). */
-export function t(key: string): string {
-  return ui[defaultLang][key] ?? key;
+/**
+ * Lấy chuỗi dịch. `lang` mặc định là tiếng Anh để mọi lời gọi `t(key)` cũ
+ * vẫn chạy y như trước; trang có URL riêng theo ngôn ngữ thì truyền lang vào.
+ */
+export function t(key: string, lang: Lang = defaultLang): string {
+  return ui[lang]?.[key] ?? ui[defaultLang][key] ?? key;
 }
+
+/** Mã locale cho thẻ og:locale */
+export const ogLocale: Record<Lang, string> = {
+  en: 'en_US',
+  vi: 'vi_VN',
+};

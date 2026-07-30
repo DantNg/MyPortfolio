@@ -1,0 +1,192 @@
+---
+/**
+ * Nội dung một bài học, render ĐÚNG MỘT ngôn ngữ.
+ *
+ * Trước đây trang bài học nhồi cả hai ngôn ngữ vào một document rồi ẩn một bên
+ * bằng `hidden`. Việc đó tiện cho người đọc nhưng khiến nửa nội dung tiếng Việt
+ * vô hình với Google: một URL, `lang="en"`, và văn bản bị ẩn thì bị giảm giá trị.
+ *
+ * Giờ mỗi ngôn ngữ là một URL riêng (`/vi/...`), có hreflang trỏ chéo, và trang
+ * chỉ chứa văn bản của chính nó. Nút EN/VI trên thanh điều hướng thành link
+ * sang URL song sinh thay vì ẩn/hiện div.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TableOfContents from './TableOfContents.astro';
+import ViewCounter from './ViewCounter.astro';
+import MobileToc from './MobileToc.astro';
+import ArticleEnhancements from './ArticleEnhancements.astro';
+import StructuredData from './StructuredData.astro';
+import type { SeriesMeta } from '../series';
+import type { LessonGroup } from '../utils/seriesData';
+import { t, type Lang } from '../i18n';
+import { localeUrl, localeHref } from '../utils/i18nUrl';
+
+interface Props {
+  lang: Lang;
+  meta: SeriesMeta;
+  group: LessonGroup;
+  prev: LessonGroup | null;
+  next: LessonGroup | null;
+  total: number;
+}
+
+const { lang, meta, group, prev, next, total } = Astro.props;
+
+/** Bản ngôn ngữ đang render; rơi về bản kia nếu thiếu (không nên xảy ra). */
+const entry = group[lang] ?? group.en ?? group.vi;
+const rendered = entry ? await entry.render() : null;
+
+const headings = (rendered?.headings ?? []).filter((h: any) => h.depth <= 3);
+const hasToc = headings.length > 2;
+const Content = rendered?.Content;
+
+const title = entry?.data.title ?? '';
+const description = entry?.data.description ?? '';
+const duration = entry?.data.duration ?? '';
+const tags = entry?.data.tags ?? [];
+
+const seriesPath = `/blog/series/${meta.id}`;
+const seriesHref = localeUrl(seriesPath, lang);
+const homeHref = localeUrl('/', lang);
+
+/* Ngày xuất bản lấy từ series — các bài của một series đều lên cùng lúc. */
+const published = new Date(meta.published).toISOString();
+
+/** "12 min" / "12 phút" -> 12, cho schema timeRequired */
+const minutes = parseInt(duration.replace(/\D/g, ''), 10) || undefined;
+---
+
+<BaseLayout
+  lang={lang}
+  title={title}
+  description={description}
+  type="article"
+  tags={tags}
+  publishedTime={published}
+>
+  <StructuredData
+    slot="head"
+    kind="article"
+    headline={title}
+    description={description}
+    datePublished={published}
+    keywords={tags}
+    readingMinutes={minutes}
+    partOf={{ name: meta.title[lang], path: seriesPath }}
+    crumbs={[
+      { name: t('nav.blog', lang), path: '/' },
+      { name: meta.title[lang], path: seriesPath },
+      { name: title, path: `${seriesPath}/${group.slug}` },
+    ]}
+  />
+
+  <article class="pt-28 pb-16 md:pt-32 md:pb-24">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class={hasToc ? 'lg:grid lg:grid-cols-[minmax(0,1fr)_14rem] lg:gap-14' : ''}>
+        <div class="min-w-0">
+          <!-- Header -->
+          <header class="mb-12">
+            <nav class="flex flex-wrap items-center gap-2 text-sm text-zinc-500 mb-6">
+              <a href={homeHref} class="hover:text-brand-600 transition-colors">{t('nav.blog', lang)}</a>
+              <span aria-hidden="true">/</span>
+              <a href={seriesHref} class="hover:text-brand-600 transition-colors">{meta.title[lang]}</a>
+            </nav>
+
+            <div class="flex items-center gap-3 text-sm text-zinc-500 mb-4 font-mono">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-md bg-brand-50 border border-brand-200 text-brand-700 font-medium">
+                {t('series.lesson', lang)}&nbsp;{group.lesson}&nbsp;/&nbsp;{total}
+              </span>
+              <span aria-hidden="true">·</span>
+              <span>{duration}</span>
+              <ViewCounter class="ml-1" />
+            </div>
+
+            <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-zinc-900 text-balance mb-4">
+              {title}
+            </h1>
+
+            <p class="text-lg text-zinc-600 leading-relaxed">{description}</p>
+
+            <div class="flex flex-wrap gap-2 mt-5">
+              {tags.map((tag: string) => <span class="tag">#{tag}</span>)}
+            </div>
+
+            <!-- Gợi ý bản dịch: giờ là LINK sang URL song sinh, không phải nút ẩn/hiện -->
+            <p class="mt-6 flex items-start gap-2 text-sm text-brand-800 bg-brand-50 border border-brand-200 rounded-lg px-4 py-3">
+              <svg class="w-4 h-4 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+              </svg>
+              <span>
+                {lang === 'en' ? 'Also available in Vietnamese: ' : 'Bài này cũng có bản tiếng Anh: '}
+                <a
+                  href={localeHref(`${seriesPath}/${group.slug}`, lang === 'en' ? 'vi' : 'en')}
+                  class="font-medium underline hover:no-underline"
+                  hreflang={lang === 'en' ? 'vi' : 'en'}
+                >
+                  {lang === 'en' ? 'đọc bản tiếng Việt' : 'read in English'}
+                </a>
+              </span>
+            </p>
+          </header>
+
+          <!-- Body -->
+          <MobileToc headings={headings} lang={lang} />
+          {Content && (
+            <div class="prose prose-zinc max-w-none prose-custom">
+              <Content />
+            </div>
+          )}
+
+          <!-- Prev / Next -->
+          <nav class="mt-16 pt-8 border-t border-zinc-200 grid sm:grid-cols-2 gap-4">
+            {prev ? (
+              <a
+                href={localeUrl(`${seriesPath}/${prev.slug}`, lang)}
+                class="group rounded-xl border border-zinc-200 bg-white p-4 hover:border-brand-300 transition-colors"
+              >
+                <span class="block text-xs text-zinc-500 mb-1">{t('series.prev', lang)}</span>
+                <span class="block font-medium text-zinc-900 group-hover:text-brand-700 transition-colors text-sm">
+                  {prev[lang]?.data.title ?? prev.en?.data.title}
+                </span>
+              </a>
+            ) : (
+              <span />
+            )}
+
+            {next && (
+              <a
+                href={localeUrl(`${seriesPath}/${next.slug}`, lang)}
+                class="group rounded-xl border border-zinc-200 bg-white p-4 hover:border-brand-300 transition-colors sm:text-right"
+              >
+                <span class="block text-xs text-zinc-500 mb-1">{t('series.next', lang)}</span>
+                <span class="block font-medium text-zinc-900 group-hover:text-brand-700 transition-colors text-sm">
+                  {next[lang]?.data.title ?? next.en?.data.title}
+                </span>
+              </a>
+            )}
+          </nav>
+
+          <div class="mt-8">
+            <a href={seriesHref} class="btn-secondary inline-flex">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+              </svg>
+              <span>{t('series.back', lang)}</span>
+            </a>
+          </div>
+        </div>
+
+        {hasToc && (
+          <aside class="hidden lg:block">
+            <div class="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto">
+              <TableOfContents headings={headings} lang={lang} />
+            </div>
+          </aside>
+        )}
+      </div>
+    </div>
+  </article>
+
+  <ArticleEnhancements />
+</BaseLayout>

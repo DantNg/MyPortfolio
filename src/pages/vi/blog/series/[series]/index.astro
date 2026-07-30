@@ -1,0 +1,13 @@
+---
+/** Trang series, bản TIẾNG VIỆT. Cặp song sinh của /blog/series/[series]/. */
+import SeriesIndex from '../../../../../components/SeriesIndex.astro';
+import { SERIES, getSeries } from '../../../../../series';
+
+export async function getStaticPaths() {
+  return SERIES.map((s) => ({ params: { series: s.id } }));
+}
+
+const meta = getSeries(Astro.params.series!)!;
+---
+
+<SeriesIndex lang="vi" meta={meta} />
