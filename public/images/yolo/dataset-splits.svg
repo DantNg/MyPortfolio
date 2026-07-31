@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" width="760" height="360" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="360" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#18181b">Chia theo nguồn, không theo khung / Split by source, not by frame</text>
+  <text x="380" y="48" text-anchor="middle" font-size="11.5" fill="#71717a">3000 frames extracted from 30 videos</text>
+
+  <!-- wrong -->
+  <rect x="24" y="66" width="712" height="126" rx="10" fill="#fef2f2" stroke="#fecaca" stroke-width="2"/>
+  <text x="44" y="88" font-size="12" font-weight="700" fill="#b91c1c">✘ random shuffle at frame level</text>
+
+  <g>
+    <!-- video 7 frames -->
+    <text x="44" y="118" font-size="10.5" font-family="monospace" fill="#52525b">video 07</text>
+    <rect x="112" y="104" width="34" height="24" rx="3" fill="#94a3b8"/>
+    <text x="129" y="120" text-anchor="middle" font-size="9" fill="#ffffff">f40</text>
+    <rect x="150" y="104" width="34" height="24" rx="3" fill="#94a3b8"/>
+    <text x="167" y="120" text-anchor="middle" font-size="9" fill="#ffffff">f41</text>
+    <rect x="188" y="104" width="34" height="24" rx="3" fill="#94a3b8"/>
+    <text x="205" y="120" text-anchor="middle" font-size="9" fill="#ffffff">f42</text>
+    <rect x="226" y="104" width="34" height="24" rx="3" fill="#94a3b8"/>
+    <text x="243" y="120" text-anchor="middle" font-size="9" fill="#ffffff">f43</text>
+  </g>
+
+  <text x="290" y="120" font-size="16" fill="#b91c1c">→</text>
+
+  <rect x="320" y="98" width="180" height="36" rx="6" fill="#dbeafe" stroke="#60a5fa" stroke-width="2"/>
+  <text x="410" y="121" text-anchor="middle" font-size="11" font-family="monospace" fill="#1d4ed8">train: f40, f42</text>
+
+  <rect x="520" y="98" width="180" height="36" rx="6" fill="#fef3c7" stroke="#fbbf24" stroke-width="2"/>
+  <text x="610" y="121" text-anchor="middle" font-size="11" font-family="monospace" fill="#b45309">val: f41, f43</text>
+
+  <text x="44" y="156" font-size="10.5" fill="#7f1d1d">f41 and f42 are 33 ms apart — near-identical images on opposite sides of the split</text>
+  <text x="44" y="176" font-size="11" font-weight="700" fill="#b91c1c">val mAP 0.94, field performance 0.51 — you measured memorisation</text>
+
+  <!-- right -->
+  <rect x="24" y="208" width="712" height="132" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="2"/>
+  <text x="44" y="230" font-size="12" font-weight="700" fill="#15803d">✔ shuffle the video ids, then take all frames of each</text>
+
+  <g font-size="9.5" fill="#ffffff" font-family="monospace">
+    <rect x="44" y="244" width="20" height="22" rx="3" fill="#3b82f6"/><text x="54" y="259" text-anchor="middle">01</text>
+    <rect x="68" y="244" width="20" height="22" rx="3" fill="#3b82f6"/><text x="78" y="259" text-anchor="middle">02</text>
+    <rect x="92" y="244" width="20" height="22" rx="3" fill="#3b82f6"/><text x="102" y="259" text-anchor="middle">03</text>
+    <rect x="116" y="244" width="20" height="22" rx="3" fill="#3b82f6"/><text x="126" y="259" text-anchor="middle">04</text>
+    <rect x="140" y="244" width="20" height="22" rx="3" fill="#3b82f6"/><text x="150" y="259" text-anchor="middle">05</text>
+    <rect x="164" y="244" width="20" height="22" rx="3" fill="#3b82f6"/><text x="174" y="259" text-anchor="middle">06</text>
+    <rect x="188" y="244" width="20" height="22" rx="3" fill="#3b82f6"/><text x="198" y="259" text-anchor="middle">07</text>
+    <rect x="212" y="244" width="20" height="22" rx="3" fill="#3b82f6"/><text x="222" y="259" text-anchor="middle">08</text>
+    <rect x="236" y="244" width="20" height="22" rx="3" fill="#3b82f6"/><text x="246" y="259" text-anchor="middle">09</text>
+    <rect x="260" y="244" width="20" height="22" rx="3" fill="#3b82f6"/><text x="270" y="259" text-anchor="middle">10</text>
+    <rect x="284" y="244" width="20" height="22" rx="3" fill="#3b82f6"/><text x="294" y="259" text-anchor="middle">…</text>
+    <rect x="308" y="244" width="20" height="22" rx="3" fill="#3b82f6"/><text x="318" y="259" text-anchor="middle">21</text>
+
+    <rect x="348" y="244" width="20" height="22" rx="3" fill="#f59e0b"/><text x="358" y="259" text-anchor="middle">22</text>
+    <rect x="372" y="244" width="20" height="22" rx="3" fill="#f59e0b"/><text x="382" y="259" text-anchor="middle">23</text>
+    <rect x="396" y="244" width="20" height="22" rx="3" fill="#f59e0b"/><text x="406" y="259" text-anchor="middle">24</text>
+    <rect x="420" y="244" width="20" height="22" rx="3" fill="#f59e0b"/><text x="430" y="259" text-anchor="middle">25</text>
+    <rect x="444" y="244" width="20" height="22" rx="3" fill="#f59e0b"/><text x="454" y="259" text-anchor="middle">26</text>
+    <rect x="468" y="244" width="20" height="22" rx="3" fill="#f59e0b"/><text x="478" y="259" text-anchor="middle">27</text>
+
+    <rect x="508" y="244" width="20" height="22" rx="3" fill="#71717a"/><text x="518" y="259" text-anchor="middle">28</text>
+    <rect x="532" y="244" width="20" height="22" rx="3" fill="#71717a"/><text x="542" y="259" text-anchor="middle">29</text>
+    <rect x="556" y="244" width="20" height="22" rx="3" fill="#71717a"/><text x="566" y="259" text-anchor="middle">30</text>
+  </g>
+
+  <text x="44" y="286" font-size="11" font-family="monospace" fill="#1d4ed8">train — 21 videos</text>
+  <text x="348" y="286" font-size="11" font-family="monospace" fill="#b45309">val — 6 videos</text>
+  <text x="508" y="286" font-size="11" font-family="monospace" fill="#3f3f46">test — 3, untouched</text>
+
+  <text x="44" y="312" font-size="10.5" fill="#166534">Same rule for any correlated group: one physical object, one day, one camera position, one lighting session.</text>
+  <text x="44" y="330" font-size="10.5" fill="#166534">If deployment will see a NEW one of something, that something is what you split on.</text>
+</svg>

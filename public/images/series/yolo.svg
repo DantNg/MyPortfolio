@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" font-family="Inter, system-ui, sans-serif">
+  <defs>
+    <linearGradient id="ylbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0f9ff"/>
+      <stop offset="55%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#ecfeff"/>
+    </linearGradient>
+    <radialGradient id="ylglow" cx="0.32" cy="0.4" r="0.6">
+      <stop offset="0%" stop-color="#0891b2" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#0891b2" stop-opacity="0"/>
+    </radialGradient>
+    <marker id="yla" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0e7490"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#ylbg)"/>
+  <ellipse cx="380" cy="260" rx="440" ry="290" fill="url(#ylglow)"/>
+
+  <g stroke="#0891b2" stroke-opacity="0.06" stroke-width="1">
+    <path d="M0 90h1200M0 180h1200M0 270h1200M0 360h1200M0 450h1200M0 540h1200"/>
+    <path d="M120 0v630M240 0v630M360 0v630M480 0v630M600 0v630M720 0v630M840 0v630M960 0v630M1080 0v630"/>
+  </g>
+
+  <!-- badge -->
+  <g>
+    <rect x="72" y="64" width="184" height="34" rx="17" fill="#ffffff" stroke="#a5f3fc" stroke-width="2"/>
+    <circle cx="94" cy="81" r="5" fill="#0891b2"/>
+    <text x="108" y="86" font-size="15" font-weight="600" fill="#0e7490">YOLO · detection</text>
+  </g>
+
+  <!-- ===== khung ảnh có bounding box ===== -->
+  <g>
+    <rect x="72" y="128" width="470" height="280" rx="14" fill="#1e293b"/>
+    <rect x="86" y="142" width="442" height="252" rx="8" fill="#334155"/>
+
+    <!-- "đường" nền -->
+    <path d="M86 340 L528 340" stroke="#475569" stroke-width="3"/>
+    <path d="M120 394 L200 340 M260 394 L300 340 M400 394 L380 340" stroke="#475569" stroke-width="2"/>
+
+    <!-- vật thể 1: person -->
+    <rect x="128" y="212" width="74" height="124" rx="4" fill="none" stroke="#22d3ee" stroke-width="3"/>
+    <rect x="128" y="192" width="112" height="22" rx="3" fill="#22d3ee"/>
+    <text x="136" y="208" font-size="13" font-weight="700" fill="#0f172a">person 0.94</text>
+    <circle cx="165" cy="240" r="13" fill="#64748b"/>
+    <rect x="152" y="256" width="26" height="52" rx="5" fill="#64748b"/>
+
+    <!-- vật thể 2: car -->
+    <rect x="286" y="248" width="150" height="86" rx="4" fill="none" stroke="#4ade80" stroke-width="3"/>
+    <rect x="286" y="228" width="92" height="22" rx="3" fill="#4ade80"/>
+    <text x="294" y="244" font-size="13" font-weight="700" fill="#0f172a">car 0.88</text>
+    <path d="M300 316 L300 288 L322 268 L400 268 L420 288 L420 316 Z" fill="#64748b"/>
+    <circle cx="322" cy="320" r="9" fill="#0f172a"/>
+    <circle cx="400" cy="320" r="9" fill="#0f172a"/>
+
+    <!-- box bị NMS loại -->
+    <rect x="296" y="256" width="150" height="86" rx="4" fill="none" stroke="#f87171" stroke-width="2" stroke-dasharray="6 5"/>
+    <text x="452" y="272" font-size="12" font-family="monospace" fill="#f87171">NMS ✗</text>
+    <text x="452" y="290" font-size="11" font-family="monospace" fill="#94a3b8">IoU 0.81</text>
+  </g>
+
+  <!-- ===== đường ống train → deploy ===== -->
+  <g>
+    <text x="580" y="146" font-size="13" font-weight="700" fill="#0e7490">TRAIN → EXPORT → EDGE</text>
+
+    <rect x="580" y="160" width="126" height="58" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+    <text x="643" y="184" text-anchor="middle" font-size="13" font-weight="600" fill="#27272a">dataset</text>
+    <text x="643" y="203" text-anchor="middle" font-size="11" fill="#71717a">labels · splits</text>
+
+    <rect x="730" y="160" width="126" height="58" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+    <text x="793" y="184" text-anchor="middle" font-size="13" font-weight="600" fill="#27272a">train</text>
+    <text x="793" y="203" text-anchor="middle" font-size="11" fill="#71717a">mAP@50-95</text>
+
+    <rect x="880" y="160" width="126" height="58" rx="10" fill="#cffafe" stroke="#67e8f9" stroke-width="2.5"/>
+    <text x="943" y="184" text-anchor="middle" font-size="13" font-weight="600" fill="#0e7490">export</text>
+    <text x="943" y="203" text-anchor="middle" font-size="11" fill="#3f3f46">ONNX · INT8</text>
+
+    <rect x="1030" y="160" width="98" height="58" rx="10" fill="#0891b2"/>
+    <text x="1079" y="184" text-anchor="middle" font-size="13" font-weight="600" fill="#ffffff">edge</text>
+    <text x="1079" y="203" text-anchor="middle" font-size="11" fill="#cffafe">30 FPS</text>
+
+    <g stroke="#0e7490" stroke-width="2.5" marker-end="url(#yla)">
+      <line x1="708" y1="189" x2="724" y2="189"/>
+      <line x1="858" y1="189" x2="874" y2="189"/>
+      <line x1="1008" y1="189" x2="1024" y2="189"/>
+    </g>
+  </g>
+
+  <!-- ===== bảng đánh đổi lượng tử hoá ===== -->
+  <g>
+    <rect x="580" y="246" width="548" height="162" rx="14" fill="#ffffff" stroke="#a5f3fc" stroke-width="2"/>
+    <text x="602" y="274" font-size="12.5" font-weight="700" fill="#0e7490">QUANTISATION — THE REAL TRADE</text>
+
+    <g font-size="13.5" font-family="monospace">
+      <text x="602" y="302" fill="#71717a">precision</text>
+      <text x="800" y="302" fill="#71717a">size</text>
+      <text x="920" y="302" fill="#71717a">latency</text>
+      <text x="1040" y="302" fill="#71717a">mAP</text>
+
+      <text x="602" y="332" fill="#27272a">FP32</text>
+      <text x="800" y="332" fill="#3f3f46">24 MB</text>
+      <text x="920" y="332" fill="#dc2626">86 ms</text>
+      <text x="1040" y="332" fill="#16a34a">0.512</text>
+
+      <text x="602" y="360" fill="#27272a">FP16</text>
+      <text x="800" y="360" fill="#3f3f46">12 MB</text>
+      <text x="920" y="360" fill="#a16207">41 ms</text>
+      <text x="1040" y="360" fill="#16a34a">0.511</text>
+
+      <text x="602" y="388" fill="#0e7490">INT8</text>
+      <text x="800" y="388" fill="#16a34a">6 MB</text>
+      <text x="920" y="388" fill="#16a34a">19 ms</text>
+      <text x="1040" y="388" fill="#a16207">0.497</text>
+    </g>
+  </g>
+
+  <!-- tiêu đề -->
+  <text x="72" y="486" font-size="48" font-weight="700" fill="#18181b">Object detection</text>
+  <text x="72" y="542" font-size="48" font-weight="700" fill="#0e7490">with YOLO</text>
+  <text x="74" y="584" font-size="18" fill="#52525b">6 lessons · IoU &amp; NMS · datasets · training · ONNX/TensorRT · edge latency</text>
+</svg>

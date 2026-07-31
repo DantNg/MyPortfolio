@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" font-family="Inter, system-ui, sans-serif">
+  <defs>
+    <linearGradient id="cvbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fdf4ff"/>
+      <stop offset="55%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#fae8ff"/>
+    </linearGradient>
+    <radialGradient id="cvglow" cx="0.68" cy="0.4" r="0.6">
+      <stop offset="0%" stop-color="#c026d3" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#c026d3" stop-opacity="0"/>
+    </radialGradient>
+    <marker id="cva" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#a21caf"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#cvbg)"/>
+  <ellipse cx="820" cy="260" rx="430" ry="290" fill="url(#cvglow)"/>
+
+  <g stroke="#c026d3" stroke-opacity="0.06" stroke-width="1">
+    <path d="M0 90h1200M0 180h1200M0 270h1200M0 360h1200M0 450h1200M0 540h1200"/>
+    <path d="M120 0v630M240 0v630M360 0v630M480 0v630M600 0v630M720 0v630M840 0v630M960 0v630M1080 0v630"/>
+  </g>
+
+  <!-- badge -->
+  <g>
+    <rect x="72" y="64" width="126" height="34" rx="17" fill="#ffffff" stroke="#f5d0fe" stroke-width="2"/>
+    <circle cx="94" cy="81" r="5" fill="#c026d3"/>
+    <text x="108" y="86" font-size="15" font-weight="600" fill="#a21caf">OpenCV</text>
+  </g>
+
+  <!-- ===== pipeline bốn bước ===== -->
+  <g>
+    <text x="72" y="146" font-size="13" font-weight="700" fill="#a21caf">PIPELINE</text>
+
+    <!-- 1. frame gốc -->
+    <rect x="72" y="160" width="150" height="110" rx="10" fill="#ffffff" stroke="#e9d5ff" stroke-width="2"/>
+    <rect x="86" y="176" width="122" height="66" rx="5" fill="#e4e4e7"/>
+    <circle cx="118" cy="204" r="14" fill="#a1a1aa"/>
+    <rect x="140" y="200" width="52" height="30" rx="4" fill="#d4d4d8"/>
+    <text x="147" y="260" font-size="11.5" font-family="monospace" fill="#52525b">BGR frame</text>
+
+    <!-- 2. xám -->
+    <rect x="248" y="160" width="150" height="110" rx="10" fill="#ffffff" stroke="#e9d5ff" stroke-width="2"/>
+    <rect x="262" y="176" width="122" height="66" rx="5" fill="#f4f4f5"/>
+    <circle cx="294" cy="204" r="14" fill="#71717a"/>
+    <rect x="316" y="200" width="52" height="30" rx="4" fill="#a1a1aa"/>
+    <text x="323" y="260" font-size="11.5" font-family="monospace" fill="#52525b">gray + blur</text>
+
+    <!-- 3. nhị phân -->
+    <rect x="424" y="160" width="150" height="110" rx="10" fill="#ffffff" stroke="#e9d5ff" stroke-width="2"/>
+    <rect x="438" y="176" width="122" height="66" rx="5" fill="#18181b"/>
+    <circle cx="470" cy="204" r="14" fill="#ffffff"/>
+    <rect x="492" y="200" width="52" height="30" rx="4" fill="#ffffff"/>
+    <text x="499" y="260" font-size="11.5" font-family="monospace" fill="#52525b">threshold</text>
+
+    <!-- 4. contour -->
+    <rect x="600" y="160" width="150" height="110" rx="10" fill="#ffffff" stroke="#d946ef" stroke-width="2.5"/>
+    <rect x="614" y="176" width="122" height="66" rx="5" fill="#fafafa"/>
+    <circle cx="646" cy="204" r="14" fill="none" stroke="#d946ef" stroke-width="3"/>
+    <rect x="668" y="200" width="52" height="30" rx="4" fill="none" stroke="#d946ef" stroke-width="3"/>
+    <text x="668" y="196" font-size="9" font-family="monospace" fill="#a21caf">A=1560</text>
+    <text x="670" y="260" font-size="11.5" font-family="monospace" fill="#a21caf">contours</text>
+
+    <g stroke="#a21caf" stroke-width="2.5" marker-end="url(#cva)">
+      <line x1="224" y1="215" x2="242" y2="215"/>
+      <line x1="400" y1="215" x2="418" y2="215"/>
+      <line x1="576" y1="215" x2="594" y2="215"/>
+    </g>
+  </g>
+
+  <!-- ===== Mat trong bộ nhớ ===== -->
+  <g>
+    <rect x="800" y="130" width="328" height="196" rx="14" fill="#18181b"/>
+    <text x="824" y="158" font-size="12.5" font-family="monospace" fill="#f0abfc">Mat — row-major, interleaved</text>
+
+    <!-- lưới pixel -->
+    <g>
+      <rect x="824" y="176" width="40" height="30" fill="#3f3f46" stroke="#52525b"/>
+      <rect x="866" y="176" width="40" height="30" fill="#52525b" stroke="#52525b"/>
+      <rect x="908" y="176" width="40" height="30" fill="#3f3f46" stroke="#52525b"/>
+      <rect x="950" y="176" width="40" height="30" fill="#71717a" stroke="#52525b"/>
+      <rect x="824" y="208" width="40" height="30" fill="#52525b" stroke="#52525b"/>
+      <rect x="866" y="208" width="40" height="30" fill="#a1a1aa" stroke="#52525b"/>
+      <rect x="908" y="208" width="40" height="30" fill="#3f3f46" stroke="#52525b"/>
+      <rect x="950" y="208" width="40" height="30" fill="#52525b" stroke="#52525b"/>
+    </g>
+    <text x="1004" y="196" font-size="11" font-family="monospace" fill="#a1a1aa">step</text>
+    <path d="M1000 186 L1000 232" stroke="#f0abfc" stroke-width="2"/>
+    <path d="M995 224 L1000 234 L1005 224 z" fill="#f0abfc"/>
+
+    <g font-family="monospace" font-size="13" fill="#e4e4e7">
+      <text x="824" y="266">B G R | B G R | B G R …</text>
+      <text x="824" y="292" fill="#a1a1aa">at&lt;Vec3b&gt;(y,x)  →  row-major</text>
+      <text x="824" y="312" fill="#fbbf24">walk rows, never columns</text>
+    </g>
+  </g>
+
+  <!-- ===== số liệu tốc độ ===== -->
+  <g>
+    <rect x="600" y="352" width="528" height="86" rx="12" fill="#ffffff" stroke="#f5d0fe" stroke-width="2"/>
+    <text x="622" y="378" font-size="12" font-weight="700" fill="#a21caf">SAME ALGORITHM, DIFFERENT CODE</text>
+    <g font-size="13" font-family="monospace">
+      <text x="622" y="404" fill="#3f3f46">per-pixel at&lt;&gt;()</text>
+      <text x="900" y="404" fill="#dc2626">148 ms</text>
+      <text x="622" y="426" fill="#3f3f46">cv::LUT() + ROI</text>
+      <text x="900" y="426" fill="#16a34a">6 ms</text>
+    </g>
+  </g>
+
+  <!-- tiêu đề -->
+  <text x="72" y="386" font-size="46" font-weight="700" fill="#18181b">Embedded vision</text>
+  <text x="72" y="440" font-size="46" font-weight="700" fill="#a21caf">with OpenCV</text>
+  <text x="74" y="482" font-size="18" fill="#52525b">6 lessons · Mat · preprocessing · contours</text>
+  <text x="74" y="508" font-size="18" fill="#52525b">calibration · tracking · frame-rate budget</text>
+</svg>

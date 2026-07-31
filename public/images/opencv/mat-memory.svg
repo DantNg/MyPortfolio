@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" width="760" height="400" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="400" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#18181b">cv::Mat trong bộ nhớ / How a Mat is laid out</text>
+
+  <defs>
+    <marker id="ma" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#a21caf"/>
+    </marker>
+  </defs>
+
+  <!-- header struct -->
+  <rect x="30" y="52" width="200" height="152" rx="10" fill="#fdf4ff" stroke="#e9d5ff" stroke-width="2"/>
+  <text x="130" y="74" text-anchor="middle" font-size="12" font-weight="700" fill="#a21caf">Mat — header (stack)</text>
+  <g font-family="monospace" font-size="11" fill="#3f3f46">
+    <text x="46" y="98">rows = 480</text>
+    <text x="46" y="118">cols = 641</text>
+    <text x="46" y="138">step = 1932</text>
+    <text x="46" y="158">flags = CV_8UC3</text>
+    <text x="46" y="182" fill="#a21caf">data ────────►</text>
+  </g>
+
+  <!-- heap buffer -->
+  <rect x="290" y="52" width="440" height="152" rx="10" fill="#fafafa" stroke="#d4d4d8" stroke-width="2"/>
+  <text x="510" y="74" text-anchor="middle" font-size="12" font-weight="700" fill="#3f3f46">pixel buffer (heap, refcounted)</text>
+
+  <!-- rows -->
+  <g>
+    <rect x="308" y="86" width="330" height="24" fill="#e4e4e7" stroke="#a1a1aa"/>
+    <rect x="638" y="86" width="20" height="24" fill="#fecaca" stroke="#a1a1aa"/>
+    <text x="316" y="103" font-family="monospace" font-size="10" fill="#3f3f46">row 0 — B G R B G R B G R …  (cols × 3 bytes)</text>
+
+    <rect x="308" y="114" width="330" height="24" fill="#f4f4f5" stroke="#a1a1aa"/>
+    <rect x="638" y="114" width="20" height="24" fill="#fecaca" stroke="#a1a1aa"/>
+    <text x="316" y="131" font-family="monospace" font-size="10" fill="#3f3f46">row 1</text>
+
+    <rect x="308" y="142" width="330" height="24" fill="#e4e4e7" stroke="#a1a1aa"/>
+    <rect x="638" y="142" width="20" height="24" fill="#fecaca" stroke="#a1a1aa"/>
+    <text x="316" y="159" font-family="monospace" font-size="10" fill="#3f3f46">row 2</text>
+  </g>
+
+  <text x="668" y="103" font-size="10" font-family="monospace" fill="#b91c1c">pad</text>
+  <text x="668" y="131" font-size="10" font-family="monospace" fill="#b91c1c">pad</text>
+  <text x="668" y="159" font-size="10" font-family="monospace" fill="#b91c1c">pad</text>
+
+  <path d="M234 178 L286 178 L286 98" stroke="#a21caf" stroke-width="2" fill="none" marker-end="url(#ma)"/>
+
+  <text x="308" y="188" font-size="11" font-family="monospace" fill="#52525b">cols × elemSize() = 1923</text>
+  <text x="500" y="188" font-size="11" font-family="monospace" fill="#b91c1c">step = 1932  →  isContinuous() == false</text>
+
+  <!-- copy vs clone -->
+  <rect x="30" y="224" width="345" height="152" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="2"/>
+  <text x="202" y="246" text-anchor="middle" font-size="12" font-weight="700" fill="#15803d">Mat b = a;   — O(1), header only</text>
+  <rect x="52" y="258" width="88" height="34" rx="6" fill="#ffffff" stroke="#86efac"/>
+  <text x="96" y="279" text-anchor="middle" font-size="11" font-family="monospace" fill="#3f3f46">a</text>
+  <rect x="52" y="300" width="88" height="34" rx="6" fill="#ffffff" stroke="#86efac"/>
+  <text x="96" y="321" text-anchor="middle" font-size="11" font-family="monospace" fill="#3f3f46">b</text>
+  <rect x="236" y="272" width="118" height="50" rx="6" fill="#dcfce7" stroke="#22c55e"/>
+  <text x="295" y="294" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#15803d">one buffer</text>
+  <text x="295" y="310" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#15803d">refcount = 2</text>
+  <path d="M142 275 L232 290" stroke="#16a34a" stroke-width="2" fill="none" marker-end="url(#ma)"/>
+  <path d="M142 317 L232 302" stroke="#16a34a" stroke-width="2" fill="none" marker-end="url(#ma)"/>
+  <text x="202" y="356" text-anchor="middle" font-size="10.5" fill="#166534">writing through b changes a</text>
+
+  <!-- ROI -->
+  <rect x="393" y="224" width="337" height="152" rx="10" fill="#eff6ff" stroke="#93c5fd" stroke-width="2"/>
+  <text x="561" y="246" text-anchor="middle" font-size="12" font-weight="700" fill="#1d4ed8">img(Rect(...))  — a view, 0 bytes allocated</text>
+  <rect x="420" y="258" width="180" height="100" fill="#dbeafe" stroke="#60a5fa" stroke-width="2"/>
+  <rect x="474" y="286" width="76" height="48" fill="#2563eb" opacity="0.75"/>
+  <text x="512" y="315" text-anchor="middle" font-size="10.5" font-weight="600" fill="#ffffff">roi</text>
+  <g font-size="10.5" font-family="monospace" fill="#1e3a8a">
+    <text x="614" y="284">roi.step ==</text>
+    <text x="614" y="300">  img.step</text>
+    <text x="614" y="326" fill="#b91c1c">not continuous</text>
+    <text x="614" y="342" fill="#b91c1c">use .clone()</text>
+  </g>
+</svg>

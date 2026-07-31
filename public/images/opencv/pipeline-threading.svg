@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 340" width="760" height="340" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="340" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#18181b">Chia luồng cho pipeline / Threading the capture pipeline</text>
+  <text x="380" y="48" text-anchor="middle" font-size="11.5" fill="#71717a">camera delivers a frame every 33 ms; processing takes 20 ms</text>
+
+  <!-- naive -->
+  <rect x="24" y="66" width="712" height="102" rx="10" fill="#fef2f2" stroke="#fecaca" stroke-width="2"/>
+  <text x="44" y="88" font-size="12" font-weight="700" fill="#b91c1c">✘ one thread — 19 FPS</text>
+
+  <g>
+    <rect x="44" y="98" width="132" height="26" rx="4" fill="#fca5a5"/>
+    <text x="110" y="116" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#7f1d1d">read() 33 ms</text>
+    <rect x="176" y="98" width="80" height="26" rx="4" fill="#3b82f6"/>
+    <text x="216" y="116" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#ffffff">work 20</text>
+
+    <rect x="256" y="98" width="132" height="26" rx="4" fill="#fca5a5"/>
+    <text x="322" y="116" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#7f1d1d">read() 33 ms</text>
+    <rect x="388" y="98" width="80" height="26" rx="4" fill="#3b82f6"/>
+    <text x="428" y="116" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#ffffff">work 20</text>
+
+    <rect x="468" y="98" width="132" height="26" rx="4" fill="#fca5a5"/>
+    <text x="534" y="116" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#7f1d1d">read() 33 ms</text>
+    <rect x="600" y="98" width="80" height="26" rx="4" fill="#3b82f6"/>
+    <text x="640" y="116" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#ffffff">work 20</text>
+  </g>
+  <text x="44" y="146" font-size="10.5" fill="#7f1d1d">53 ms per frame — the CPU is idle while read() blocks, the camera is idle while work runs</text>
+  <text x="44" y="162" font-size="10.5" fill="#7f1d1d">both resources are half wasted, and neither one is the bottleneck</text>
+
+  <!-- threaded -->
+  <rect x="24" y="182" width="712" height="126" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="2"/>
+  <text x="44" y="204" font-size="12" font-weight="700" fill="#15803d">✔ capture thread + worker — 30 FPS (camera-limited)</text>
+
+  <text x="44" y="228" font-size="10.5" font-family="monospace" fill="#3f3f46">grabber</text>
+  <g>
+    <rect x="112" y="216" width="132" height="22" rx="4" fill="#86efac"/>
+    <text x="178" y="232" text-anchor="middle" font-size="10" font-family="monospace" fill="#14532d">read() 33</text>
+    <rect x="244" y="216" width="132" height="22" rx="4" fill="#86efac"/>
+    <text x="310" y="232" text-anchor="middle" font-size="10" font-family="monospace" fill="#14532d">read() 33</text>
+    <rect x="376" y="216" width="132" height="22" rx="4" fill="#86efac"/>
+    <text x="442" y="232" text-anchor="middle" font-size="10" font-family="monospace" fill="#14532d">read() 33</text>
+    <rect x="508" y="216" width="132" height="22" rx="4" fill="#86efac"/>
+    <text x="574" y="232" text-anchor="middle" font-size="10" font-family="monospace" fill="#14532d">read() 33</text>
+  </g>
+
+  <text x="44" y="266" font-size="10.5" font-family="monospace" fill="#3f3f46">worker</text>
+  <g>
+    <rect x="112" y="254" width="80" height="22" rx="4" fill="#3b82f6"/>
+    <text x="152" y="270" text-anchor="middle" font-size="10" font-family="monospace" fill="#ffffff">work 20</text>
+    <rect x="244" y="254" width="80" height="22" rx="4" fill="#3b82f6"/>
+    <text x="284" y="270" text-anchor="middle" font-size="10" font-family="monospace" fill="#ffffff">work 20</text>
+    <rect x="376" y="254" width="80" height="22" rx="4" fill="#3b82f6"/>
+    <text x="416" y="270" text-anchor="middle" font-size="10" font-family="monospace" fill="#ffffff">work 20</text>
+    <rect x="508" y="254" width="80" height="22" rx="4" fill="#3b82f6"/>
+    <text x="548" y="270" text-anchor="middle" font-size="10" font-family="monospace" fill="#ffffff">work 20</text>
+  </g>
+
+  <text x="112" y="292" font-size="10.5" fill="#166534">one-slot handoff: the grabber overwrites the pending frame instead of queueing —</text>
+  <text x="112" y="308" font-size="10.5" fill="#166534">dropping a frame you cannot process in time is correct for a live system</text>
+</svg>

@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 340" width="760" height="340" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="340" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#18181b">Đọc đường cong huấn luyện / Reading the training curves</text>
+
+  <!-- panel 1: healthy -->
+  <rect x="24" y="52" width="228" height="180" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="2"/>
+  <text x="138" y="74" text-anchor="middle" font-size="12" font-weight="700" fill="#15803d">✔ healthy</text>
+  <g>
+    <line x1="52" y1="200" x2="228" y2="200" stroke="#a1a1aa" stroke-width="1.5"/>
+    <line x1="52" y1="90" x2="52" y2="200" stroke="#a1a1aa" stroke-width="1.5"/>
+    <path d="M52 96 C 92 140, 130 172, 224 184" fill="none" stroke="#2563eb" stroke-width="2.5"/>
+    <path d="M52 100 C 96 148, 134 176, 224 178" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="5 4"/>
+  </g>
+  <text x="60" y="86" font-size="9.5" font-family="monospace" fill="#3f3f46">loss</text>
+  <text x="196" y="214" font-size="9.5" font-family="monospace" fill="#3f3f46">epoch</text>
+  <text x="138" y="252" text-anchor="middle" font-size="10.5" fill="#166534">both fall, val flattens</text>
+
+  <!-- panel 2: overfit -->
+  <rect x="266" y="52" width="228" height="180" rx="10" fill="#fef2f2" stroke="#fecaca" stroke-width="2"/>
+  <text x="380" y="74" text-anchor="middle" font-size="12" font-weight="700" fill="#b91c1c">✘ overfitting</text>
+  <g>
+    <line x1="294" y1="200" x2="470" y2="200" stroke="#a1a1aa" stroke-width="1.5"/>
+    <line x1="294" y1="90" x2="294" y2="200" stroke="#a1a1aa" stroke-width="1.5"/>
+    <path d="M294 96 C 334 146, 380 182, 466 192" fill="none" stroke="#2563eb" stroke-width="2.5"/>
+    <path d="M294 100 C 330 140, 356 152, 380 150 C 420 148, 444 128, 466 106"
+          fill="none" stroke="#dc2626" stroke-width="2.5" stroke-dasharray="5 4"/>
+    <line x1="380" y1="90" x2="380" y2="200" stroke="#dc2626" stroke-width="1.2" stroke-dasharray="3 3"/>
+    <text x="386" y="102" font-size="9" fill="#dc2626">val turns here</text>
+  </g>
+  <text x="380" y="252" text-anchor="middle" font-size="10.5" fill="#7f1d1d">20–40 epochs before mAP drops</text>
+  <text x="380" y="268" text-anchor="middle" font-size="10.5" fill="#7f1d1d">more data → augment → smaller model</text>
+
+  <!-- panel 3: broken -->
+  <rect x="508" y="52" width="228" height="180" rx="10" fill="#fffbeb" stroke="#fde68a" stroke-width="2"/>
+  <text x="622" y="74" text-anchor="middle" font-size="12" font-weight="700" fill="#b45309">✘ flat and high</text>
+  <g>
+    <line x1="536" y1="200" x2="712" y2="200" stroke="#a1a1aa" stroke-width="1.5"/>
+    <line x1="536" y1="90" x2="536" y2="200" stroke="#a1a1aa" stroke-width="1.5"/>
+    <path d="M536 108 L 580 112 L 624 106 L 668 112 L 708 108" fill="none" stroke="#2563eb" stroke-width="2.5"/>
+    <path d="M536 118 L 580 114 L 624 120 L 668 114 L 708 118" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="5 4"/>
+  </g>
+  <text x="622" y="252" text-anchor="middle" font-size="10.5" fill="#78350f">not undertrained — broken.</text>
+  <text x="622" y="268" text-anchor="middle" font-size="10.5" fill="#78350f">check labels found, paths, class ids</text>
+
+  <!-- legend + the three losses -->
+  <line x1="24" y1="286" x2="120" y2="286" stroke="#2563eb" stroke-width="2.5"/>
+  <text x="128" y="290" font-size="10.5" font-family="monospace" fill="#3f3f46">train</text>
+  <line x1="176" y1="286" x2="272" y2="286" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="5 4"/>
+  <text x="280" y="290" font-size="10.5" font-family="monospace" fill="#3f3f46">val</text>
+
+  <g font-size="10.5">
+    <text x="340" y="290" font-family="monospace" font-weight="700" fill="#0e7490">box_loss</text>
+    <text x="410" y="290" fill="#52525b">high → annotation tightness, or objects too small for imgsz</text>
+    <text x="340" y="310" font-family="monospace" font-weight="700" fill="#0e7490">cls_loss</text>
+    <text x="410" y="310" fill="#52525b">high while box is fine → ambiguous class boundary</text>
+    <text x="340" y="330" font-family="monospace" font-weight="700" fill="#0e7490">dfl_loss</text>
+    <text x="410" y="330" fill="#52525b">box edge refinement — rarely the thing you act on</text>
+  </g>
+  <text x="24" y="310" font-size="10.5" fill="#b91c1c">NaN → lr too high, or a</text>
+  <text x="24" y="326" font-size="10.5" fill="#b91c1c">zero-width box in the labels</text>
+</svg>

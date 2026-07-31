@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" width="760" height="400" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="400" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#18181b">Ranh giới Treble / The Treble boundary</text>
+
+  <!-- system side -->
+  <rect x="24" y="52" width="430" height="132" rx="10" fill="#eff6ff" stroke="#93c5fd" stroke-width="2"/>
+  <text x="44" y="74" font-size="12" font-weight="700" fill="#1d4ed8">/system — Google's framework</text>
+
+  <rect x="44" y="86" width="390" height="30" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="60" y="106" font-size="11.5" fill="#1e3a8a">Apps — Java / Kotlin</text>
+
+  <rect x="44" y="120" width="390" height="30" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="60" y="140" font-size="11.5" fill="#1e3a8a">Framework — system_server, ~80 services</text>
+
+  <rect x="44" y="154" width="390" height="24" rx="6" fill="#dbeafe" stroke="#60a5fa"/>
+  <text x="60" y="171" font-size="11" font-family="monospace" fill="#1e3a8a">libbinder · HAL clients</text>
+
+  <!-- the boundary -->
+  <rect x="24" y="196" width="430" height="34" rx="8" fill="#fff1f2" stroke="#e11d48" stroke-width="2.5" stroke-dasharray="9 6"/>
+  <text x="239" y="218" text-anchor="middle" font-size="12.5" font-weight="700" fill="#be123c">TREBLE BOUNDARY — stable, versioned AIDL only</text>
+
+  <!-- vendor side -->
+  <rect x="24" y="242" width="430" height="132" rx="10" fill="#f7fee7" stroke="#d9f99d" stroke-width="2"/>
+  <text x="44" y="264" font-size="12" font-weight="700" fill="#4d7c0f">/vendor — silicon vendor</text>
+
+  <rect x="44" y="276" width="390" height="30" rx="6" fill="#ffffff" stroke="#a3e635"/>
+  <text x="60" y="296" font-size="11.5" fill="#3f6212">HAL services — @VintfStability AIDL</text>
+
+  <rect x="44" y="310" width="390" height="30" rx="6" fill="#ffffff" stroke="#a3e635"/>
+  <text x="60" y="330" font-size="11.5" fill="#3f6212">vendor libraries, firmware, board config</text>
+
+  <rect x="44" y="344" width="390" height="24" rx="6" fill="#27272a"/>
+  <text x="60" y="361" font-size="11" font-family="monospace" fill="#e4e4e7">Linux kernel · drivers</text>
+
+  <!-- why -->
+  <rect x="474" y="52" width="262" height="132" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="492" y="74" font-size="12" font-weight="700" fill="#27272a">Why it exists</text>
+  <text x="492" y="98" font-size="10.5" fill="#52525b">Before Android 8, a framework upgrade</text>
+  <text x="492" y="114" font-size="10.5" fill="#52525b">meant recompiling every vendor blob.</text>
+  <text x="492" y="138" font-size="10.5" fill="#52525b">Now: upgrade /system, keep /vendor,</text>
+  <text x="492" y="154" font-size="10.5" fill="#52525b">the device still works.</text>
+  <text x="492" y="176" font-size="10.5" font-weight="600" fill="#16a34a">That is the whole point.</text>
+
+  <!-- VNDK -->
+  <rect x="474" y="196" width="262" height="86" rx="10" fill="#fffbeb" stroke="#fde68a" stroke-width="2"/>
+  <text x="492" y="218" font-size="12" font-weight="700" fill="#b45309">VNDK — what vendor may link</text>
+  <text x="492" y="240" font-size="10.5" font-family="monospace" fill="#3f3f46">libbase libcutils libutils liblog …</text>
+  <text x="492" y="260" font-size="10" fill="#78350f">vendor_available libs exist TWICE</text>
+  <text x="492" y="274" font-size="10" fill="#78350f">on device — no shared state between them</text>
+
+  <!-- VINTF -->
+  <rect x="474" y="294" width="262" height="80" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="2"/>
+  <text x="492" y="316" font-size="12" font-weight="700" fill="#15803d">VINTF — enforced at build time</text>
+  <text x="492" y="338" font-size="10.5" font-family="monospace" fill="#3f3f46">device manifest.xml  says: I provide</text>
+  <text x="492" y="356" font-size="10.5" font-family="monospace" fill="#3f3f46">compatibility matrix says: I require</text>
+  <text x="492" y="370" font-size="10" fill="#166534">mismatch on a mandatory HAL → build fails</text>
+</svg>

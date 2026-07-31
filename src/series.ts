@@ -192,6 +192,96 @@ SERIES.push(
   },
 );
 
+SERIES.push(
+  {
+    id: 'opencv',
+    thumbnail: '/images/series/opencv.svg',
+    published: '2026-07-31',
+    order: 6,
+    badge: 'OpenCV',
+    iconPath:
+      'M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z M15 13a3 3 0 11-6 0 3 3 0 016 0z',
+    title: {
+      en: 'OpenCV for Embedded Vision',
+      vi: 'OpenCV cho thị giác máy trên thiết bị nhúng',
+    },
+    tagline: {
+      en: 'From pixels in a Mat to a vision pipeline that holds its frame rate on a board.',
+      vi: 'Từ pixel trong một Mat tới một pipeline thị giác giữ được tốc độ khung hình trên board.',
+    },
+    intro: {
+      en: 'Six lessons on doing computer vision where the compute is small: how an image is actually laid out in memory and why that decides your speed, the preprocessing chain and what each step is for, the classical detectors that still beat a neural network on cost, camera calibration and the geometry you need to measure anything, motion and tracking, and finally getting a pipeline to hold its frame rate on real hardware.',
+      vi: 'Sáu bài về làm thị giác máy ở nơi tài nguyên tính toán ít ỏi: một tấm ảnh thực sự nằm trong bộ nhớ ra sao và vì sao điều đó quyết định tốc độ, chuỗi tiền xử lý và từng bước để làm gì, các bộ phát hiện cổ điển vẫn thắng mạng nơ-ron về chi phí, hiệu chuẩn camera cùng phần hình học cần có để đo đạc, chuyển động và bám vật, và cuối cùng là giữ cho pipeline đạt tốc độ khung hình trên phần cứng thật.',
+    },
+    audience: {
+      en: 'Embedded and backend developers who need vision to work on a device with a fixed power budget, and anyone who has copied an OpenCV snippet that ran at 4 FPS and did not know why.',
+      vi: 'Lập trình viên nhúng và backend cần thị giác máy chạy được trên thiết bị có ngân sách điện cố định, và bất kỳ ai từng copy một đoạn OpenCV chạy 4 FPS mà không hiểu vì sao.',
+    },
+    requirements: {
+      en: 'C++ or Python and a webcam. Examples use OpenCV 4.x and run on a laptop; the deployment lesson targets a Raspberry Pi or Jetson but explains the reasoning for any board.',
+      vi: 'Biết C++ hoặc Python và có một webcam. Ví dụ dùng OpenCV 4.x chạy trên laptop; bài triển khai nhắm tới Raspberry Pi hoặc Jetson nhưng giải thích lập luận áp dụng được cho mọi board.',
+    },
+  },
+  {
+    id: 'yolo',
+    thumbnail: '/images/series/yolo.svg',
+    published: '2026-07-31',
+    order: 7,
+    badge: 'YOLO',
+    iconPath:
+      'M4 6a2 2 0 012-2h2M4 18a2 2 0 002 2h2M20 6a2 2 0 00-2-2h-2M20 18a2 2 0 01-2 2h-2M9 10h6v4H9z',
+    title: {
+      en: 'Object Detection with YOLO, End to End',
+      vi: 'Phát hiện vật thể với YOLO, từ đầu đến cuối',
+    },
+    tagline: {
+      en: 'Dataset, training, export and quantisation — the parts that decide whether it works in the field.',
+      vi: 'Dữ liệu, huấn luyện, export và lượng tử hoá — những phần quyết định nó có chạy được ngoài thực địa hay không.',
+    },
+    intro: {
+      en: 'Six lessons that treat detection as an engineering problem, not a leaderboard: what a detector actually outputs and how IoU, NMS and mAP really behave, which YOLO version to pick and why, building a dataset that does not quietly sabotage you, reading training metrics honestly, exporting to ONNX/TensorRT/TFLite with INT8 quantisation, and hitting a latency budget on an edge device.',
+      vi: 'Sáu bài coi phát hiện vật thể là bài toán kỹ thuật chứ không phải cuộc đua bảng xếp hạng: bộ phát hiện thực sự trả ra cái gì và IoU, NMS, mAP hành xử ra sao, chọn phiên bản YOLO nào và vì sao, dựng bộ dữ liệu không âm thầm phá hoại bạn, đọc chỉ số huấn luyện một cách trung thực, export sang ONNX/TensorRT/TFLite kèm lượng tử hoá INT8, và đạt ngân sách độ trễ trên thiết bị biên.',
+    },
+    audience: {
+      en: 'Engineers who have to ship a detector on a device, not publish a paper — including embedded developers meeting their first neural network.',
+      vi: 'Kỹ sư phải đưa một bộ phát hiện lên thiết bị chứ không phải viết bài báo — kể cả lập trình viên nhúng lần đầu chạm vào mạng nơ-ron.',
+    },
+    requirements: {
+      en: 'Python and a GPU for the training lesson (Colab is fine). The export and deployment lessons run on CPU, and explain the numbers for Jetson, Coral and plain ARM.',
+      vi: 'Biết Python và có GPU cho bài huấn luyện (Colab là đủ). Bài export và triển khai chạy được trên CPU, và giải thích các con số cho Jetson, Coral cùng ARM thường.',
+    },
+  },
+  {
+    id: 'aosp',
+    thumbnail: '/images/series/aosp.svg',
+    published: '2026-07-31',
+    order: 8,
+    badge: 'AOSP',
+    iconPath:
+      'M7 4V2m10 2V2M5 8h14a1 1 0 011 1v9a3 3 0 01-3 3H7a3 3 0 01-3-3V9a1 1 0 011-1zM9 12h.01M15 12h.01M4 11H3a1 1 0 00-1 1v3a1 1 0 001 1h1m16-5h1a1 1 0 011 1v3a1 1 0 01-1 1h-1',
+    title: {
+      en: 'Android AOSP for Embedded Engineers',
+      vi: 'Android AOSP cho kỹ sư nhúng',
+    },
+    tagline: {
+      en: 'The tree, the boot flow, Binder, HALs and how to get your own service onto a device.',
+      vi: 'Cây mã nguồn, luồng khởi động, Binder, HAL và cách đưa dịch vụ của bạn lên thiết bị.',
+    },
+    intro: {
+      en: 'Six lessons for firmware people who arrive at an Android platform team: what the AOSP tree and its build system actually are, the boot chain from bootloader to system_server, how Treble split vendor from framework and what HIDL/AIDL really do, Binder IPC in enough depth to debug it, writing and wiring up your own system service including SELinux, and the build/flash/debug loop that makes the whole thing tractable.',
+      vi: 'Sáu bài dành cho dân firmware bước vào một đội nền tảng Android: cây mã nguồn AOSP và hệ thống build của nó thực chất là gì, chuỗi khởi động từ bootloader tới system_server, Treble đã tách vendor khỏi framework ra sao và HIDL/AIDL thực sự làm gì, Binder IPC đủ sâu để gỡ lỗi được, viết và nối một dịch vụ hệ thống của riêng bạn kèm SELinux, và vòng lặp build/flash/debug khiến toàn bộ việc này trở nên khả thi.',
+    },
+    audience: {
+      en: 'Embedded C/C++ developers moving onto an Android platform, automotive or otherwise — the people who need the layer below the app, not another app tutorial.',
+      vi: 'Lập trình viên nhúng C/C++ chuyển sang nền tảng Android, dù là ô tô hay lĩnh vực khác — những người cần tầng bên dưới ứng dụng, không phải thêm một hướng dẫn viết app.',
+    },
+    requirements: {
+      en: 'Linux, C++ and patience: a first AOSP build wants ~400 GB of disk and a few hours. Lessons 1 to 4 can be followed by reading the tree alone; 5 and 6 want an emulator or a Pixel-class device.',
+      vi: 'Linux, C++ và sự kiên nhẫn: lần build AOSP đầu tiên cần khoảng 400 GB đĩa và vài giờ. Bài 1 đến 4 chỉ cần đọc cây mã nguồn là theo được; bài 5 và 6 nên có máy ảo hoặc một thiết bị dòng Pixel.',
+    },
+  },
+);
+
 export function getSeries(id: string): SeriesMeta | undefined {
   return SERIES.find((s) => s.id === id);
 }

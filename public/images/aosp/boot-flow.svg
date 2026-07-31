@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" width="760" height="400" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="400" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#18181b">Chuỗi khởi động Android / The Android boot sequence</text>
+
+  <defs>
+    <marker id="oa" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#4d7c0f"/>
+    </marker>
+  </defs>
+
+  <!-- stages -->
+  <g>
+    <rect x="24" y="56" width="712" height="34" rx="7" fill="#27272a"/>
+    <text x="44" y="78" font-size="12" font-weight="600" fill="#e4e4e7">Boot ROM → Bootloader</text>
+    <text x="330" y="78" font-size="10.5" font-family="monospace" fill="#a1a1aa">verifies boot.img against vbmeta · A/B slot select</text>
+    <text x="716" y="78" text-anchor="end" font-size="11" font-family="monospace" fill="#a3e635">~0.5 s</text>
+
+    <rect x="24" y="98" width="712" height="34" rx="7" fill="#3f3f46"/>
+    <text x="44" y="120" font-size="12" font-weight="600" fill="#e4e4e7">Linux kernel</text>
+    <text x="330" y="120" font-size="10.5" font-family="monospace" fill="#a1a1aa">drivers, initial ramdisk, exec /init as PID 1</text>
+    <text x="716" y="120" text-anchor="end" font-size="11" font-family="monospace" fill="#a3e635">~2 s</text>
+
+    <rect x="24" y="140" width="712" height="34" rx="7" fill="#ecfccb" stroke="#a3e635" stroke-width="2"/>
+    <text x="44" y="162" font-size="12" font-weight="600" fill="#3f6212">init — first stage</text>
+    <text x="330" y="162" font-size="10.5" font-family="monospace" fill="#52525b">mount /system /vendor /odm · dm-verity · switch_root</text>
+    <text x="716" y="162" text-anchor="end" font-size="11" font-family="monospace" fill="#4d7c0f">~0.2 s</text>
+
+    <rect x="24" y="182" width="712" height="34" rx="7" fill="#ecfccb" stroke="#a3e635" stroke-width="2"/>
+    <text x="44" y="204" font-size="12" font-weight="600" fill="#3f6212">init — second stage</text>
+    <text x="330" y="204" font-size="10.5" font-family="monospace" fill="#52525b">parse *.rc · property service · start services by class</text>
+    <text x="716" y="204" text-anchor="end" font-size="11" font-family="monospace" fill="#4d7c0f">~1 s</text>
+
+    <rect x="24" y="224" width="712" height="34" rx="7" fill="#d9f99d" stroke="#84cc16" stroke-width="2"/>
+    <text x="44" y="246" font-size="12" font-weight="600" fill="#3f6212">Zygote</text>
+    <text x="330" y="246" font-size="10.5" font-family="monospace" fill="#52525b">ART runtime · preload ~2000 classes · wait on socket</text>
+    <text x="716" y="246" text-anchor="end" font-size="11" font-family="monospace" fill="#4d7c0f">~2 s</text>
+
+    <rect x="24" y="266" width="712" height="34" rx="7" fill="#bef264" stroke="#65a30d" stroke-width="2"/>
+    <text x="44" y="288" font-size="12" font-weight="600" fill="#3f6212">system_server</text>
+    <text x="330" y="288" font-size="10.5" font-family="monospace" fill="#3f3f46">~80 services, fixed order — AMS, PMS, WMS, …</text>
+    <text x="716" y="288" text-anchor="end" font-size="11" font-family="monospace" fill="#4d7c0f">~4 s</text>
+
+    <rect x="24" y="308" width="712" height="34" rx="7" fill="#a3e635" stroke="#4d7c0f" stroke-width="2"/>
+    <text x="44" y="330" font-size="12" font-weight="600" fill="#1a2e05">SystemUI · Launcher</text>
+    <text x="330" y="330" font-size="10.5" font-family="monospace" fill="#3f3f46">sys.boot_completed=1 · BOOT_COMPLETED broadcast</text>
+    <text x="716" y="330" text-anchor="end" font-size="11" font-family="monospace" fill="#365314">~2 s</text>
+  </g>
+
+  <path d="M14 74 L14 326" stroke="#4d7c0f" stroke-width="2" fill="none" marker-end="url(#oa)"/>
+
+  <!-- debug row -->
+  <rect x="24" y="352" width="712" height="36" rx="8" fill="#18181b"/>
+  <text x="44" y="368" font-size="10.5" font-family="monospace" fill="#a3e635">$ adb shell getprop | grep init.svc</text>
+  <text x="330" y="368" font-size="10.5" font-family="monospace" fill="#e4e4e7">running / stopped / restarting</text>
+  <text x="44" y="382" font-size="10" font-family="monospace" fill="#71717a">fastboot devices → dmesg → init.svc → logcat -b all → boot_progress: the chain, top to bottom</text>
+</svg>

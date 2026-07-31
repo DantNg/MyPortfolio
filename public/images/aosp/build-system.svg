@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" width="760" height="360" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="360" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#18181b">Build AOSP / The AOSP build, source to images</text>
+
+  <defs>
+    <marker id="ba" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#4d7c0f"/>
+    </marker>
+  </defs>
+
+  <!-- sources -->
+  <rect x="24" y="56" width="168" height="150" rx="10" fill="#f7fee7" stroke="#d9f99d" stroke-width="2"/>
+  <text x="108" y="78" text-anchor="middle" font-size="12" font-weight="700" fill="#4d7c0f">SOURCE — ~2500 repos</text>
+  <g font-family="monospace" font-size="10.5" fill="#3f3f46">
+    <text x="40" y="102">manifest.xml</text>
+    <text x="40" y="124">+ local_manifests/</text>
+    <text x="40" y="150">Android.bp   (Soong)</text>
+    <text x="40" y="170">Android.mk   (legacy)</text>
+    <text x="40" y="190">device.mk    (product)</text>
+  </g>
+
+  <!-- metabuild -->
+  <rect x="228" y="56" width="180" height="150" rx="10" fill="#18181b"/>
+  <text x="318" y="78" text-anchor="middle" font-size="12" font-weight="700" fill="#a3e635">METABUILD</text>
+  <rect x="246" y="90" width="144" height="34" rx="6" fill="#27272a" stroke="#52525b"/>
+  <text x="318" y="106" text-anchor="middle" font-size="11" font-family="monospace" fill="#e4e4e7">Soong</text>
+  <text x="318" y="119" text-anchor="middle" font-size="9" font-family="monospace" fill="#a1a1aa">reads .bp</text>
+  <rect x="246" y="132" width="144" height="34" rx="6" fill="#27272a" stroke="#52525b"/>
+  <text x="318" y="148" text-anchor="middle" font-size="11" font-family="monospace" fill="#e4e4e7">Kati</text>
+  <text x="318" y="161" text-anchor="middle" font-size="9" font-family="monospace" fill="#a1a1aa">converts .mk</text>
+  <text x="318" y="190" text-anchor="middle" font-size="9.5" fill="#a3e635">re-runs whenever a build file changes</text>
+
+  <!-- ninja -->
+  <rect x="444" y="56" width="140" height="150" rx="10" fill="#ecfccb" stroke="#a3e635" stroke-width="2.5"/>
+  <text x="514" y="78" text-anchor="middle" font-size="12" font-weight="700" fill="#4d7c0f">Ninja</text>
+  <text x="514" y="102" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#3f3f46">build.ninja</text>
+  <text x="514" y="126" text-anchor="middle" font-size="10.5" fill="#52525b">compile, link,</text>
+  <text x="514" y="142" text-anchor="middle" font-size="10.5" fill="#52525b">dex, sign, package</text>
+  <text x="514" y="172" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#a16207">-j$(nproc)</text>
+  <text x="514" y="190" text-anchor="middle" font-size="9.5" fill="#71717a">does the actual work</text>
+
+  <!-- images -->
+  <rect x="620" y="56" width="116" height="150" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="678" y="78" text-anchor="middle" font-size="12" font-weight="700" fill="#27272a">out/</text>
+  <g font-family="monospace" font-size="10" fill="#3f3f46">
+    <text x="634" y="100">system.img</text>
+    <text x="634" y="118">vendor.img</text>
+    <text x="634" y="136">boot.img</text>
+    <text x="634" y="154">vbmeta.img</text>
+    <text x="634" y="176" fill="#b45309">symbols/</text>
+    <text x="634" y="192" fill="#71717a">keep these!</text>
+  </g>
+
+  <g stroke="#4d7c0f" stroke-width="2.5" marker-end="url(#ba)">
+    <line x1="194" y1="131" x2="222" y2="131"/>
+    <line x1="410" y1="131" x2="438" y2="131"/>
+    <line x1="586" y1="131" x2="614" y2="131"/>
+  </g>
+
+  <!-- lunch -->
+  <rect x="24" y="228" width="352" height="112" rx="10" fill="#ffffff" stroke="#d9f99d" stroke-width="2"/>
+  <text x="44" y="250" font-size="12" font-weight="700" fill="#4d7c0f">lunch aosp_arm64-trunk_staging-userdebug</text>
+  <g font-size="10.5" font-family="monospace">
+    <text x="44" y="276" fill="#0e7490">aosp_arm64</text>
+    <text x="150" y="276" fill="#52525b">product — device config, packages</text>
+    <text x="44" y="298" fill="#0e7490">trunk_staging</text>
+    <text x="150" y="298" fill="#52525b">release config — feature flags</text>
+    <text x="44" y="320" fill="#0e7490">userdebug</text>
+    <text x="150" y="320" fill="#52525b">variant — adb root yes, ships no</text>
+  </g>
+
+  <!-- gotcha -->
+  <rect x="392" y="228" width="344" height="112" rx="10" fill="#fef2f2" stroke="#fecaca" stroke-width="2"/>
+  <text x="412" y="250" font-size="12" font-weight="700" fill="#b91c1c">Built fine, not on the device?</text>
+  <text x="412" y="276" font-size="11" font-family="monospace" fill="#3f3f46">PRODUCT_PACKAGES += my_service</text>
+  <text x="412" y="298" font-size="10.5" fill="#7f1d1d">A module can build perfectly and never be installed,</text>
+  <text x="412" y="314" font-size="10.5" fill="#7f1d1d">because nothing asked for it. Check this line first —</text>
+  <text x="412" y="330" font-size="10.5" fill="#7f1d1d">it is the answer more often than not.</text>
+</svg>

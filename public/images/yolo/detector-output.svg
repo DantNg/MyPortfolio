@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" width="760" height="380" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="380" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#18181b">Từ tensor thô tới hộp cuối / From raw tensor to final boxes</text>
+
+  <defs>
+    <marker id="ya" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#0e7490"/>
+    </marker>
+  </defs>
+
+  <!-- stage boxes -->
+  <rect x="24" y="58" width="132" height="82" rx="9" fill="#18181b"/>
+  <text x="90" y="82" text-anchor="middle" font-size="11.5" font-family="monospace" fill="#67e8f9">raw output</text>
+  <text x="90" y="104" text-anchor="middle" font-size="12" font-family="monospace" fill="#e4e4e7">(1, 84, 8400)</text>
+  <text x="90" y="124" text-anchor="middle" font-size="9.5" font-family="monospace" fill="#a1a1aa">80²+40²+20² cells</text>
+
+  <rect x="188" y="58" width="132" height="82" rx="9" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="254" y="82" text-anchor="middle" font-size="11.5" font-weight="600" fill="#27272a">split</text>
+  <text x="254" y="102" text-anchor="middle" font-size="10" font-family="monospace" fill="#52525b">[:4]  cx cy w h</text>
+  <text x="254" y="118" text-anchor="middle" font-size="10" font-family="monospace" fill="#52525b">[4:]  class scores</text>
+  <text x="254" y="134" text-anchor="middle" font-size="9" fill="#b91c1c">v5 has objectness too</text>
+
+  <rect x="352" y="58" width="132" height="82" rx="9" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="418" y="82" text-anchor="middle" font-size="11.5" font-weight="600" fill="#27272a">conf filter</text>
+  <text x="418" y="104" text-anchor="middle" font-size="12" font-family="monospace" fill="#0e7490">&gt; 0.25</text>
+  <text x="418" y="126" text-anchor="middle" font-size="10" font-family="monospace" fill="#16a34a">8400 → 41</text>
+
+  <rect x="516" y="58" width="112" height="82" rx="9" fill="#cffafe" stroke="#67e8f9" stroke-width="2.5"/>
+  <text x="572" y="82" text-anchor="middle" font-size="11.5" font-weight="600" fill="#0e7490">NMS</text>
+  <text x="572" y="104" text-anchor="middle" font-size="12" font-family="monospace" fill="#0e7490">IoU 0.45</text>
+  <text x="572" y="126" text-anchor="middle" font-size="10" font-family="monospace" fill="#16a34a">41 → 3</text>
+
+  <rect x="660" y="58" width="76" height="82" rx="9" fill="#0891b2"/>
+  <text x="698" y="88" text-anchor="middle" font-size="11.5" font-weight="600" fill="#ffffff">un-</text>
+  <text x="698" y="104" text-anchor="middle" font-size="11.5" font-weight="600" fill="#ffffff">letterbox</text>
+  <text x="698" y="124" text-anchor="middle" font-size="9.5" fill="#cffafe">→ orig px</text>
+
+  <g stroke="#0e7490" stroke-width="2.5" marker-end="url(#ya)">
+    <line x1="158" y1="99" x2="182" y2="99"/>
+    <line x1="322" y1="99" x2="346" y2="99"/>
+    <line x1="486" y1="99" x2="510" y2="99"/>
+    <line x1="630" y1="99" x2="654" y2="99"/>
+  </g>
+
+  <!-- NMS illustration -->
+  <rect x="24" y="164" width="352" height="196" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="200" y="186" text-anchor="middle" font-size="12" font-weight="700" fill="#0e7490">NMS — same object, many boxes</text>
+
+  <rect x="60" y="200" width="130" height="120" rx="6" fill="#1e293b"/>
+  <path d="M78 300 L78 262 L104 236 L154 236 L172 262 L172 300 Z" fill="#64748b"/>
+  <circle cx="100" cy="304" r="8" fill="#0f172a"/>
+  <circle cx="152" cy="304" r="8" fill="#0f172a"/>
+  <rect x="72" y="228" width="104" height="80" fill="none" stroke="#4ade80" stroke-width="2.5"/>
+  <rect x="80" y="234" width="104" height="80" fill="none" stroke="#f87171" stroke-width="1.6" stroke-dasharray="5 4"/>
+  <rect x="66" y="222" width="104" height="80" fill="none" stroke="#f87171" stroke-width="1.6" stroke-dasharray="5 4"/>
+
+  <g font-size="11" font-family="monospace">
+    <text x="212" y="222" fill="#16a34a">keep  0.88  ✔</text>
+    <text x="212" y="246" fill="#dc2626">drop  0.81  IoU 0.79</text>
+    <text x="212" y="270" fill="#dc2626">drop  0.74  IoU 0.72</text>
+  </g>
+  <text x="212" y="300" font-size="10" fill="#52525b">sort by score, keep the best,</text>
+  <text x="212" y="316" font-size="10" fill="#52525b">delete everything overlapping it</text>
+  <text x="212" y="340" font-size="10" fill="#b91c1c">must be per class, and it runs on CPU</text>
+
+  <!-- letterbox -->
+  <rect x="392" y="164" width="344" height="196" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="564" y="186" text-anchor="middle" font-size="12" font-weight="700" fill="#0e7490">Letterbox — and undoing it</text>
+
+  <rect x="424" y="200" width="130" height="74" fill="#e2e8f0" stroke="#94a3b8"/>
+  <text x="489" y="242" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#475569">1920 × 1080</text>
+
+  <text x="574" y="240" font-size="18" fill="#0e7490">→</text>
+
+  <rect x="600" y="192" width="104" height="104" fill="#94a3b8"/>
+  <rect x="600" y="221" width="104" height="46" fill="#e2e8f0" stroke="#475569"/>
+  <text x="652" y="248" text-anchor="middle" font-size="10" font-family="monospace" fill="#475569">640×360</text>
+  <text x="652" y="210" text-anchor="middle" font-size="9.5" font-family="monospace" fill="#ffffff">pad 140</text>
+  <text x="652" y="286" text-anchor="middle" font-size="9.5" font-family="monospace" fill="#ffffff">pad 140</text>
+
+  <g font-size="10.5" font-family="monospace" fill="#3f3f46">
+    <text x="416" y="322">r = min(640/1080, 640/1920) = 0.333</text>
+    <text x="416" y="340">x_orig = (x_net - pad_x) / r</text>
+  </g>
+  <text x="416" y="356" font-size="10" fill="#b91c1c">forget pad → every box shifts 140 px, not a scale error</text>
+</svg>

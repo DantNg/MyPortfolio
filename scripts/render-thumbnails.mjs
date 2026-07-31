@@ -33,6 +33,9 @@ const TARGETS = [
   ['public/images/series/rtos.svg', 1200],
   ['public/images/series/automotive.svg', 1200],
   ['public/images/series/design-patterns.svg', 1200],
+  ['public/images/series/opencv.svg', 1200],
+  ['public/images/series/yolo.svg', 1200],
+  ['public/images/series/aosp.svg', 1200],
   ['public/og-default.svg', 1200],
 ];
 

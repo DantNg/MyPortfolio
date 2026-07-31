@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" width="760" height="400" font-family="Inter, system-ui, sans-serif">
+  <rect width="760" height="400" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#18181b">Mô hình pinhole và hiệu chuẩn / The pinhole model and calibration</text>
+
+  <!-- projection diagram -->
+  <rect x="24" y="46" width="440" height="216" rx="10" fill="#fdf4ff" stroke="#e9d5ff" stroke-width="2"/>
+
+  <!-- object -->
+  <line x1="72" y1="90" x2="72" y2="210" stroke="#a21caf" stroke-width="4"/>
+  <text x="72" y="82" text-anchor="middle" font-size="11" font-family="monospace" fill="#a21caf">object</text>
+  <text x="64" y="154" text-anchor="end" font-size="10.5" font-family="monospace" fill="#52525b">30 mm</text>
+
+  <!-- rays through the pinhole at (235,150) -->
+  <line x1="72" y1="90" x2="310" y2="177.6" stroke="#c026d3" stroke-width="1.6"/>
+  <line x1="72" y1="210" x2="310" y2="122.4" stroke="#c026d3" stroke-width="1.6"/>
+
+  <!-- pinhole -->
+  <circle cx="235" cy="150" r="6" fill="#18181b"/>
+  <text x="235" y="136" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#18181b">C</text>
+
+  <!-- sensor plane -->
+  <line x1="310" y1="104" x2="310" y2="196" stroke="#3f3f46" stroke-width="3"/>
+  <line x1="310" y1="122.4" x2="310" y2="177.6" stroke="#16a34a" stroke-width="5"/>
+  <text x="322" y="154" font-size="10.5" font-family="monospace" fill="#16a34a">84 px</text>
+  <text x="310" y="212" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#52525b">sensor</text>
+
+  <!-- Z and f measurements, inside the panel -->
+  <line x1="72" y1="232" x2="235" y2="232" stroke="#71717a" stroke-width="1.4"/>
+  <path d="M78 228 L72 232 L78 236" fill="none" stroke="#71717a" stroke-width="1.4"/>
+  <path d="M229 228 L235 232 L229 236" fill="none" stroke="#71717a" stroke-width="1.4"/>
+  <text x="153" y="250" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#52525b">Z = 500 mm</text>
+
+  <line x1="235" y1="232" x2="310" y2="232" stroke="#71717a" stroke-width="1.4"/>
+  <path d="M241 228 L235 232 L241 236" fill="none" stroke="#71717a" stroke-width="1.4"/>
+  <path d="M304 228 L310 232 L304 236" fill="none" stroke="#71717a" stroke-width="1.4"/>
+  <text x="272" y="250" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#52525b">f</text>
+
+  <text x="336" y="243" font-size="10" fill="#71717a">one camera cannot</text>
+  <text x="336" y="256" font-size="10" fill="#71717a">measure Z — fix it</text>
+
+  <!-- K matrix -->
+  <rect x="490" y="46" width="246" height="128" rx="10" fill="#18181b"/>
+  <text x="512" y="70" font-size="11.5" font-family="monospace" fill="#f0abfc">K — intrinsics, in PIXELS</text>
+  <g font-family="monospace" font-size="14" fill="#e4e4e7">
+    <text x="516" y="100">|</text><text x="540" y="100">fx</text><text x="588" y="100">0</text><text x="626" y="100">cx</text><text x="682" y="100">|</text>
+    <text x="516" y="124">|</text><text x="546" y="124">0</text><text x="580" y="124">fy</text><text x="626" y="124">cy</text><text x="682" y="124">|</text>
+    <text x="516" y="148">|</text><text x="546" y="148">0</text><text x="588" y="148">0</text><text x="632" y="148">1</text><text x="682" y="148">|</text>
+  </g>
+  <text x="512" y="166" font-size="9.5" font-family="monospace" fill="#a1a1aa">rescale all four if you change resolution</text>
+
+  <rect x="490" y="186" width="246" height="76" rx="10" fill="#ffffff" stroke="#e9d5ff" stroke-width="2"/>
+  <text x="508" y="208" font-size="11.5" font-weight="700" fill="#a21caf">mm per pixel = Z / fx</text>
+  <text x="508" y="230" font-size="11" font-family="monospace" fill="#3f3f46">84 × 500 / 1400 = 30.0 mm</text>
+  <text x="508" y="252" font-size="10" fill="#b91c1c">only if perpendicular and undistorted</text>
+
+  <!-- calibration set quality -->
+  <rect x="24" y="276" width="352" height="108" rx="10" fill="#fef2f2" stroke="#fecaca" stroke-width="2"/>
+  <text x="200" y="298" text-anchor="middle" font-size="12" font-weight="700" fill="#b91c1c">✘ degenerate set — all front-parallel</text>
+  <g>
+    <rect x="60" y="308" width="60" height="44" fill="#ffffff" stroke="#a1a1aa"/>
+    <rect x="150" y="308" width="60" height="44" fill="#ffffff" stroke="#a1a1aa"/>
+    <rect x="240" y="308" width="60" height="44" fill="#ffffff" stroke="#a1a1aa"/>
+    <g fill="#27272a">
+      <rect x="60" y="308" width="15" height="11"/><rect x="90" y="308" width="15" height="11"/>
+      <rect x="75" y="319" width="15" height="11"/><rect x="105" y="319" width="15" height="11"/>
+      <rect x="150" y="308" width="15" height="11"/><rect x="180" y="308" width="15" height="11"/>
+      <rect x="165" y="319" width="15" height="11"/><rect x="195" y="319" width="15" height="11"/>
+      <rect x="240" y="308" width="15" height="11"/><rect x="270" y="308" width="15" height="11"/>
+      <rect x="255" y="319" width="15" height="11"/><rect x="285" y="319" width="15" height="11"/>
+    </g>
+  </g>
+  <text x="200" y="372" text-anchor="middle" font-size="10.5" fill="#7f1d1d">cannot separate fx from Z — confidently wrong focal length</text>
+
+  <rect x="392" y="276" width="344" height="108" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="2"/>
+  <text x="564" y="298" text-anchor="middle" font-size="12" font-weight="700" fill="#15803d">✔ 20–30 views, tilted, filling the frame</text>
+  <g>
+    <g transform="rotate(-18 448 330)"><rect x="418" y="308" width="60" height="44" fill="#ffffff" stroke="#a1a1aa"/></g>
+    <g transform="rotate(22 538 330)"><rect x="508" y="308" width="60" height="44" fill="#ffffff" stroke="#a1a1aa"/></g>
+    <g transform="rotate(-34 634 330)"><rect x="604" y="308" width="60" height="44" fill="#ffffff" stroke="#a1a1aa"/></g>
+  </g>
+  <text x="564" y="372" text-anchor="middle" font-size="10.5" fill="#166534">judge by rms reprojection error — under 0.5 px is good</text>
+</svg>
