@@ -63,9 +63,28 @@ const textSize = size === 'sm' ? 'text-xs' : 'text-sm';
         return String(n);
       }
 
+      /**
+       * Số nền theo từng trang. FNV-1a trên khoá trang cho ra một số ổn định:
+       * cùng một bài luôn ra cùng một mức nền, các bài khác nhau thì khác nhau.
+       * Xem ghi chú trong config.ts về việc con số này không phải lượt xem thật.
+       */
+      function baselineFor(key) {
+        var b = VIEWS.baseline;
+        if (!b || !b.enabled) return 0;
+
+        var h = 2166136261;
+        for (var i = 0; i < key.length; i++) {
+          h ^= key.charCodeAt(i);
+          h = (h * 16777619) >>> 0;
+        }
+        var span = b.max - b.min + 1;
+        return b.min + (h % span);
+      }
+
       els.forEach(function (el) {
         var key = el.getAttribute('data-view-key');
         var storageKey = 'viewed:' + key;
+        var base = baselineFor(key);
 
         // Đã xem trong phiên này rồi thì chỉ đọc, không tăng nữa.
         var alreadyCounted = false;
@@ -84,18 +103,25 @@ const textSize = size === 'sm' ? 'text-xs' : 'text-sm';
             var n = data && typeof data.value === 'number' ? data.value : null;
             if (n === null) return;
 
-            var out = el.querySelector('.view-count');
-            if (out) out.textContent = format(n);
-            el.hidden = false;
+            show(n + base);
 
             if (!alreadyCounted && VIEWS.onePerSession) {
               try { sessionStorage.setItem(storageKey, '1'); } catch (e) {}
             }
           })
           .catch(function () {
-            /* Không có mạng, bị adblock, hoặc dịch vụ chết:
-               giữ nguyên trạng thái ẩn. Giao diện không đổi. */
+            /* Không có mạng, bị adblock, hoặc dịch vụ chết.
+               Có số nền thì hiện mỗi số nền — con số không nhảy mất giữa các
+               lần tải. Không có số nền thì giữ nguyên trạng thái ẩn như cũ:
+               không có chỗ trống, không có thông báo lỗi. */
+            if (base > 0) show(base);
           });
+
+        function show(value) {
+          var out = el.querySelector('.view-count');
+          if (out) out.textContent = format(value);
+          el.hidden = false;
+        }
       });
     })();
   </script>

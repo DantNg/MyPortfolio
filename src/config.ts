@@ -85,4 +85,24 @@ export const VIEWS = {
    * Tắt đi thì mỗi lần F5 là +1.
    */
   onePerSession: true,
+
+  /**
+   * SỐ NỀN — cộng thêm vào con số HIỂN THỊ.
+   *
+   * Một site mới thì mọi bài đều hiện "3 lượt xem", trông trống trải hơn cả
+   * việc không có bộ đếm. Phần này cộng một số nền vào con số hiện ra.
+   *
+   * Cần nói thẳng: con số khách nhìn thấy khi bật cờ này KHÔNG phải lượt xem
+   * thật. Số thật vẫn được Abacus đếm nguyên vẹn ở dưới và vẫn tăng bình
+   * thường — đây chỉ là phần cộng lúc hiển thị. Đặt `enabled: false` là con số
+   * trở lại đúng thực tế ngay, không phải sửa gì thêm.
+   *
+   * Số nền sinh ra từ khoá trang nên mỗi bài một con số khác nhau và không đổi
+   * giữa các lần tải — cùng một bài luôn hiện cùng một mức nền.
+   */
+  baseline: {
+    enabled: true,
+    min: 240,
+    max: 820,
+  },
 } as const;
